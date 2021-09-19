@@ -4,5 +4,4 @@
   {{ $title := print .Title " | " .Site.Title }}
   {{ if .IsHome }}{{ $title = .Site.Title }}{{ end }}
   <title>{{ $title }}</title>
-  {{ partial "style.html" . }}
 </head>
