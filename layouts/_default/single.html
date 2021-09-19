@@ -1,18 +1,22 @@
 {{ define "main" }}
 
-<h1>default single - {{ .Title }}</h1>
+<h1>{{ .Title }}</h1>
 
 {{ $dateTime := .PublishDate.Format "2006-01-02" }}
 {{ $dateFormat := .Site.Params.dateFormat | default "Jan 2, 2006" }}
-<i data-feather="calendar"></i> <time datetime="{{ $dateTime }}">{{ .PublishDate.Format $dateFormat }}</time>
+<time datetime="{{ $dateTime }}">{{ .PublishDate.Format $dateFormat }}</time>
+
 {{ with .Params.tags }}
   <br>
-  <i data-feather="tag"></i>
   {{ range . }}
   {{ $href := print (relURL "tags/") (urlize .) }}
   <a class="btn btn-sm btn-outline-dark tag-btn" href="{{ $href }}">{{ . }}</a>
   {{ end }}
 {{ end }}
+
+<div class="col-12 p-3 hide-xl hide-lg color-bg-success border">
+  {{ partial "mobile-toc" . }}
+</div>
 
 {{ .Content }}
 

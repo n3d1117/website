@@ -1,9 +1,11 @@
 baseURL = "https://example.com"
-languageCode = "en-us"
 title = "Hugo Blog"
 
 [taxonomies]
   tag = "tags"
+
+[permalinks]
+  blog = "/blog/:year/:month/:title/"
 
 [menu]
   [[menu.main]]

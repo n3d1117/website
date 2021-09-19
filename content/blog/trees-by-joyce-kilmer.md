@@ -2,7 +2,7 @@
 title: "Trees by Joyce Kilmer"
 date: 2019-01-13T20:28:42-06:00
 tags: ["poetry", "trees"]
-draft: false
+toc: true
 ---
 
 I think that I shall never see  

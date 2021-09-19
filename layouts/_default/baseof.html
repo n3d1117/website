@@ -1,13 +1,98 @@
 <!doctype html>
-<html lang="en">
-  {{ partial "head.html" . }}
+<html lang="en" dir="ltr">
+
+  <head>
+    {{ partial "head" . }}
+  </head>
+
   <body>
-    {{ partial "nav.html" . }}
-    <div class="container">
-      <main id="main">
-        {{ block "main" . }}{{ end }}
-      </main>
+    <div class="container clearfix max mx-auto">
+      {{ if default false (default .Site.Params.toc .Params.toc) }} 
+        
+        <header class="col-12 p-3 hide-xl color-bg-danger border">
+          {{ partial "header" . }}
+        </header>
+        
+        <aside
+          class="
+            col-lg-3
+            p-3
+            col-12
+            hide-sm hide-md hide-lg
+            float-left
+            border
+            height-100
+            position-sticky
+            top-0
+            color-bg-info
+          "
+        >
+          {{ partial "sidebar" . }}
+        </aside>
+        
+        <main class="col-lg-7 p-3 col-md-9 col-12 float-left border color-bg-warning">
+          {{ block "main" . }} 
+            {{ .Content }} 
+          {{ end}}
+        </main>
+        
+        <aside
+          class="
+            col-lg-2
+            p-3
+            col-md-3 col-12
+            hide-sm hide-md
+            float-left
+            border
+            color-bg-success
+            position-sticky
+            top-0
+            sidebar-max-height
+          "
+        >
+          {{ partial "right-column" . }}
+        </aside>
+        
+        <footer class="col-12 p-3 hide-xl float-left border color-bg-warning">
+          {{ partial "footer" . }}
+        </footer>
+      
+
+      {{ else }}
+
+
+        <header class="col-12 p-3 hide-xl hide-lg color-bg-danger border">
+          {{ partial "header" . }}
+        </header>
+        
+        <aside
+          class="
+            col-md-3
+            p-3
+            col-12
+            hide-sm hide-md
+            float-left
+            border
+            height-100
+            position-sticky
+            top-0
+            color-bg-info
+          "
+        >
+          {{ partial "sidebar" . }}
+        </aside>
+        
+        <main class="p-3 col-md-9 col-12 float-left border color-bg-warning">
+          {{ block "main" . }} {{ end}}
+        </main>
+        
+        <footer class="col-12 p-3 hide-xl hide-lg float-left border color-bg-warning">
+          {{ partial "footer" . }}
+        </footer>
+      
+
+      {{ end }}
     </div>
-    {{ partial "script.html" . }}
   </body>
+
 </html>
