@@ -1,97 +1,59 @@
 <!doctype html>
-<html lang="en" dir="ltr">
+<html lang="en" dir="ltr" data-color-mode="auto" data-dark-theme="dark">
 
   <head>
     {{ partial "head" . }}
   </head>
 
   <body>
-    <div class="container clearfix max mx-auto">
-      {{ if default false (default .Site.Params.toc .Params.toc) }} 
-        
-        <header class="col-12 p-3 hide-xl color-bg-danger border">
-          {{ partial "header" . }}
-        </header>
-        
-        <aside
-          class="
-            col-lg-3
-            p-3
-            col-12
-            hide-sm hide-md hide-lg
-            float-left
-            border
-            height-100
-            position-sticky
-            top-0
-            color-bg-info
-          "
-        >
-          {{ partial "sidebar" . }}
-        </aside>
-        
-        <main class="col-lg-7 p-3 col-md-9 col-12 float-left border color-bg-warning">
-          {{ block "main" . }} 
-            {{ .Content }} 
-          {{ end}}
-        </main>
-        
-        <aside
-          class="
-            col-lg-2
-            p-3
-            col-md-3 col-12
-            hide-sm hide-md
-            float-left
-            border
-            color-bg-success
-            position-sticky
-            top-0
-            sidebar-max-height
-          "
-        >
-          {{ partial "right-column" . }}
-        </aside>
-        
-        <footer class="col-12 p-3 hide-xl float-left border color-bg-warning">
-          {{ partial "footer" . }}
-        </footer>
+    <div class="max mx-auto">
+
+      {{ if default false (default .Site.Params.toc .Params.toc) }}
       
+      <header class="width-full hide-xl border-bottom color-border-secondary">
+        {{ partial "header" . }}
+      </header>
 
-      {{ else }}
-
-
-        <header class="col-12 p-3 hide-xl hide-lg color-bg-danger border">
-          {{ partial "header" . }}
-        </header>
-        
-        <aside
-          class="
-            col-md-3
-            p-3
-            col-12
-            hide-sm hide-md
-            float-left
-            border
-            height-100
-            position-sticky
-            top-0
-            color-bg-info
-          "
-        >
+      <div class="d-flex flex-row">
+        <aside class="col-lg-3 col-12 hide-sm hide-md hide-lg sidebar height-100 position-sticky top-0 border-right color-border-secondary">
           {{ partial "sidebar" . }}
         </aside>
         
-        <main class="p-3 col-md-9 col-12 float-left border color-bg-warning">
+        <main class="main flex-1 color-bg-secondary border-md-right color-border-secondary">
           {{ block "main" . }} {{ end}}
         </main>
         
-        <footer class="col-12 p-3 hide-xl hide-lg float-left border color-bg-warning">
+        <aside class="sidebar hide-sm hide-md height-100 position-sticky top-0">
+          {{ partial "toc" . }}
+        </aside>
+      </div>
+
+      <footer class="width-full p-3 hide-xl border-top color-border-secondary">
+        {{ partial "footer" . }}
+      </footer>
+      
+      {{ else }}
+
+        <header class="width-full hide-xl hide-lg border-bottom color-border-secondary">
+          {{ partial "header" . }}
+        </header>
+
+        <div class="d-flex flex-row">
+          <aside class="sidebar hide-sm hide-md height-100 position-sticky top-0 border-right color-border-secondary">
+            {{ partial "sidebar" . }}
+          </aside>
+            
+          <main class="main flex-1 color-bg-secondary border-lg-right color-border-secondary">
+            {{ block "main" . }} {{ end}}
+          </main>
+        </div>
+
+        <footer class="width-full hide-xl hide-lg border-top color-border-secondary">
           {{ partial "footer" . }}
         </footer>
-      
 
-      {{ end }}
+        {{ end }}
+
     </div>
   </body>
 

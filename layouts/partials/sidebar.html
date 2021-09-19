@@ -1,7 +1,15 @@
-<ul class="list-style-none">
-    {{ range .Site.Menus.main }}
-    <li>
-        <a href="{{ .URL }}">{{ .Name }}</a>
-    </li>
-    {{ end }}
-</ul>
+<div class="p-5">
+    <img src="https://avatars.githubusercontent.com/u/11541888?v=4" class="circle mb-3" style="max-width: 150px;">
+    <h1 class="mb-2 lh-condensed">Edoardo D'Angelis</h1>
+    <p class="mb-3 color-text-secondary f4">
+        {{ "MSc Computer Engineering [@UNIFI](#)" | markdownify }}
+    </p>
+
+    <ul class="list-style-none">
+        {{ range .Site.Menus.main }}
+        <li>
+            <a href="{{ .URL }}">{{ .Name }}</a>
+        </li>
+        {{ end }}
+    </ul>
+</div>
