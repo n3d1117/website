@@ -1,0 +1,7 @@
+{
+    "dependencies": {
+        "@primer/css": "^17.11.0",
+        "@fullhuman/postcss-purgecss": "^4.0.0",
+        "postcss-cli": "^8.3.1"
+    }
+}
