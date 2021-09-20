@@ -1,7 +1,9 @@
-<ul class="list-style-none">
-    {{ range .Site.Menus.main }}
-    <li>
-        <a href="{{ .URL }}">{{ .Name }}</a>
-    </li>
-    {{ end }}
-</ul>
+<div class="color-bg-info-inverse p-2">
+    <ul class="list-style-none">
+        {{ range .Site.Menus.main }}
+        <li>
+            <a href="{{ .URL }}">{{ .Name }}</a>
+        </li>
+        {{ end }}
+    </ul>
+</div>

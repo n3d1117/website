@@ -1,24 +1,25 @@
 {{ define "main" }}
 
-<div class="p-5">
+<article class="p-4">
   <h1>{{ .Title }}</h1>
 
   {{ $dateTime := .PublishDate.Format "2006-01-02" }}
   {{ $dateFormat := .Site.Params.dateFormat | default "Jan 2, 2006" }}
   <time datetime="{{ $dateTime }}">{{ .PublishDate.Format $dateFormat }}</time>
-
   {{ with .Params.tags }}
-    <br>
-    {{ range . }}
-    {{ $href := print (relURL "tags/") (urlize .) }}
-    <a class="btn btn-sm btn-outline-dark tag-btn" href="{{ $href }}">{{ . }}</a>
-    {{ end }}
+  <br>
+  {{ range . }}
+  {{ $href := print (relURL "tags/") (urlize .) }}
+  <a class="btn" href="{{ $href }}">{{ . }}</a>
+  {{ end }}
   {{ end }}
 
-  <div class="col-12 hide-xl hide-lg border">
+  <span class="col-12 hide-xl hide-lg">
     {{ partial "mobile-toc" . }}
-  </div>
+  </span>
 
-  {{ .Content }}
-</div>
+  <div>
+    {{ .Content }}
+  </div>
+</article>
 {{ end }}

@@ -1,5 +1,13 @@
 <div class="p-3">
-    <div class="p-5 border toc">
-        {{.TableOfContents}}
+  <div class="Box Box--condensed">
+    <div class="Box-header position-sticky top-0">
+      <h3 class="Box-title">
+        Table of Contents
+      </h3>
     </div>
+    <div class="Box-body py-3 px-5 overflow-x-hidden overflow-y-scroll toc
+      lh-default border-bottom-0">
+      {{.TableOfContents}}
+    </div>
+  </div>
 </div>

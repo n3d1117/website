@@ -1,58 +1,66 @@
 <!doctype html>
-<html lang="en" dir="ltr" data-color-mode="auto" data-dark-theme="dark">
+<html lang="en" class="color-bg-primary" data-color-mode="auto"
+  data-dark-theme="dark">
 
   <head>
     {{ partial "head" . }}
   </head>
 
-  <body>
-    <div class="max mx-auto">
+  <body class="mx-auto">
+    <div class="main-container max mx-auto">
 
       {{ if default false (default .Site.Params.toc .Params.toc) }}
-      
+
       <header class="width-full hide-xl border-bottom color-border-secondary">
         {{ partial "header" . }}
       </header>
 
       <div class="d-flex flex-row">
-        <aside class="col-lg-3 col-12 hide-sm hide-md hide-lg sidebar height-100 position-sticky top-0 border-right color-border-secondary">
+        <aside class="hide-sm hide-md hide-lg sidebar height-100
+          position-sticky top-0 border-right color-border-secondary
+          color-bg-primary">
           {{ partial "sidebar" . }}
         </aside>
-        
-        <main class="main flex-1 color-bg-secondary border-md-right color-border-secondary">
+
+        <main class="main flex-1 color-bg-secondary">
           {{ block "main" . }} {{ end}}
         </main>
-        
-        <aside class="sidebar hide-sm hide-md height-100 position-sticky top-0">
+
+        <aside class="sidebar hide-sm hide-md height-100 position-sticky top-0
+          border-right color-border-secondary color-bg-secondary">
           {{ partial "toc" . }}
         </aside>
       </div>
 
-      <footer class="width-full p-3 hide-xl border-top color-border-secondary">
+      <footer class="width-full hide-xl border-top color-border-secondary">
         {{ partial "footer" . }}
       </footer>
-      
+
       {{ else }}
 
-        <header class="width-full hide-xl hide-lg border-bottom color-border-secondary">
-          {{ partial "header" . }}
-        </header>
+      <header class="width-full hide-xl hide-lg border-bottom
+        color-border-secondary">
+        {{ partial "header" . }}
+      </header>
 
-        <div class="d-flex flex-row">
-          <aside class="sidebar hide-sm hide-md height-100 position-sticky top-0 border-right color-border-secondary">
-            {{ partial "sidebar" . }}
-          </aside>
-            
-          <main class="main flex-1 color-bg-secondary border-lg-right color-border-secondary">
-            {{ block "main" . }} {{ end}}
-          </main>
-        </div>
+      <div class="d-flex flex-row">
+        <aside class="sidebar hide-sm hide-md height-100 position-sticky top-0
+          border-right color-border-secondary color-bg-primary">
+          {{ partial "sidebar" . }}
+        </aside>
 
-        <footer class="width-full hide-xl hide-lg border-top color-border-secondary">
-          {{ partial "footer" . }}
-        </footer>
+        <main class="main flex-1 color-bg-secondary border-lg-right
+          color-border-secondary">
+          {{ block "main" . }} {{ end}}
+        </main>
+      </div>
 
-        {{ end }}
+      <footer class="width-full hide-xl hide-lg border-top
+        color-border-secondary">
+        {{ partial "footer" . }}
+      </footer>
+
+      {{ end }}
 
     </div>
   </body>
