@@ -9,31 +9,32 @@
   }
 </style>
 
-<div class="mx-auto px-3 px-md-4 px-lg-6 py-3 py-md-4 py-lg-6" style="max-width:
-  900px;">
+<div class="mx-auto px-3 px-md-4 px-lg-6 py-3 py-md-4 py-lg-6" style="max-width: 900px;">
   <article class="mb-3">
     <h1 class="lh-condensed">{{ .Title }}</h1>
 
     {{ $dateTime := .PublishDate.Format "2006-01-02" }}
     {{ $dateFormat := .Site.Params.dateFormat | default "Jan 2, 2006" }}
     <time datetime="{{ $dateTime }}">{{ .PublishDate.Format $dateFormat }}</time>
+    
     {{ with .Params.tags }}
     <br>
-    {{ range . }}
-    {{ $href := print (relURL "tags/") (urlize .) }}
-    <a class="btn" href="{{ $href }}">{{ . }}</a>
-    {{ end }}
+      {{ range . }}
+        {{ $href := print (relURL "tags/") (urlize .) }}
+        <a class="btn" href="{{ $href }}">{{ . }}</a>
+      {{ end }}
     {{ end }}
 
     {{ if default false (default .Site.Params.toc .Params.toc) }}
-    <span>
-      {{ partial "mobile-toc" . }}
-    </span>
+      <span>
+        {{ partial "mobile-toc" . }}
+      </span>
     {{ end }}
 
     <div class="markdown-body">
       {{ .Content }}
     </div>
+    
   </article>
 </div>
 {{ end }}

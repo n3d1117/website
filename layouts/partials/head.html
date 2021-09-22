@@ -1,42 +1,37 @@
 <meta charset="utf-8" />
-<meta content="width=device-width, initial-scale=1, shrink-to-fit=no"
-  name="viewport" />
+<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport" />
 
 {{ $title := print .Title " · " .Site.Title }}
 {{ if .IsHome }}{{ $title = .Site.Title }}{{ end }}
 <title>{{ $title }}</title>
 
 {{ if .Description }}
-<meta
-  content="{{ default .Summary .Description }}"
-  name="description"
-  property="og:description"
-  />
+  <meta
+    content="{{ default .Summary .Description }}"
+    name="description"
+    property="og:description"
+    />
 {{ else if .IsPage }}
-<meta
-  content="{{ .Summary | plainify }} | {{ .Site.Params.Description }}"
-  name="description"
-  property="og:description"
-  />
+  <meta
+    content="{{ .Summary | plainify }} | {{ .Site.Params.Description }}"
+    name="description"
+    property="og:description"
+    />
 {{ else }}
-<meta
-  content="{{ .Site.Params.Description }}"
-  name="description"
-  property="og:description"
-  />
+  <meta
+    content="{{ .Site.Params.Description }}"
+    name="description"
+    property="og:description"
+    />
 {{ end }}
 
 {{ template "_internal/opengraph.html" . }}
 {{ template "_internal/twitter_cards.html" . }}
 
-{{ $options := (dict "targetPath" "/css/style.css" "outputStyle" "compressed"
-"enableSourceMap" false "includePaths" (slice "node_modules")) }}
-{{ $style := resources.Get "/scss/style.scss" | toCSS $options |
-minify | fingerprint "sha512" }}
-<link
-  href="{{ $style.RelPermalink }}"
-  rel="stylesheet"
-  integrity="{{ $style.Data.Integrity }}"
-  />
+{{ $options := (dict "targetPath" "/css/style.css" "outputStyle" "compressed" "enableSourceMap" false "includePaths" (slice "node_modules")) }}
+{{ $style := resources.Get "/scss/style.scss" | toCSS $options | minify | fingerprint "sha512" }}
+<link rel="stylesheet" href="{{ $style.RelPermalink }}" integrity="{{ $style.Data.Integrity }}"/>
 
-{{ if .Params.math }}{{ partial "math" . }}{{ end }}
+{{ if .Params.math }}
+  {{ partial "math" . }}
+{{ end }}

@@ -1,63 +1,24 @@
-<div class="px-md-6 px-lg-7 py-6 d-flex
-    flex-column" style="height: 100%;">
+<div class="px-md-6 px-lg-7 py-6 d-flex flex-column" style="height: 100%;">
     <a href="/">
-        <img src="https://avatars.githubusercontent.com/u/11541888?v=4"
-            class="circle mb-3 anim-hover-grow" style="max-width: 150px;">
+        <img src="{{ .Site.Params.image }}" class="circle mb-3 anim-hover-grow" style="max-width: 150px;">
     </a>
-    <h1 class="mb-2 lh-condensed">Edoardo D'Angelis</h1>
-    <p class="mb-3 color-text-secondary f4">
-        {{ "MSc Computer Engineering [@UNIFI](#)" | markdownify }}
-    </p>
 
-    <ul class="social list-style-none mt-1">
-        <li class="tooltipped tooltipped-n tooltipped-no-delay d-inline-block
-            mr-3"
-            aria-label="GitHub">
-            <a href="#">{{ partial "icons/github" }}</a>
-        </li>
-        <li class="tooltipped tooltipped-n tooltipped-no-delay d-inline-block
-            mr-3"
-            aria-label="Telegram">
-            <a href="#">{{ partial "icons/telegram"}}</a>
-        </li>
-        <li class="tooltipped tooltipped-n tooltipped-no-delay d-inline-block
-            mr-3"
-            aria-label="Email">
-            <a href="#">{{ partial "icons/mail" }}</a>
-        </li>
-        <li class="tooltipped tooltipped-n tooltipped-no-delay d-inline-block
-            mr-3"
-            aria-label="Donate">
-            <a href="#">{{ partial "icons/heart" }}</a>
-        </li>
-        <li class="tooltipped tooltipped-n tooltipped-no-delay d-inline-block
-            mr-3"
-            aria-label="RSS">
-            <a href="#">{{ partial "icons/rss" }}</a>
-        </li>
-    </ul>
+    <h1 class="mb-2 lh-condensed">{{ .Site.Params.name }}</h1>
+    <p class="mb-3 color-text-secondary f4">{{ .Site.Params.bio | markdownify }}</p>
 
     <ul class="filter-list mt-6 mb-6">
         {{ $current := . }}
         {{ range .Site.Menus.main }}
 
-        {{ $active := or ($current.IsMenuCurrent "nav" .)
-        ($current.HasMenuCurrent "nav" .) }}
+        {{ $active := or ($current.IsMenuCurrent "nav" .) ($current.HasMenuCurrent "nav" .) }}
         {{ $active = or $active (eq .Name $current.Title) }}
-        {{ $active = or $active (and (eq .Name "Blog") (eq $current.Section
-        "blog")) }}
-        {{ $active = or $active (and (eq .Name "Tags") (eq $current.Section
-        "tags")) }}
+        {{ $active = or $active (and (eq .Name "Blog") (eq $current.Section "blog")) }}
+        {{ $active = or $active (and (eq .Name "Tags") (eq $current.Section "tags")) }}
+        {{ $icon := printf "icons/%s" .Pre }}
         <li>
-            <a class="filter-item {{ if
-                $active
-                }}color-text-primary color-bg-info border-left
-                color-border-info selected text-semibold{{ else
-                }}color-text-secondary{{end}}" href="{{ .URL
-                }}" {{ if
-                $active
-                }}aria-current="page" {{ end }}>
-                {{ $icon := printf "icons/%s" .Pre }}
+            <a class="filter-item 
+            {{ if $active }}color-text-primary color-bg-info border-left color-border-info selected text-semibold
+            {{ else }}color-text-secondary{{end}}" href="{{ .URL }}" {{ if $active }}aria-current="page" {{ end }}>
                 <span class="mr-2">{{ partial $icon }}</span>
                 {{ .Name }}
             </a>
@@ -67,8 +28,17 @@
 
     <span class="flex-1"></span>
 
-    <p class="f5 mb-0 color-text-tertiary">©
-        {{ now.Format "2006"}} — Ash Ketchum
+    <ul class="social list-style-none">
+        {{ range .Site.Menus.social }}
+        {{ $icon := printf "icons/%s" .Pre }}
+        <li class="tooltipped tooltipped-n tooltipped-no-delay d-inline-block mr-3" aria-label="{{ .Name }}">
+            <a href="{{ .URL }}">{{ partial $icon }}</a>
+        </li>
+        {{ end }}
+    </ul>
+
+    <p class="f6 mt-3 mb-0 color-text-tertiary">
+        © {{ now.Format "2006"}} — {{ .Site.Params.name }}
     </p>
 
 </div>

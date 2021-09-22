@@ -4,9 +4,15 @@ description = "A description"
 canonifyURLs = true
 copyright = "Name"
 enableRobotsTXT = true
-
 paginate = 10
 paginatePath = ''
+
+
+[params]
+  dateFormat = "Jan 2, 2006"
+  name = "Edoardo D'Angelis"
+  bio = "MSc Computer Engineering [@UNIFI](https://unifi.it)"
+  image = "https://avatars.githubusercontent.com/u/11541888?v=4"
 
 [sitemap]
     changefreq = "weekly"
@@ -35,9 +41,32 @@ paginatePath = ''
     url = "/contact/"
     weight = 3
     pre = "pencil"
-
-[params]
-  dateFormat = "Jan 2, 2006"
+  
+  [[menu.social]]
+    name = "GitHub"
+    url = "https://github.com/n3d1117/website/"
+    weight = 1
+    pre = "github"
+  [[menu.social]]
+    name = "Telegram"
+    url = "https://t.me/ne_do/"
+    weight = 2
+    pre = "telegram"
+  [[menu.social]]
+    name = "Email"
+    url = "mailto:your.email@me.com"
+    weight = 3
+    pre = "mail"
+  [[menu.social]]
+    name = "Donate"
+    url = "https://www.buymeacoffee.com/ne_do"
+    weight = 4
+    pre = "heart"
+  [[menu.social]]
+    name = "RSS"
+    url = "/feed.rss"
+    weight = 5
+    pre = "rss"
 
 [markup]
   [markup.highlight]

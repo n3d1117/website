@@ -1,33 +1,13 @@
-<div class="p-4 wrapper text-center d-flex flex-justify-between flex-items-center
-    mx-auto">
-    <p class="f5 color-text-tertiary mb-0">©
-        {{ now.Format "2006"}} — Ash Ketchum
+<div class="p-4 wrapper text-center d-flex flex-justify-between flex-items-center mx-auto">
+    <p class="f5 color-text-tertiary mb-0">
+        © {{ now.Format "2006"}} — {{ .Site.Params.name }}
     </p>
     <ul class="social list-style-none">
-        <li class="tooltipped tooltipped-n tooltipped-no-delay d-inline-block
-            p-2 pr-0"
-            aria-label="GitHub">
-            <a href="#">{{ partial "icons/github" }}</a>
-        </li>
-        <li class="tooltipped tooltipped-n tooltipped-no-delay d-inline-block
-            p-2 pr-0"
-            aria-label="Telegram">
-            <a href="#">{{ partial "icons/telegram"}}</a>
-        </li>
-        <li class="tooltipped tooltipped-n tooltipped-no-delay d-inline-block
-            p-2 pr-0"
-            aria-label="Email">
-            <a href="#">{{ partial "icons/mail" }}</a>
-        </li>
-        <li class="tooltipped tooltipped-n tooltipped-no-delay d-inline-block
-            p-2 pr-0"
-            aria-label="Donate">
-            <a href="#">{{ partial "icons/heart" }}</a>
-        </li>
-        <li class="tooltipped tooltipped-n tooltipped-no-delay d-inline-block
-            p-2 pr-0"
-            aria-label="RSS">
-            <a href="#">{{ partial "icons/rss" }}</a>
-        </li>
+        {{ range .Site.Menus.social }}
+            {{ $icon := printf "icons/%s" .Pre }}
+            <li class="tooltipped tooltipped-n tooltipped-no-delay d-inline-block mr-3" aria-label="{{ .Name }}">
+                <a href="{{ .URL }}">{{ partial $icon }}</a>
+            </li>
+        {{ end }}
     </ul>
 </div>
