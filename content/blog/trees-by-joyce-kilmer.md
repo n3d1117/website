@@ -184,7 +184,6 @@ Then, specify `CustomPostgreSQLDialect` as the Hibernate dialect in your project
 </persistence-unit>
 ```
 
-\\
 Finally, enable TimescaleDB extension on the database and then create the hypertable:
 
 ```java

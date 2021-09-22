@@ -1,4 +1,5 @@
-<div class="px-md-6 px-lg-7 py-6">
+<div class="px-md-6 px-lg-7 py-6 d-flex
+    flex-column" style="height: 100%;">
     <a href="/">
         <img src="https://avatars.githubusercontent.com/u/11541888?v=4"
             class="circle mb-3 anim-hover-grow" style="max-width: 150px;">
@@ -8,11 +9,66 @@
         {{ "MSc Computer Engineering [@UNIFI](#)" | markdownify }}
     </p>
 
-    <ul class="list-style-none">
+    <ul class="social list-style-none mt-1">
+        <li class="tooltipped tooltipped-n tooltipped-no-delay d-inline-block
+            mr-3"
+            aria-label="GitHub">
+            <a href="#">{{ partial "icons/github" }}</a>
+        </li>
+        <li class="tooltipped tooltipped-n tooltipped-no-delay d-inline-block
+            mr-3"
+            aria-label="Telegram">
+            <a href="#">{{ partial "icons/telegram"}}</a>
+        </li>
+        <li class="tooltipped tooltipped-n tooltipped-no-delay d-inline-block
+            mr-3"
+            aria-label="Email">
+            <a href="#">{{ partial "icons/mail" }}</a>
+        </li>
+        <li class="tooltipped tooltipped-n tooltipped-no-delay d-inline-block
+            mr-3"
+            aria-label="Donate">
+            <a href="#">{{ partial "icons/heart" }}</a>
+        </li>
+        <li class="tooltipped tooltipped-n tooltipped-no-delay d-inline-block
+            mr-3"
+            aria-label="RSS">
+            <a href="#">{{ partial "icons/rss" }}</a>
+        </li>
+    </ul>
+
+    <ul class="filter-list mt-6 mb-6">
+        {{ $current := . }}
         {{ range .Site.Menus.main }}
+
+        {{ $active := or ($current.IsMenuCurrent "nav" .)
+        ($current.HasMenuCurrent "nav" .) }}
+        {{ $active = or $active (eq .Name $current.Title) }}
+        {{ $active = or $active (and (eq .Name "Blog") (eq $current.Section
+        "blog")) }}
+        {{ $active = or $active (and (eq .Name "Tags") (eq $current.Section
+        "tags")) }}
         <li>
-            <a href="{{ .URL }}">{{ .Name }}</a>
+            <a class="filter-item {{ if
+                $active
+                }}color-text-primary color-bg-info border-left
+                color-border-info selected text-semibold{{ else
+                }}color-text-secondary{{end}}" href="{{ .URL
+                }}" {{ if
+                $active
+                }}aria-current="page" {{ end }}>
+                {{ $icon := printf "icons/%s" .Pre }}
+                <span class="mr-2">{{ partial $icon }}</span>
+                {{ .Name }}
+            </a>
         </li>
         {{ end }}
     </ul>
+
+    <span class="flex-1"></span>
+
+    <p class="f5 mb-0 color-text-tertiary">©
+        {{ now.Format "2006"}} — Ash Ketchum
+    </p>
+
 </div>

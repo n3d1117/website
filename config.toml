@@ -24,14 +24,17 @@ paginatePath = ''
     name = "Home"
     url = "/"
     weight = 1
+    pre = "home"
   [[menu.main]]
     name = "Blog"
     url = "/blog/"
     weight = 2
+    pre = "hashtag"
   [[menu.main]]
     name = "Contact"
     url = "/contact/"
     weight = 3
+    pre = "pencil"
 
 [params]
   dateFormat = "Jan 2, 2006"
