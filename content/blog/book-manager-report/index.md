@@ -2,6 +2,7 @@
 title: Book Manager - Project Report
 description: desc
 date: 2019-01-13T04:14:57.000Z
+slug: book-manager
 tags: [poetry, life]
 toc: true
 math: false
@@ -284,25 +285,10 @@ List<Author> authors = StreamSupport
 
 ## User Interface Screenshots
 
-<figure>
-<img src="/95751959-9be8f100-0c9f-11eb-97ba-69cde46cde69.png" alt="Main Interface" width="559" height="400" loading="lazy"/>
-<figcaption>Main Interface</figcaption>
-</figure>
-
-<figure>
-<img src="/95749506-f5e7b780-0c9b-11eb-8c1f-0cb369583593.jpg" alt="Sorting books by author" width="559" height="400" loading="lazy"/>
-<figcaption>Sorting books by author</figcaption>
-</figure>
-
-<figure>
-<img src="/95749507-f6804e00-0c9b-11eb-808c-3114cef15d1d.jpg" alt="Selecting an item enables the Delete button" width="559" height="400" loading="lazy"/>
-<figcaption>Selecting an item enables the Delete button</figcaption>
-</figure>
-
-<figure>
-<img src="/95749505-f54f2100-0c9b-11eb-9776-10a09e829e22.jpg" alt="Displaying errors" width="559" height="400" loading="lazy"/>
-<figcaption>Displaying errors</figcaption>
-</figure>
+![Main Interface](95751959-9be8f100-0c9f-11eb-97ba-69cde46cde69.png)
+![Sorting books by author](95749506-f5e7b780-0c9b-11eb-8c1f-0cb369583593.jpg)
+![Selecting an item enables the Delete button](95749507-f6804e00-0c9b-11eb-808c-3114cef15d1d.jpg)
+![Displaying errors](95749505-f54f2100-0c9b-11eb-9776-10a09e829e22.jpg)
 
 ## Tests
 

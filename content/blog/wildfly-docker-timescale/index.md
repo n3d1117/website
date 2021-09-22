@@ -2,6 +2,7 @@
 title: Creating a Wildfly Docker image with TimescaleDB support
 description: desc
 date: 2019-01-14T02:28:42.000Z
+slug: wildfly-docker-timescale
 tags: [poetry, trees]
 toc: true
 math: false
@@ -204,15 +205,12 @@ If all went well, you should see something like this in the logs:
 Result: (1,public,YOUR_TABLE_HERE,t)
 ```
 
-<figure>
-<img src="/assets/images/docker-wildfly-timescale-terminal-output.png" alt="Example output" width="920" height="377" loading="lazy"/>
-<figcaption>Example terminal output</figcaption>
-</figure>
+![Example terminal output](output.png)
 
 For more details on hypertables refer to the [offical TimescaleDB documentation](https://docs.timescale.com/timescaledb/latest/getting-started/).
 
 ## References
 
--   [TimescaleDB](https://www.timescale.com)
--   [Docker-Test_DevEnv project](https://github.com/BrizziB/Docker-Test_DevEnv) by BrizziB
--   [Creating a Wildfly Docker image with PostgreSQL](https://blog.mikesir87.io/2015/12/creating-wildfly-docker-image-with-postgresql/) by mikesir87
+- [TimescaleDB](https://www.timescale.com)
+- [Docker-Test_DevEnv project](https://github.com/BrizziB/Docker-Test_DevEnv) by BrizziB
+- [Creating a Wildfly Docker image with PostgreSQL](https://blog.mikesir87.io/2015/12/creating-wildfly-docker-image-with-postgresql/) by mikesir87
