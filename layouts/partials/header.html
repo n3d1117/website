@@ -1,8 +1,41 @@
-<div class="color-bg-info-inverse p-2">
+<div class="Header py-3 px-4 wrapper text-center d-flex
+    flex-justify-between
+    flex-items-center color-bg-primary mx-auto">
+
+    <a href="/" class="text-inherit no-underline">
+        <div class="pres d-flex flex-items-center flex-content-start"
+            style="max-height: 45px;">
+            <img src="https://avatars.githubusercontent.com/u/11541888?v=4"
+                class="circle anim-hover-grow mr-2" height="45" width="45">
+            <div class="pl-1 d-flex flex-column text-left align-items-center
+                m-0 mb-1" style="max-height: 45px;">
+                <p class="m-0 p-0 f4 color-text-primary text-bold">Edoardo
+                    D'Angelis</h4>
+                <p class="no-wrap m-0 p-0 f6 color-text-secondary">
+                    {{ "MSc Computer Engineering [@UNIFI](#)" | markdownify }}
+                </p>
+            </div>
+        </div>
+    </a>
+
+    <div class="Header-item Header-item--full"></div>
+
     <ul class="list-style-none">
+        {{ $current := . }}
         {{ range .Site.Menus.main }}
-        <li>
-            <a href="{{ .URL }}">{{ .Name }}</a>
+
+        {{ $active := or ($current.IsMenuCurrent "nav" .)
+        ($current.HasMenuCurrent "nav" .) }}
+        {{ $active = or $active (eq .Name $current.Title) }}
+        {{ $active = or $active (and (eq .Name "Blog") (eq $current.Section
+        "blog")) }}
+        {{ $active = or $active (and (eq .Name "Tags") (eq $current.Section
+        "tags")) }}
+
+        <li class="{{ if $active }}text-underline{{ end }} d-inline-block px-2
+            py-0">
+            <a href="{{ .URL }}" class="Header-link color-text-primary">{{ .Name
+                }}</a>
         </li>
         {{ end }}
     </ul>

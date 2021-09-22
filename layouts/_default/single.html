@@ -1,25 +1,29 @@
 {{ define "main" }}
 
-<article class="p-4">
-  <h1>{{ .Title }}</h1>
+<div class="px-4 py-2 py-md-4 py-lg-6 px-lg-6">
+  <article class="mx-auto" style="max-width: 900px;">
+    <h1>{{ .Title }}</h1>
 
-  {{ $dateTime := .PublishDate.Format "2006-01-02" }}
-  {{ $dateFormat := .Site.Params.dateFormat | default "Jan 2, 2006" }}
-  <time datetime="{{ $dateTime }}">{{ .PublishDate.Format $dateFormat }}</time>
-  {{ with .Params.tags }}
-  <br>
-  {{ range . }}
-  {{ $href := print (relURL "tags/") (urlize .) }}
-  <a class="btn" href="{{ $href }}">{{ . }}</a>
-  {{ end }}
-  {{ end }}
+    {{ $dateTime := .PublishDate.Format "2006-01-02" }}
+    {{ $dateFormat := .Site.Params.dateFormat | default "Jan 2, 2006" }}
+    <time datetime="{{ $dateTime }}">{{ .PublishDate.Format $dateFormat }}</time>
+    {{ with .Params.tags }}
+    <br>
+    {{ range . }}
+    {{ $href := print (relURL "tags/") (urlize .) }}
+    <a class="btn" href="{{ $href }}">{{ . }}</a>
+    {{ end }}
+    {{ end }}
 
-  <span class="col-12 hide-xl hide-lg">
-    {{ partial "mobile-toc" . }}
-  </span>
+    {{ if default false (default .Site.Params.toc .Params.toc) }}
+    <span>
+      {{ partial "mobile-toc" . }}
+    </span>
+    {{ end }}
 
-  <div>
-    {{ .Content }}
-  </div>
-</article>
+    <div>
+      {{ .Content }}
+    </div>
+  </article>
+</div>
 {{ end }}
