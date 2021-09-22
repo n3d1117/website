@@ -1,13 +1,16 @@
 {{ define "main" }}
 
-<div class="p-4">
+<div class="mx-auto px-3 px-md-4 px-lg-6 py-3 py-md-4 py-lg-6" style="max-width:
+  900px;">
   <h1>{{ .Title }}</h1>
-  {{ range .Pages.ByPublishDate.Reverse }}
+  {{ range .Paginator.Pages.ByPublishDate.Reverse }}
   <p>
     <a class="font-125" href="{{ .RelPermalink }}">{{ .Title }}</a>
     <br>
   </p>
   {{ end }}
+
+  {{ partial "paginator" . }}
 </div>
 
 {{ end }}

@@ -1,11 +1,23 @@
 baseURL = "https://example.com"
 title = "Hugo Blog"
+description = "A description"
+canonifyURLs = true
+copyright = "Name"
+enableRobotsTXT = true
+
+paginate = 10
+paginatePath = ''
+
+[sitemap]
+    changefreq = "weekly"
+    priority = 0.5
 
 [taxonomies]
   tag = "tags"
 
 [permalinks]
-  blog = "/blog/:year/:month/:title/"
+  blog = "/blog/:year/:month/:slug/"
+  page = "/:slug/"
 
 [menu]
   [[menu.main]]
@@ -23,3 +35,10 @@ title = "Hugo Blog"
 
 [params]
   dateFormat = "Jan 2, 2006"
+
+[markup]
+  [markup.highlight]
+    noClasses = false
+
+[build]
+  writeStats = true

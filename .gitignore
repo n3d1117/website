@@ -2,3 +2,4 @@ public/
 node_modules/
 resources/
 .DS_Store
+/hugo_stats.json

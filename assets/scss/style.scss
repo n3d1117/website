@@ -2,12 +2,14 @@
 @import "@primer/css/utilities";
 @import "@primer/css/layout";
 @import "@primer/css/header/index.scss";
+@import "@primer/css/markdown/index.scss";
 
 body {
   font-size: 16px;
 }
 
-li ul, li ol {
+li ul,
+li ol {
   padding-left: 16px;
   margin-bottom: 0;
 }
@@ -22,33 +24,33 @@ body {
 
 footer {
   ul {
-    font-size: .9em;
+    font-size: 0.9em;
     cursor: pointer;
   }
-  
+
   ul li:hover svg path {
-    opacity: 0.7
+    opacity: 0.7;
   }
-  
+
   @media (max-width: 550px) {
     .wrapper {
       flex-direction: column;
     }
-  
+
     ul {
-        margin-top: .5em;
+      margin-top: 0.5em;
     }
   }
 }
 
 header {
-
-  ul li:hover, .pres:hover {
-    opacity: 0.8
+  ul li:hover,
+  .pres:hover {
+    opacity: 0.8;
   }
 
   .pres {
-    transition: opacity .2s ease-in-out;
+    transition: opacity 0.2s ease-in-out;
   }
 
   @media (max-width: 550px) {
@@ -57,13 +59,12 @@ header {
     }
 
     ul {
-      margin-top: .8em;
+      margin-top: 0.8em;
     }
   }
 }
 
 .main-container {
-
   .main {
     min-width: 0;
   }
@@ -75,5 +76,14 @@ header {
   .sidebar {
     width: 25%;
     min-width: 250px;
+  }
+}
+
+article {
+  .markdown-body .highlight pre,
+  .markdown-body pre {
+    background-color: var(--color-bg-primary) !important;
+    border-radius: 10px !important;
+    outline: none;
   }
 }

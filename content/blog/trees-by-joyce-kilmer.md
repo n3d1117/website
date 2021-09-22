@@ -1,24 +1,28 @@
 ---
-title: "Trees by Joyce Kilmer"
-date: 2019-01-13T20:28:42-06:00
-tags: ["poetry", "trees"]
+title: Creating a Wildfly Docker image with TimescaleDB support
+description: desc
+date: 2019-01-14T02:28:42.000Z
+tags: [poetry, trees]
 toc: true
+math: false
 ---
 
 In this post I will show you how to create a Wildfly docker image with full support for the popular time-series database [TimescaleDB](https://www.timescale.com), and how to easily combine the two using Docker Compose.
 
 ## Wildfly docker image
+
 As a base image, we'll use the latest [official Wildfly docker image](https://hub.docker.com/r/jboss/wildfly), named `jboss/wildfly:24.0.0.Final`.
 Since TimescaleDB relies on PostgreSQL, we also need to setup the PostgreSQL driver and datasource in Wildfly. This requires the following:
 
-- Download PostgreSQL driver from the [official maven repository](https://mvnrepository.com/artifact/org.postgresql/postgresql)
-- Adding PostgreSQL module
-- Adding PostgreSQL driver
-- Setup a main Datasource
+-   Download PostgreSQL driver from the [official maven repository](https://mvnrepository.com/artifact/org.postgresql/postgresql)
+-   Adding PostgreSQL module
+-   Adding PostgreSQL driver
+-   Setup a main Datasource
 
 Luckily, all these steps can be automated using jboss cli (located at `/opt/jboss/wildfly/bin/jboss-cli.sh`).
 
 Here's the full `Dockerfile`:
+
 ```dockerfile
 FROM jboss/wildfly:24.0.0.Final
 
@@ -71,12 +75,13 @@ CMD ["/opt/jboss/wildfly/bin/standalone.sh", "-b", "0.0.0.0", "-bmanagement", "0
 
 The following ports are exposed:
 
-- `8080` for the application
-- `9990` for the admin console
-- `5005` for debugging
+-   `8080` for the application
+-   `9990` for the admin console
+-   `5005` for debugging
 
-\
+\\
 Remember to specify the correct datasource in your project's `persistence.xml` file:
+
 ```xml
 <persistence-unit name="...">
     <jta-data-source>java:jboss/datasources/PostgresDS</jta-data-source>
@@ -88,8 +93,8 @@ Remember to specify the correct datasource in your project's `persistence.xml` f
 
 For the docker-compose file, there are two services required:
 
-- The modified Wildfly image with Timescale support, as seen above
-- The Timescale instance
+-   The modified Wildfly image with Timescale support, as seen above
+-   The Timescale instance
 
 Both services are fully configurable through environment variables and are able to communicate using Docker's [bridge networks](https://docs.docker.com/network/bridge/). Here's the full `docker-compose.yml`:
 
@@ -136,15 +141,17 @@ networks:
     default:
         driver: bridge
 ```
+
 Note that:
 
-- Wildfly image is automatically fetched from the `Dockerfile`, which should be in the same folder as the `docker-compose.yml`
-- Thanks to docker's volume mapping, you can add `.war` files in the `workdir/deploy/wildfly` and they will be deployed to Wildfly automatically
-- Database data is persisted in the `workdir/db` folder even when the container is destroyed. However, remember to set `hibernate.hbm2ddl.auto` property to `update` in your `persistence.xml` file, in order to avoid losing your data between launches.
+-   Wildfly image is automatically fetched from the `Dockerfile`, which should be in the same folder as the `docker-compose.yml`
+-   Thanks to docker's volume mapping, you can add `.war` files in the `workdir/deploy/wildfly` and they will be deployed to Wildfly automatically
+-   Database data is persisted in the `workdir/db` folder even when the container is destroyed. However, remember to set `hibernate.hbm2ddl.auto` property to `update` in your `persistence.xml` file, in order to avoid losing your data between launches.
 
 To start the services, simply run `docker-compose up` from any terminal instance.
 
 ## Enabling TimescaleDB Hypertables in Java
+
 First, create a class named `CustomPostgreSQLDialect` that extends `PostgreSQL95Dialect` and registers the `OTHER` sql type as a `String`:
 
 ```java
@@ -158,13 +165,15 @@ public class CustomPostgreSQLDialect extends PostgreSQL95Dialect {
     }
 }
 ```
+
 This is required since Timescale's [create_hypertable](https://docs.timescale.com/api/latest/hypertable/create_hypertable/) return value is not natively supported by Hibernate. If you skip this step, you'll most likely end up with an error such as:
+
 ```no-highlight
 javax.persistence.PersistenceException: org.hibernate.MappingException: No Dialect mapping for JDBC type: 1111
 ```
-\
 
 Then, specify `CustomPostgreSQLDialect` as the Hibernate dialect in your project's `persistence.xml` file:
+
 ```xml
 <persistence-unit name="...">
     <properties>
@@ -174,8 +183,10 @@ Then, specify `CustomPostgreSQLDialect` as the Hibernate dialect in your project
     </properties>
 </persistence-unit>
 ```
-\
+
+\\
 Finally, enable TimescaleDB extension on the database and then create the hypertable:
+
 ```java
 // Enable TimescaleDB extension
 entityManager.createNativeQuery("CREATE EXTENSION IF NOT EXISTS timescaledb;").executeUpdate();
@@ -189,6 +200,7 @@ LOGGER.info(String.format("Result: %s", result));
 ```
 
 If all went well, you should see something like this in the logs:
+
 ```no-highlight
 Result: (1,public,YOUR_TABLE_HERE,t)
 ```
@@ -201,6 +213,7 @@ Result: (1,public,YOUR_TABLE_HERE,t)
 For more details on hypertables refer to the [offical TimescaleDB documentation](https://docs.timescale.com/timescaledb/latest/getting-started/).
 
 ## References
-- [TimescaleDB](https://www.timescale.com)
-- [Docker-Test_DevEnv project](https://github.com/BrizziB/Docker-Test_DevEnv) by BrizziB
-- [Creating a Wildfly Docker image with PostgreSQL](https://blog.mikesir87.io/2015/12/creating-wildfly-docker-image-with-postgresql/) by mikesir87
+
+-   [TimescaleDB](https://www.timescale.com)
+-   [Docker-Test_DevEnv project](https://github.com/BrizziB/Docker-Test_DevEnv) by BrizziB
+-   [Creating a Wildfly Docker image with PostgreSQL](https://blog.mikesir87.io/2015/12/creating-wildfly-docker-image-with-postgresql/) by mikesir87

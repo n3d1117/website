@@ -1,8 +1,10 @@
 ---
-title: "If by Rudyard Kipling"
-date: 2019-01-12T22:14:57-06:00
-tags: ["poetry", "life"]
+title: Book Manager - Project Report
+description: desc
+date: 2019-01-13T04:14:57.000Z
+tags: [poetry, life]
 toc: true
+math: false
 ---
 
 ## Introduction
@@ -13,12 +15,12 @@ The following report describes the process of developing **Book Manager**, a sma
 
 Book Manager aims at replicating a simplified version of a digital library for managing books from your favorite authors. It supports the following features:
 
-- Add a new author by id and name
-- Add a new book given its id, title, author and print length
-- Delete an author (which also deletes all of his/her associated books)
-- Delete a book
-- Display all authors in alphabetical order
-- Display all books and sort them by title, author name or print length
+-   Add a new author by id and name
+-   Add a new book given its id, title, author and print length
+-   Delete an author (which also deletes all of his/her associated books)
+-   Delete a book
+-   Display all authors in alphabetical order
+-   Display all books and sort them by title, author name or print length
 
 The user is able to interact with the application through a simple GUI (Graphical User Interface), which offers support for all of the operations above.
 
@@ -28,9 +30,9 @@ While the application might not seem very complex or feature-packed, the idea be
 
 ### Local Environment
 
-- **Operating System**: macOS Catalina (10.15.6)
-- **Programming Language**: Java 8
-- **IDE**: [IntelliJ IDEA](https://www.jetbrains.com/idea/) (version 2020.2)
+-   **Operating System**: macOS Catalina (10.15.6)
+-   **Programming Language**: Java 8
+-   **IDE**: [IntelliJ IDEA](https://www.jetbrains.com/idea/) (version 2020.2)
 
 ### Tools
 
@@ -96,8 +98,8 @@ Let's see all these layers in depth.
 
 This layer represents domain classes, with little to no logic in them. There are two main entities:
 
-- **Author**: represents an author with a unique identifier and a name.
-- **Book**: represents a book with its own identifier, title, print length and the id of the author who wrote it.
+-   **Author**: represents an author with a unique identifier and a name.
+-   **Book**: represents a book with its own identifier, title, print length and the id of the author who wrote it.
 
 These classes are meant to be as simple as possible: beside the constructor and the getters/setters, all the other methods (`equals`, `hashCode` and `toString`) were generated automatically by the IDE.
 To keep things simple, we also ignore the case where a book could have multiple authors.
@@ -124,12 +126,12 @@ This layer stands in between the user interface (View) and the business logic (S
 
 When performing multi-document write operations, whether through a single write operation or multiple write operations, other operations may interleave. For this reason, writing to different documents in multiple collections may leave the database in an inconsistent state. Wrapping database operations in a single, atomic transaction solves this problem. For example:
 
-- Author `George Orwell` is deleted from the database;
-- All books from `George Orwell` should be deleted as well, but they belong to a different collection.
+-   Author `George Orwell` is deleted from the database;
+-   All books from `George Orwell` should be deleted as well, but they belong to a different collection.
 
 By wrapping both these operations in the same transaction, we can be sure that even if something goes wrong while deleting items, the database can be rolled back to a previous, consistent state with no issues. Here's how transactions were implemented in this project:
 
-- Since we need to handle multiple repositories (one for each entity of the model), the **factory pattern** was used to define a `RepositoryFactory` interface for creating concrete repositories:
+-   Since we need to handle multiple repositories (one for each entity of the model), the **factory pattern** was used to define a `RepositoryFactory` interface for creating concrete repositories:
 
 ```java
 public interface RepositoryFactory {
@@ -138,7 +140,7 @@ public interface RepositoryFactory {
 }
 ```
 
-- A `TransactionManager` interface is defined for handling transactions. It abstracts from the database implementation and specific transaction details:
+-   A `TransactionManager` interface is defined for handling transactions. It abstracts from the database implementation and specific transaction details:
 
 ```java
 public interface TransactionManager {
@@ -146,14 +148,14 @@ public interface TransactionManager {
 }
 ```
 
-- `TransactionCode` is a functional interface (a lambda function that takes a `RepositoryFactory` and returns a generic `T`):
+-   `TransactionCode` is a functional interface (a lambda function that takes a `RepositoryFactory` and returns a generic `T`):
 
 ```java
 @FunctionalInterface
 public interface TransactionCode<T> extends Function<RepositoryFactory, T> { }
 ```
 
-- `TransactionMongoManager` then implements `TransactionManager` and defines how to wrap the lambda in a MongoDB transaction using the `withTransaction(TransactionBody<T> body)` method of `ClientSession` (as seen in the [official documentation](https://docs.mongodb.com/manual/core/transactions/)):
+-   `TransactionMongoManager` then implements `TransactionManager` and defines how to wrap the lambda in a MongoDB transaction using the `withTransaction(TransactionBody<T> body)` method of `ClientSession` (as seen in the [official documentation](https://docs.mongodb.com/manual/core/transactions/)):
 
 ```java
 public class TransactionMongoManager implements TransactionManager {
@@ -180,7 +182,7 @@ public class TransactionMongoManager implements TransactionManager {
 }
 ```
 
-- Finally, a concrete _transactional_ service can then use `TransactionManager` to perform operations on repositories inside the `doInTransaction` lambda:
+-   Finally, a concrete _transactional_ service can then use `TransactionManager` to perform operations on repositories inside the `doInTransaction` lambda:
 
 ```java
 public class AuthorTransactionalService implements AuthorService {
@@ -214,9 +216,9 @@ A replica set in MongoDB is a group of `mongod` processes that maintain the same
 
 A `Dockerfile` is included in the project to automatically deploy a MongoDB single node replica set instance:
 
-- Pull the official `mongo` image with tag `4.0`
-- Set the replica set name with the `--replSet NAME` command line option
-- Initiate the replica set by running `rs.initiate()` on the single node. This is done by using the `/docker-entrypoint-initdb.d/` folder, which is automatically configured to run any script inside it for additional configuration options, before the service starts. Here the goal is to have the entrypoint automatically run a `js` file that initiates the set.
+-   Pull the official `mongo` image with tag `4.0`
+-   Set the replica set name with the `--replSet NAME` command line option
+-   Initiate the replica set by running `rs.initiate()` on the single node. This is done by using the `/docker-entrypoint-initdb.d/` folder, which is automatically configured to run any script inside it for additional configuration options, before the service starts. Here the goal is to have the entrypoint automatically run a `js` file that initiates the set.
 
 ```dockerfile
 FROM mongo:4.0
@@ -306,9 +308,9 @@ List<Author> authors = StreamSupport
 
 By following TDD, the application is fully tested. The **pyramid** shape has also been respected:
 
-- 73 Unit tests
-- 46 Integration tests
-- 10 End-to-end tests
+-   73 Unit tests
+-   46 Integration tests
+-   10 End-to-end tests
 
 ### Unit Tests
 
@@ -325,11 +327,11 @@ The [Awaitility](https://github.com/awaitility/awaitility) library has also been
 
 The following interactions were tested (covering only the positive or interesting cases):
 
-- The integration between controller and service layers (the view is still mocked), while interacting with a real database
-- The behavior of both the repositories with a real database implementation
-- The integration between the controller and the real view
-- The integration between the service and the repository
-- The correct behavior of `TransactionMongoManager`, when communicating with a real MongoDB database implementation, to ensure transactions and rollbacks are executed correctly
+-   The integration between controller and service layers (the view is still mocked), while interacting with a real database
+-   The behavior of both the repositories with a real database implementation
+-   The integration between the controller and the real view
+-   The integration between the service and the repository
+-   The correct behavior of `TransactionMongoManager`, when communicating with a real MongoDB database implementation, to ensure transactions and rollbacks are executed correctly
 
 Furthermore, particular attention has been paid to multithreading, in order to avoid race conditions when a method could be executed repeatedly by multiple concurrent threads (for example the user could spam the `Add` or `Delete` button several times in a row, resulting in a failure). A few tests have been added to cover such cases: race conditions have been recreated by spawning multiple threads, all calling the same controller methods concurrently (`addAuthor`, `deleteAuthor`, `addBook`, `addBook`), and then verifying that the database is still in a consistent state.
 These cases have been fixed by making sure the controller methods are `synchronized`, to prevent thread interference.
@@ -340,18 +342,18 @@ Following a black-box approach, a few end-to-end tests have been added in order 
 
 With end-to-end tests, the following situations were tested:
 
-- All initial UI elements are visible at startup
-- Adding a new author or book through the user interface results in the item added to the corrisponding list or table
-- Deleting an existing author or a book through the user interface results in the item being deleted from the corresponding list or table
-- Deleting an existing author through the user interface also results in his/her books being deleted from the list
+-   All initial UI elements are visible at startup
+-   Adding a new author or book through the user interface results in the item added to the corrisponding list or table
+-   Deleting an existing author or a book through the user interface results in the item being deleted from the corresponding list or table
+-   Deleting an existing author through the user interface also results in his/her books being deleted from the list
 
 ### Code Coverage
 
 By using TDD, code coverage requirements of 100% (using [JaCoCo](https://www.eclemma.org/jacoco/)) have been met successfully. The following classes have been excluded from calculations:
 
-- Domain model classes (`Book` and `Author`), because they have no logic inside them (and methods such as `equals`, `hashCode` and `toString` have been generated automatically by the IDE)
-- `TextFieldDocumentListener`, a custom Swing component, because it contains a method that is required by the `DocumentListener` interface but is never actually called throughout the app
-- `BookManagerSwingApp` because it's the main class that contains the method to run the application
+-   Domain model classes (`Book` and `Author`), because they have no logic inside them (and methods such as `equals`, `hashCode` and `toString` have been generated automatically by the IDE)
+-   `TextFieldDocumentListener`, a custom Swing component, because it contains a method that is required by the `DocumentListener` interface but is never actually called throughout the app
+-   `BookManagerSwingApp` because it's the main class that contains the method to run the application
 
 100% code coverage checks are disabled by default when testing the project, and can be enabled by adding the `jacoco-check` profile to the Maven `verify` command:
 
@@ -363,9 +365,9 @@ mvn clean verify -P jacoco-check
 
 Mutation testing with [PIT](https://pitest.org) has also been used in the project, taking advantage of the **STRONGER** mutators group and a treshold of 100% (all mutants must be killed for the build to pass). The following classes have been excluded from mutation testing:
 
-- Domain model classes
-- All Swing and UI related classes, as they are not meant to be tested with PIT
-- `MongoRepositoryFactory`, a concrete factory implementation with no logic in it
+-   Domain model classes
+-   All Swing and UI related classes, as they are not meant to be tested with PIT
+-   `MongoRepositoryFactory`, a concrete factory implementation with no logic in it
 
 However, those _hybrid_ tests that were considered integration tests (for the repositories and transaction manager) were included in mutation testing as well.
 
@@ -429,24 +431,24 @@ The project uses [GitHub Actions](https://github.com/features/actions) as a Cont
 To enable GitHub Actions, a **workflow** (or more) must be added in the `.github/workflows` directory. A workflow is essentially a YAML (`.yml`) file that defines the actions to perform after a certain event is triggered in the repository, such as a commit or a pull request.
 YAML syntax for workflows, from the [official documentation](https://docs.github.com/en/free-pro-team@latest/actions/reference/workflow-syntax-for-github-actions), defines the following terms:
 
-- `name`: the name of the workflow
-- `on`: the name of the GitHub event that triggers the workflow (e.g. `push`, `pull_request`...)
-- `jobs`: a workflow run is made up of one or more _jobs_ (they run in parallel by default)
-  - `name`: the name of the job
-  - `runs-on`: the type of machine to run the job on, `ubuntu-18.04` for this project
-  - `steps`: a job contains a sequence of tasks called _steps_, which can run commands or predefined actions
-    - `name`: the name of the step
-    - `uses`: specifies an _action_ (reusable unit of code) to run
-    - `run`: runs command-line programs using the operating system's shell
-    - `with`: optional input parameters defined by the action
-    - `env`: sets environment variables for steps to use in the runner environment
-  - `strategy`: creates a build matrix for the jobs
-    - `matrix`: allows you to create multiple jobs by performing variable substitution in a single job definition
+-   `name`: the name of the workflow
+-   `on`: the name of the GitHub event that triggers the workflow (e.g. `push`, `pull_request`...)
+-   `jobs`: a workflow run is made up of one or more _jobs_ (they run in parallel by default)
+    -   `name`: the name of the job
+    -   `runs-on`: the type of machine to run the job on, `ubuntu-18.04` for this project
+    -   `steps`: a job contains a sequence of tasks called _steps_, which can run commands or predefined actions
+        -   `name`: the name of the step
+        -   `uses`: specifies an _action_ (reusable unit of code) to run
+        -   `run`: runs command-line programs using the operating system's shell
+        -   `with`: optional input parameters defined by the action
+        -   `env`: sets environment variables for steps to use in the runner environment
+    -   `strategy`: creates a build matrix for the jobs
+        -   `matrix`: allows you to create multiple jobs by performing variable substitution in a single job definition
 
 The following public _actions_ were used in this project:
 
-- [actions/checkout@v2](https://github.com/actions/checkout): action for checking out a repo, so the workflow can access it
-- [actions/setup-java@v1](https://github.com/actions/setup-java): sets up a java environment with the specified version, e.g:
+-   [actions/checkout@v2](https://github.com/actions/checkout): action for checking out a repo, so the workflow can access it
+-   [actions/setup-java@v1](https://github.com/actions/setup-java): sets up a java environment with the specified version, e.g:
 
 ```yaml
 uses: actions/setup-java@v1
@@ -454,17 +456,17 @@ uses: actions/setup-java@v1
     java-version: 8
 ```
 
-- [actions/cache@v2](https://github.com/actions/cache): enables caching specified directories to improve workflow execution time. In particular, two directories were cached:
-  - The `~/.m2` folder, as suggested in the [official guide](https://docs.github.com/en/free-pro-team@latest/actions/guides/building-and-testing-java-with-maven), to cache the contents of the Maven repository (where dependencies and plugins are stored). The cache key will be the hashed contents of `pom.xml`, so changes to `pom.xml` will invalidate the cache
-  - The `~/.sonar/cache` folder, to cache SonarCloud packages
-- [softprops/action-gh-release@v1](https://github.com/softprops/action-gh-release): allows creating a GitHub release, optionally uploading release assets. Used in this project to enable automated jar deployment when pushing git tags.
+-   [actions/cache@v2](https://github.com/actions/cache): enables caching specified directories to improve workflow execution time. In particular, two directories were cached:
+    -   The `~/.m2` folder, as suggested in the [official guide](https://docs.github.com/en/free-pro-team@latest/actions/guides/building-and-testing-java-with-maven), to cache the contents of the Maven repository (where dependencies and plugins are stored). The cache key will be the hashed contents of `pom.xml`, so changes to `pom.xml` will invalidate the cache
+    -   The `~/.sonar/cache` folder, to cache SonarCloud packages
+-   [softprops/action-gh-release@v1](https://github.com/softprops/action-gh-release): allows creating a GitHub release, optionally uploading release assets. Used in this project to enable automated jar deployment when pushing git tags.
 
 #### Main Workflow
 
 The main workflow consists in two different jobs:
 
-- The first job (named `build`) is triggered after every push on the repository, and it builds and tests the project on a machine with Ubuntu 18.04 using Java 8. It performs code coverage checks, mutation testing and also sends reports to external services (Coveralls, using JaCoCo's report, and SonarCloud) to ensure code quality is preserved.
-- The second job (named `build-on-pr-merge`) is only triggered after merging a pull request (by checking if the commmit's message starts with "Merge pull request"), and takes advantage of the `matrix` strategy of GitHub Actions, spawning three jobs to build and test the project concurrently on Java 9, 11 and 13. To avoid duplicated reports, this job does not send any report to external services (altough it still performs code coverage checks and mutation testing).
+-   The first job (named `build`) is triggered after every push on the repository, and it builds and tests the project on a machine with Ubuntu 18.04 using Java 8. It performs code coverage checks, mutation testing and also sends reports to external services (Coveralls, using JaCoCo's report, and SonarCloud) to ensure code quality is preserved.
+-   The second job (named `build-on-pr-merge`) is only triggered after merging a pull request (by checking if the commmit's message starts with "Merge pull request"), and takes advantage of the `matrix` strategy of GitHub Actions, spawning three jobs to build and test the project concurrently on Java 9, 11 and 13. To avoid duplicated reports, this job does not send any report to external services (altough it still performs code coverage checks and mutation testing).
 
 **Note**: to increase reliability, all tests on CI are executed on a secondary desktop with [TightVNC](https://www.tightvnc.com), using the `execute-on-vnc.sh` script included in the project, as recommended in the [official AssertJ Swing documentation](https://joel-costigliola.github.io/assertj/assertj-swing-running.html). For this reason, before testing a VNC server is installed on the machine with the command `sudo apt-get install -y tightvncserver`.
 

@@ -1,8 +1,18 @@
 {{ define "main" }}
 
-<div class="px-4 py-2 py-md-4 py-lg-6 px-lg-6">
-  <article class="mx-auto" style="max-width: 900px;">
-    <h1>{{ .Title }}</h1>
+<style type="text/css" media="screen">
+  @media (prefers-color-scheme: dark) { 
+    {{ partial "css/syntax-dark.css" . | safeCSS }}
+  }
+  @media (prefers-color-scheme: light) { 
+    {{ partial "css/syntax-light.css" . | safeCSS }} 
+  }
+</style>
+
+<div class="mx-auto px-3 px-md-4 px-lg-6 py-3 py-md-4 py-lg-6" style="max-width:
+  900px;">
+  <article class="mb-3">
+    <h1 class="lh-condensed">{{ .Title }}</h1>
 
     {{ $dateTime := .PublishDate.Format "2006-01-02" }}
     {{ $dateFormat := .Site.Params.dateFormat | default "Jan 2, 2006" }}
@@ -21,7 +31,7 @@
     </span>
     {{ end }}
 
-    <div>
+    <div class="markdown-body">
       {{ .Content }}
     </div>
   </article>
