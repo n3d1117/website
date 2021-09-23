@@ -1,8 +1,5 @@
-<div class="p-4 wrapper text-center d-flex flex-justify-between flex-items-center mx-auto">
-    <p class="f5 color-text-tertiary mb-0">
-        © {{ now.Format "2006"}} — {{ .Site.Params.name }}
-    </p>
-    <ul class="social list-style-none">
+<div class="p-5 wrapper text-center d-flex flex-justify-between flex-items-center mx-auto">
+    <ul class="social list-style-none mb-3">
         {{ range .Site.Menus.social }}
             {{ $icon := printf "icons/%s" .Pre }}
             <li class="tooltipped tooltipped-n tooltipped-no-delay d-inline-block mr-3" aria-label="{{ .Name }}">
@@ -10,4 +7,7 @@
             </li>
         {{ end }}
     </ul>
+    <p class="f5 color-text-tertiary">
+        © {{ now.Format "2006"}} — {{ .Site.Params.name }}
+    </p>
 </div>
