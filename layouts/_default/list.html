@@ -3,17 +3,54 @@
 <div class="markdown-body mx-auto px-3 px-md-4 px-lg-6 py-4 py-md-5 py-lg-7" style="max-width: 980px;">
   
   {{ if (eq .Section "tags")}}
-    <a class="text-small text-uppercase text-bold" href="/tags">Browse all tags →</a>
-    <h1 class="mt-3"> Tagged with <span class="color-text-link">{{ .Title }}</span></h1>
+    <a class="text-small text-uppercase text-bold hide-xl hide-lg hide-md" href="/tags">Browse all tags →</a>
+    <span class="Subhead mt-0 Subhead--spacious">
+      <div class="pr-3 h1 Subhead-heading">Tagged with <span class="color-text-link">{{ .Title }}</span></div>
+      <div class="Subhead-actions mt-2 hide-sm"><a class="text-semibold" href="/tags">Browse all tags →</a></div>
+    </span>
   {{ else }}
     <h1 class="mt-3">{{ .Title }}</h1>
   {{ end }}
 
-  {{ range .Paginator.Pages.ByPublishDate.Reverse }}
-    <p>
-      <a class="font-125" href="{{ .RelPermalink }}">{{ .Title }}</a>
-      <br>
-    </p>
+  {{ range .Paginator.Pages.ByPublishDate.Reverse.GroupByDate "2006" }}
+  <div class="year">
+    <div class="TimelineItem py-2">
+      <div class="TimelineItem-badge">
+        <span class="State year">{{ .Key }}</span>
+      </div>
+    </div>
+
+    {{ range .Pages }}
+
+      <div class="TimelineItem TimelineItem--condensed pb-0">
+
+        <div class="TimelineItem-body">
+          <div class="ml-n3 ml-md-3 mb-0 mt-3 Box color-bg-secondary p-3 position-relative">
+            
+            <div class="d-flex flex-wrap flex-items-center">
+              <span class="pr-2 color-text-tertiary text-uppercase text-small text-semibold">
+                <span>{{ partial "icons/calendar" }}{{ .Date.Format "Jan 2" }}</span>
+                <span class="pl-2">{{ partial "icons/stopwatch" }}{{.ReadingTime}} min read</span>
+              </span>
+              {{ with .Params.tags }}
+                <ul class="list-style-none tag-list mb-1 pl-0 hide-sm">
+                  {{ range . }}
+                    {{ $href := print (relURL "tags/") (urlize .) }}
+                    <li class="small d-inline-block color-bg-info color-text-primary px-0 py-0 f5"><a href="{{ $href }}">{{ . }}</a></li>
+                  {{ end }}
+                </ul>
+              {{ end }}
+            </div>
+            
+            <a class="title" href="{{ .RelPermalink }}">{{ .Title }}</a>
+            
+            <p class="mb-0">{{ .Description }}</p>
+          </div>
+        </div>
+      </div>
+
+    {{ end }}
+  </div>
   {{ end }}
 
   {{ partial "paginator" . }}

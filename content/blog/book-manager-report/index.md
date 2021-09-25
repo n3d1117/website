@@ -1,9 +1,9 @@
 ---
 title: Book Manager - Project Report
-description: desc
-date: 2019-01-13T04:14:57.000Z
+description: Developing Book Manager, a small Java app built using the Test Driven Development (TDD) model together with Build Automation and Continuous Integration techniques.
+date: 2020-10-21T04:14:57.000Z
 slug: book-manager
-tags: [poetry, life]
+tags: [java, tdd, ci, github actions, docker]
 toc: true
 math: false
 ---

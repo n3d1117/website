@@ -4,6 +4,8 @@
 @import "@primer/css/header/index.scss";
 @import "@primer/css/markdown/index.scss";
 @import "@primer/css/labels/index.scss";
+@import "@primer/css/timeline/index.scss";
+@import "@primer/css/subhead/index.scss";
 
 :root {
   --tag-bg-hover-color: #def;
@@ -34,7 +36,6 @@ body {
 
 .social {
   font-size: 0.9em;
-  cursor: pointer;
 
   li:hover svg path {
     opacity: 0.7;
@@ -152,4 +153,37 @@ article {
     padding-top: 5px;
     padding-bottom: 5px;
   }
+
+  .small a {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+
+
+.year > .TimelineItem:nth-child(2) .Box {
+  margin-top: 0 !important;
+}
+
+.year:first-of-type .TimelineItem:nth-child(1) {
+  padding-top: 0 !important;
+}
+
+.year .Box .tag-list li {
+  font-size: 13px !important;
+}
+
+.year:not(:first-of-type) .TimelineItem:nth-child(1) {
+  padding-top: $spacer-5 !important;
+}
+
+.year .TimelineItem-body a.title {
+  font-size: 18px !important;
+  font-weight: 450;
+}
+
+.year.State.year {
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-secondary);
+  border: 1px solid var(--color-border-default) !important;
 }
