@@ -9,21 +9,29 @@
   }
 </style>
 
-<div class="mx-auto px-3 px-md-4 px-lg-6 py-3 py-md-4 py-lg-6" style="max-width: 980px;">
+<div class="mx-auto px-3 px-md-4 px-lg-6 py-4 py-md-5 py-lg-7" style="max-width: 980px;">
   <article class="mb-3">
-    <h1 class="lh-condensed">{{ .Title }}</h1>
 
-    {{ $dateTime := .PublishDate.Format "2006-01-02" }}
-    {{ $dateFormat := .Site.Params.dateFormat | default "Jan 2, 2006" }}
-    <time datetime="{{ $dateTime }}">{{ .PublishDate.Format $dateFormat }}</time>
-    
-    {{ with .Params.tags }}
-    <br>
-      {{ range . }}
-        {{ $href := print (relURL "tags/") (urlize .) }}
-        <a class="btn" href="{{ $href }}">{{ . }}</a>
+    <div class="mb-4">
+      <h1 class="lh-condensed mb-1">{{ .Title }}</h1>
+
+      {{ with .Params.tags }}
+        <ul class="list-style-none tag-list mb-2">
+          {{ range . }}
+            {{ $href := print (relURL "tags/") (urlize .) }}
+            <li class="d-inline-block color-bg-info color-text-primary px-0 py-1 mb-1"><a href="{{ $href }}">{{ . }}</a></li>
+          {{ end }}
+        </ul>
       {{ end }}
-    {{ end }}
+
+      <div class="d-flex flex-items-center">
+        <img src="{{ .Site.Params.image }}" class="circle anim-hover-grow mr-2" height="20" width="20">
+        {{ $dateTime := .PublishDate.Format "2006-01-02" }}
+        {{ $dateFormat := .Site.Params.dateFormat | default "Jan 2, 2006" }}
+        <time class="color-text-secondary pl-1" datetime="{{ $dateTime }}">{{ .PublishDate.Format $dateFormat }}</time>
+        <span class="color-text-secondary pl-1">• {{.ReadingTime}} min read</span>
+      </div>
+    </div>
 
     {{ if default false (default .Site.Params.toc .Params.toc) }}
       <span>

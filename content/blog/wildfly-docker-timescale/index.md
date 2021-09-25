@@ -3,11 +3,12 @@ title: Creating a Wildfly Docker image with TimescaleDB support
 description: desc
 date: 2019-01-14T02:28:42.000Z
 slug: wildfly-docker-timescale
-tags: [poetry, trees]
+tags: [docker, wildfly, timescaledb, postgresql]
 toc: true
 math: false
 ---
 
+## Introduction
 In this post I will show you how to create a Wildfly docker image with full support for the popular time-series database [TimescaleDB](https://www.timescale.com), and how to easily combine the two using Docker Compose.
 
 ## Wildfly docker image

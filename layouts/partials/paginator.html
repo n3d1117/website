@@ -1,17 +1,17 @@
 {{ $pag := $.Paginator }}
 {{ if gt $pag.TotalPages 1 }}
 <nav class="paginate-container">
-    <div class="pagination">
-        <ul>
+    <div class="pagination mt-3">
+        <ul class="p-0">
             {{ if $pag.HasPrev }}
-                <a href="{{ $pag.Prev.URL }}" class="previous_page">Prev</a>
+                <a href="{{ $pag.Prev.URL }}" class="previous_page pl-1">Prev</a>
                 {{ else }}
-                <span class="previous_page disabled">Prev</span>
+                <span class="previous_page disabled pl-1">Prev</span>
             {{ end }}
 
             {{ range $pag.Pagers }}
                 {{ $right := sub .TotalPages .PageNumber }}
-                {{ $showNumber := or (le .PageNumber 3) (eq $right 0) }}
+                {{ $showNumber := or (le .PageNumber 1) (eq $right 0) }}
                 {{ $showNumber := or $showNumber (and (gt .PageNumber (sub
                 $pag.PageNumber 2)) (lt .PageNumber (add $pag.PageNumber 2))) }}
                 {{ if $showNumber }}
@@ -36,9 +36,9 @@
             {{ end }}
 
             {{ if $pag.HasNext }}
-                <a href="{{ $pag.Next.URL }}" class="next_page">Next</a>
+                <a href="{{ $pag.Next.URL }}" class="next_page pr-1">Next</a>
             {{ else }}
-                <span class="next_page disabled">Next</span>
+                <span class="next_page disabled pr-1">Next</span>
             {{ end }}
         </ul>
     </div>

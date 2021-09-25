@@ -3,13 +3,23 @@
 @import "@primer/css/layout";
 @import "@primer/css/header/index.scss";
 @import "@primer/css/markdown/index.scss";
+@import "@primer/css/labels/index.scss";
+
+:root {
+  --tag-bg-hover-color: #def;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --tag-bg-hover-color: rgba(56,139,253,0.2);
+  }
+}
 
 body {
   font-size: 16px;
 }
 
-li ul,
-li ol {
+li ul, li ol {
   padding-left: $spacer-3;
   margin-bottom: 0;
 }
@@ -50,6 +60,10 @@ footer {
 
 header {
 
+  .name {
+    margin-top: 0.1em !important;
+  }
+
   .bio {
     font-size: 14px !important;
     margin-top: -0.1em !important;
@@ -76,7 +90,7 @@ header {
     }
 
     ul {
-      margin-top: 0.8em;
+      margin-top: 0.6em;
     }
   }
 }
@@ -94,18 +108,48 @@ header {
     width: 25%;
     min-width: 260px;
     a.filter-item.selected {
-      border-left-width: 6px !important;
+      border-width: 0 6px 0 6px !important;
+      border-right-color: transparent !important;
     }
   }
 }
 
 article {
-  .markdown-body .highlight pre,
-  .markdown-body pre {
+
+  #TableOfContents {
+    line-height: 1.6 !important;
+  }
+
+  .markdown-body .highlight pre, .markdown-body pre {
     background-color: var(--color-bg-primary) !important;
     border-radius: 10px !important;
     outline: none;
-    display: flex;
     border: 1px solid var(--color-border-muted);
+  }
+}
+
+.tag-list {
+  margin-top: 8px;
+
+  li {
+    font-weight: 500;
+    border: 1px solid transparent;
+    border-radius: 2em;
+    line-height: 23px;
+    white-space: nowrap;
+  }
+
+  li:hover {
+    background-color: var(--tag-bg-hover-color) !important;
+  }
+
+  a {
+    padding: 8px 13px;
+    text-decoration:none
+  }
+
+  .full a {
+    padding-top: 5px;
+    padding-bottom: 5px;
   }
 }

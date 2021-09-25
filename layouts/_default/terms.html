@@ -1,15 +1,18 @@
 {{ define "main" }}
 
-<div class="mx-auto px-3 px-md-4 px-lg-6 py-3 py-md-4 py-lg-6" style="max-width:980px;">
+<div class="markdown-body mx-auto px-3 px-md-4 px-lg-6 py-4 py-md-5 py-lg-7" style="max-width:980px;">
   <h1>{{ .Title }}</h1>
 
-  {{ range .Data.Terms.Alphabetical }}
-    <p>
-      <a class="btn btn-outline-dark font-125" href="{{ .Page.RelPermalink }}">
-        <span class="badge badge-dark"></span>{{ .Count }}</span> {{ .Page.Title }}
+  <ul class="list-style-none pl-0 tag-list mb-2">
+  {{ range .Data.Terms.ByCount }}
+    <li class="d-inline-block color-bg-info color-text-primary mb-2 full" >
+      <a href="{{ .Page.RelPermalink }}" class="d-flex flex-items-center">
+        <span>{{ .Page.Title }}</span>
+        <span class="Counter ml-2">{{ .Count }}</span>
       </a>
-    </p>
+    </li>
   {{ end }}
+  </ul>
   
 </div>
 

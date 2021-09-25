@@ -17,7 +17,7 @@
         {{ $icon := printf "icons/%s" .Pre }}
         <li>
             <a class="filter-item 
-            {{ if $active }}color-text-primary color-bg-info border-left color-border-info selected text-semibold
+            {{ if $active }}color-text-primary color-bg-info border color-border-info selected text-semibold
             {{ else }}color-text-secondary{{end}}" href="{{ .URL }}" {{ if $active }}aria-current="page" {{ end }}>
                 <span class="mr-2">{{ partial $icon }}</span>
                 {{ .Name }}
