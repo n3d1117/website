@@ -130,6 +130,25 @@ article {
     line-height: 1.6 !important;
   }
 
+  .headline-hash {
+    display: none;
+  }
+
+  h2:hover, h3:hover, h4:hover, h5:hover {
+    .headline-hash {
+      display: inline-block;
+    }
+  }
+
+  h2::before, h3::before, h4::before, h5::before { 
+    display: block; 
+    content: " "; 
+    margin-top: -20px; 
+    height: 20px; 
+    visibility: hidden; 
+    pointer-events: none;
+  }
+
   .markdown-body .highlight pre, .markdown-body pre {
     background-color: var(--color-bg-primary) !important;
     border-radius: 10px !important;
