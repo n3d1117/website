@@ -81,7 +81,6 @@ The following ports are exposed:
 -   `9990` for the admin console
 -   `5005` for debugging
 
-\\
 Remember to specify the correct datasource in your project's `persistence.xml` file:
 
 ```xml

@@ -16,7 +16,7 @@
   <div class="year">
     <div class="TimelineItem py-2">
       <div class="TimelineItem-badge">
-        <span class="State year">{{ .Key }}</span>
+        <span class="State year f4">{{ .Key }}</span>
       </div>
     </div>
 
@@ -28,12 +28,12 @@
           <div class="ml-n3 ml-md-3 mb-0 mt-3 Box color-bg-secondary p-3 position-relative">
             
             <div class="d-flex flex-wrap flex-items-center">
-              <span class="pr-2 color-text-tertiary text-uppercase text-small text-semibold">
-                <span>{{ partial "icons/calendar" }}{{ .Date.Format "Jan 2" }}</span>
-                <span class="pl-2">{{ partial "icons/stopwatch" }}{{.ReadingTime}} min read</span>
+              <span class="metadata text-small pr-2 color-text-tertiary text-semibold d-flex flex-items-center text-uppercase">
+                <span>{{ partial "icons/calendar" }}</span><span>{{ .Date.Format "Jan 2" }}</span>
+                <span class="pl-2">{{ partial "icons/stopwatch" }}</span><span>{{.ReadingTime}} min read</span>
               </span>
               {{ with .Params.tags }}
-                <ul class="list-style-none tag-list mb-1 pl-0 hide-sm">
+                <ul class="list-style-none tag-list mb-1 pl-1 hide-sm">
                   {{ range . }}
                     {{ $href := print (relURL "tags/") (urlize .) }}
                     <li class="small d-inline-block color-bg-info color-text-primary px-0 py-0 f5"><a href="{{ $href }}">{{ . }}</a></li>
