@@ -1,13 +1,15 @@
-<div class="p-5 wrapper text-center d-flex flex-justify-between flex-items-center mx-auto">
-    <ul class="social list-style-none mb-3">
-        {{ range .Site.Menus.social }}
-            {{ $icon := printf "icons/%s" .Pre }}
-            <li class="tooltipped tooltipped-n tooltipped-no-delay d-inline-block mr-3" aria-label="{{ .Name }}">
-                <a href="{{ .URL }}">{{ partial $icon }}</a>
-            </li>
-        {{ end }}
-    </ul>
-    <p class="f5 color-text-tertiary">
-        © {{ now.Format "2006"}} — {{ .Site.Params.name }}
-    </p>
+<div class="p-5 wrapper text-center mx-auto">
+    <div class="d-flex flex-justify-between flex-items-center">
+        <p class="f5 mb-0 color-text-tertiary">
+            © {{ now.Format "2006"}} — {{ .Site.Params.name }}
+        </p>
+        <ul class="social list-style-none">
+            {{ range .Site.Menus.social }}
+                {{ $icon := printf "icons/%s" .Pre }}
+                <li class="tooltipped tooltipped-n tooltipped-no-delay d-inline-block mr-3" aria-label="{{ .Name }}">
+                    <a href="{{ .URL }}">{{ partial $icon }}</a>
+                </li>
+            {{ end }}
+        </ul>
+    </div>
 </div>
