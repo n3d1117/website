@@ -205,7 +205,7 @@ If all went well, you should see something like this in the logs:
 Result: (1,public,YOUR_TABLE_HERE,t)
 ```
 
-![Example terminal output](output.png)
+{{< img src="output.png" caption="Example terminal output" w="800" >}}
 
 For more details on hypertables refer to the [offical TimescaleDB documentation](https://docs.timescale.com/timescaledb/latest/getting-started/).
 

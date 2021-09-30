@@ -1,0 +1,42 @@
+{{ $image := (.Page.Resources.ByType "image").GetMatch (printf "*%s" (.Get "src")) }}
+{{ $resized := $image }}
+
+{{ if gt $image.Width 900 }}
+    {{ $resized = $image.Resize "900x" }}
+{{ end }}
+
+{{ if .Get "caption" }}
+    <figure>
+        <picture>
+
+            {{ $webpPath := replace $image (path.Ext $image) ".webp" }}
+            {{ $webp := (.Page.Resources.ByType "image").GetMatch $webpPath }}
+            {{ if (.Page.Resources.Match $webpPath) -}}
+                <source srcset="{{ $webp.RelPermalink }}" type="image/webp" >
+            {{ else }}
+                {{ warnf "No %q found! Forgot to run sh /content/blog/genwebp.sh?" $webpPath }}
+            {{ end }}
+
+            {{ $width := $resized.Width }}
+            {{ $height := $resized.Height }}
+            {{ if .Get "w" }}
+                {{ $width = .Get "w" }}
+                {{ $ratio := div $resized.Height (float $resized.Width) }}
+                {{ $height = int (mul $ratio (int $width)) }}
+            {{ end }}
+            <img
+                src="{{ $resized.RelPermalink }}"
+                width="{{ $width }}" 
+                height="{{ $height }}" 
+                alt="" 
+                loading="lazy" 
+                decoding="async"
+            >
+            <figcaption>{{ .Get "caption" }}</figcaption>
+        </picture>
+    </figure>
+{{ else if .Get "alt" }}
+    <img src="{{ $resized.RelPermalink }}" alt="{{ .Get "alt" }}" loading="lazy" decoding="async">
+{{ else }}
+    <img src="{{ $resized.RelPermalink }}" loading="lazy" decoding="async">
+{{ end }}

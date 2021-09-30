@@ -9,11 +9,13 @@
 
 :root {
   --tag-bg-hover-color: #def;
+  --post-container-color: var(--color-bg-primary);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --tag-bg-hover-color: rgba(56,139,253,0.2);
+    --post-container-color: #1c232e;
     --color-canvas-default: #1a202c !important;
     --color-bg-primary: #1a202c !important;
     --color-canvas-subtle: #1e2531 !important;
@@ -58,7 +60,7 @@ footer {
       flex-direction: column-reverse;
 
       .social {
-        margin-bottom: $spacer-2;
+        margin-bottom: $spacer-3;
       }
     }
 
@@ -130,13 +132,9 @@ article {
     line-height: 1.6 !important;
   }
 
-  .headline-hash {
-    display: none;
-  }
-
   h2:hover, h3:hover, h4:hover, h5:hover {
     .headline-hash {
-      display: inline-block;
+      display: inline-block !important;
     }
   }
 
@@ -229,4 +227,29 @@ article {
 
 .year .metadata {
   font-size: 11px !important;
+}
+
+.year .post-container {
+  background-color: var(--post-container-color);
+}
+
+figure {
+  margin-bottom: 2em;
+  margin-left: 0;
+  margin-right: 0;
+
+  img {
+    height: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 8px;
+  }
+
+  figcaption {
+    margin-top: .5em;
+    text-align: center;
+    font-size: 15px;
+    color: var(--color-text-secondary);
+  }
 }

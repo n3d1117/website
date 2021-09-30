@@ -285,10 +285,10 @@ List<Author> authors = StreamSupport
 
 ## User Interface Screenshots
 
-![Main Interface](95751959-9be8f100-0c9f-11eb-97ba-69cde46cde69.png)
-![Sorting books by author](95749506-f5e7b780-0c9b-11eb-8c1f-0cb369583593.jpg)
-![Selecting an item enables the Delete button](95749507-f6804e00-0c9b-11eb-808c-3114cef15d1d.jpg)
-![Displaying errors](95749505-f54f2100-0c9b-11eb-9776-10a09e829e22.jpg)
+{{< img src="95751959-9be8f100-0c9f-11eb-97ba-69cde46cde69.png" caption="Main Interface" w="560" >}}
+{{< img src="95749506-f5e7b780-0c9b-11eb-8c1f-0cb369583593.jpg" caption="Sorting books by author" w="560" >}}
+{{< img src="95749507-f6804e00-0c9b-11eb-808c-3114cef15d1d.jpg" caption="Selecting an item enables the Delete button" w="560" >}}
+{{< img src="95749505-f54f2100-0c9b-11eb-9776-10a09e829e22.jpg" caption="Displaying errors" w="560" >}}
 
 ## Tests
 
