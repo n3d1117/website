@@ -6,11 +6,9 @@ const purgecss = require('@fullhuman/postcss-purgecss')({
     }
 });
 
-const autoprefixer = require("autoprefixer")({
-    overrideBrowserslist: ["> 0.5% in US", "Safari > 9"]
-})
+const autoprefixer = require("autoprefixer");
 
 module.exports = {
     map: false,
-    plugins: [purgecss, autoprefixer]
+    plugins: [autoprefixer, purgecss]
 };
