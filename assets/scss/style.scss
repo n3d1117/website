@@ -45,6 +45,15 @@ body {
   max-width: 90rem;
 }
 
+hr {
+  height: 0 !important;
+  margin: 15px 0;
+  overflow: hidden;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--color-border-muted) !important;
+}
+
 .social {
   font-size: 0.9em;
 
@@ -255,5 +264,19 @@ figure {
     text-align: center;
     font-size: 15px;
     color: var(--color-text-secondary);
+  }
+}
+
+.gh-repo {
+  background-color: var(--post-container-color) !important;
+
+  .repo-language-color {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border: 1px solid var(--color-primer-border-contrast);
+    border-radius: 50%;
   }
 }

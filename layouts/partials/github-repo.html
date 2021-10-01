@@ -1,0 +1,33 @@
+<div class="d-flex flex-column flex-justify-between height-full width-full text-left border rounded-3 p-3 gh-repo">
+    <div>
+      <div class="d-flex flex-items-center mb-1">
+        {{ partial "icons/repo" }}
+        <a href="{{ .html_url }}" target="_blank" rel="noopener nofollow">
+            <span class="lh-condensed mb-1 mt-0 text-bold flex-auto min-width-0">
+                {{ .name }}
+            </span>
+        </a>
+      </div>
+
+      <p class="color-text-secondary f5 d-block mt-2 mb-3">{{ .description }}</p>
+    </div>
+
+    <p class="mb-0 f6 color-text-secondary">
+      {{ if .language }}
+        <span class="d-inline-block mr-3">
+            <span class="repo-language-color" {{ with index site.Data.colors .language }}style="background-color: {{ .color }}"{{ end }}></span>
+            <span itemprop="programmingLanguage">{{ .language }}</span>
+        </span>
+      {{ end }}
+      {{ if .stargazers_count }}
+        <a href="{{ .html_url }}/stargazers" class="Link--muted mr-3" target="_blank" rel="noopener nofollow">
+            {{ partial "icons/star" }} {{ .stargazers_count }} 
+        </a>
+      {{ end }}
+      {{ if .forks_count }}
+        <a href="{{ .html_url }}/network/members" class="Link--muted" target="_blank" rel="noopener nofollow">
+            {{ partial "icons/fork" }} {{ .forks_count }}
+        </a>
+      {{ end }}
+    </p>
+  </div>
