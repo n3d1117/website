@@ -1,0 +1,18 @@
+<div class="d-sm-flex flex-wrap gutter-condensed mb-4">
+    
+    {{ $count := .Get "count" }}
+    {{- range ( where site.RegularPages "Section" "blog" | first $count ) }}
+    
+    <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4 mb-3">
+        <div class="d-flex flex-column width-full text-left border rounded-3 p-3 gh-repo">
+            <div class="metadata text-small pr-2 color-text-tertiary text-semibold d-flex flex-items-center text-uppercase">
+                <span>{{ partial "icons/calendar" }}</span><span>{{ .Date.Format "Jan 2" }}</span>
+                <span class="pl-2">{{ partial "icons/stopwatch" }}</span><span>{{.ReadingTime}} min read</span>
+            </div>
+            <a class="lh-condensed mt-1 text-bold" href="{{ .RelPermalink }}">{{ .Title }}</a>
+            <p class="color-text-secondary f5 mb-0 mt-1">{{ .Description }}</p>
+        </div>
+    </div>
+    
+    {{ end }}
+</div>

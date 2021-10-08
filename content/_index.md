@@ -8,10 +8,12 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 ---
 
-## Projects
+{{< subhead title="☕️ Projects" subtitle="GitHub repositories that I have built. You can visit my [GitHub profile](https://github.com/n3d1117/) to explore more projects." >}}
 {{< github username="n3d1117" count="6" >}}
 
-You can visit my [GitHub profile](a) to explore more projects.
+---
 
+{{< subhead title="📥 Latest Blog Posts" subtitle="Check out my latest notes" >}}
+{{< latest-posts count="3" >}}
 
 

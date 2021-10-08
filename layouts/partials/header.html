@@ -9,7 +9,7 @@
                 {{ .Site.Params.name }}
             </p>
             <p class="no-wrap bio m-0 p-0 f5 color-text-secondary">
-                {{ .Site.Params.bio | markdownify }}
+                {{ .Site.Params.bio | (.Site.GetPage "/blog").RenderString }}
             </p>
         </div>
     </div>

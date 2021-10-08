@@ -3,3 +3,6 @@ node_modules/
 resources/
 .DS_Store
 /hugo_stats.json
+/tmp
+/.env
+/static/img

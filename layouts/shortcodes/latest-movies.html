@@ -1,0 +1,8 @@
+<div class="d-flex flex-wrap gutter-condensed">
+    {{ $count := .Get "count" }}
+    {{ range site.Data.scraper.movies | first $count }}
+        <div class="col-sm-3 col-md-3 col-lg-2 col-xl-2 col-4">
+            {{ partial "movie" . }}
+        </div>
+    {{ end }}
+</div>

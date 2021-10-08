@@ -4,7 +4,7 @@
     </a>
 
     <h1 class="mb-2 lh-condensed">{{ .Site.Params.name }}</h1>
-    <p class="mb-3 color-text-secondary f4">{{ .Site.Params.bio | markdownify }}</p>
+    <p class="mb-3 color-text-secondary f4">{{ .Site.Params.bio | (.Site.GetPage "/blog").RenderString }}</p>
 
     <ul class="filter-list mt-6 mb-6">
         {{ $current := . }}

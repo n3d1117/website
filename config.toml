@@ -40,6 +40,11 @@ paginatePath = ''
     url = "/contact/"
     weight = 3
     pre = "pencil"
+  [[menu.main]]
+    name = "About"
+    url = "/about/"
+    weight = 4
+    pre = "about"
   
   [[menu.social]]
     name = "GitHub"
