@@ -8,8 +8,9 @@
 @import "@primer/css/subhead/index.scss";
 
 :root {
-  --tag-bg-hover-color: #def;
+  --tag-bg-hover-color: rgb(212, 234, 255);
   --post-container-color: var(--color-bg-primary);
+  --color-primer-border-active: var(--color-accent-fg) !important;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -94,30 +95,32 @@ header {
     margin-top: -0.1em !important;
   }
 
-  ul li:hover {
-    opacity: 0.7;
-    cursor: pointer;
-  }
-
-  .Header {
-    font-size: 16px !important;
-  }
-
-  @media (max-width: 650px) {
-
-    .Header {
-      padding-top: $spacer-3 !important;
-      padding-bottom: $spacer-3 !important;
-    }
-
-    .wrapper {
-      flex-direction: column;
-    }
-
-    ul {
-      margin-top: 0.6em;
+  .UnderlineNav-item {
+    padding-left: 12px;
+    padding-right: 12px;
+    border-bottom-color: var(--color-canvas-default);
+    svg {
+      width: 14px;
     }
   }
+
+  .UnderlineNav-item[aria-current]:not([aria-current=false]) {
+    border-bottom-width: 2px !important;
+    svg {
+      color: var(--color-fg-default) !important;
+    }
+  }
+
+  .UnderlineNav-item:hover, .UnderlineNav-item:focus {
+    border-bottom-color: var(--tag-bg-hover-color);
+  }
+
+  @media (max-width: 350px) {
+    .UnderlineNav-item svg {
+      display: none;
+    }
+  }
+
 }
 
 .main-container {
@@ -232,7 +235,7 @@ article {
   }
 
   .TimelineItem-body a.title {
-    font-size: 18px !important;
+    font-size: 17px !important;
     font-weight: 450;
   }
 
