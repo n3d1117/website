@@ -1,0 +1,31 @@
+{{ $permalink := .Page.RelPermalink }}
+
+<nav class="UnderlineNav hide-sm hide-md mb-4 about-menu">
+    <div class="UnderlineNav-body">
+
+        {{ range .Site.Menus.about }}
+        {{ $icon := printf "icons/%s" .Pre }}
+        {{ $active := strings.HasSuffix $permalink .URL }}
+
+        <a class="UnderlineNav-item" href="{{ .URL }}" {{ if $active }}aria-current="page"{{ end }}>
+            {{ partial $icon }}
+            <span class="ml-1 {{if not $active }}color-text-secondary{{ end }}">{{ .Name }}</span>
+        </a>
+        {{ end }}
+    </div>
+</nav>
+
+
+<nav class="menu hide-lg hide-xl about-menu">
+
+    {{ range .Site.Menus.about }}
+    {{ $icon := printf "icons/%s" .Pre }}
+    {{ $active := strings.HasSuffix $permalink .URL }}
+
+    <a class="menu-item" href="{{ .URL }}" {{ if $active }}aria-current="page"{{ end }}>
+        {{ partial $icon }}
+        <span class="{{if not $active }}color-text-secondary{{ end }}">{{ .Name }}</span>
+    </a>
+
+    {{ end }}
+</nav>

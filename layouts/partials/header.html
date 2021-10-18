@@ -24,9 +24,10 @@
             {{ $active = or $active (eq .Name $current.Title) }}
             {{ $active = or $active (and (eq .Name "Blog") (eq $current.Section "blog")) }}
             {{ $active = or $active (and (eq .Name "Tags") (eq $current.Section "tags")) }}
+            {{ $active = or $active (and (eq .Name "About") (eq $current.Section "about")) }}
             {{ $icon := printf "icons/%s" .Pre }}
 
-            <a class="UnderlineNav-item mt-1 py-1" href="{{ .URL }}" {{ if $active }}aria-current="page"{{ end }}>
+            <a class="UnderlineNav-item mt-1 py-1" href="{{ .URL }}" {{ if $active }}aria-current="page" {{ end }}>
                 {{ partial $icon }}
                 <span class="ml-1 {{ if $active }}color-text-primary{{ else }}color-text-secondary{{ end }}">{{ .Name }}</span>
             </a>

@@ -2,11 +2,12 @@ import requests
 import json
 import os
 import re
-import shutil
 from os.path import exists
 from urllib import parse
 import base64
-from dotenv import load_dotenv, find_dotenv
+from dotenv import load_dotenv
+import datetime
+import feedparser
 
 load_dotenv()
 
@@ -55,8 +56,34 @@ for movie in movies[:20]:
         'guid': movie['guid'].split('//')[1].split('?')[0],
         'year': movie['year'],
         'img': slug + '.png',
-        'img_webp': slug + '.webp'
+        'img_webp': slug + '.webp',
+        'last_watch': movie['last_watch'],
+        'cinema': 'false'
     })
+
+# Cinema
+d = feedparser.parse('https://letterboxd.com/n3d1117/rss/')
+lbxd_cinema_list = [item for item in d['entries'] if item['title'] == '🍿 Cinema'][0]
+cinema_movies_raw = re.findall("<li>(.*?)</li>", lbxd_cinema_list['summary'])
+cinema_movies = [movie.split('">')[1].split('</a>')[0] for movie in cinema_movies_raw]
+for title in cinema_movies:
+    items = [item for item in d['entries'] if 'letterboxd_filmtitle' in item and item['letterboxd_filmtitle'] == title]
+    if len(items) > 0:
+        item = items[0]
+
+        slug = slugify(item['letterboxd_filmtitle'])
+        img_url = item['summary'].split('src="')[1].split('"')[0].replace('0-500-0-750', '0-230-0-345')
+        save_images(slug, 'jpg', img_url)
+
+        data['movies'].append({
+            'title': item['letterboxd_filmtitle'],
+            'guid': item['link'].replace('/n3d1117', ''),
+            'year': item['letterboxd_filmyear'],
+            'img': slug + '.jpg',
+            'img_webp': slug + '.webp',
+            'last_watch': int(datetime.datetime.strptime(item['letterboxd_watcheddate'], "%Y-%m-%d").timestamp()),
+            'cinema': 'true'
+        })
 
 
 ## TV Shows

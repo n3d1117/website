@@ -72,6 +72,32 @@ paginatePath = ''
     weight = 5
     pre = "rss"
 
+  [[menu.about]]
+    name = "About"
+    url = "/about/"
+    weight = 1
+    pre = "about"
+  [[menu.about]]
+    name = "Movies"
+    url = "/about/movies/"
+    weight = 2
+    pre = "robot"
+  [[menu.about]]
+    name = "TV Shows"
+    url = "/about/shows/"
+    weight = 3
+    pre = "video"
+  [[menu.about]]
+    name = "Books"
+    url = "/about/books/"
+    weight = 4
+    pre = "book"
+  [[menu.about]]
+    name = "Music"
+    url = "/about/music/"
+    weight = 5
+    pre = "music"
+
 [markup]
   [markup.highlight]
     noClasses = false

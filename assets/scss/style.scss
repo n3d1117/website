@@ -105,6 +105,7 @@ header {
   }
 
   .UnderlineNav-item[aria-current]:not([aria-current=false]) {
+    font-weight: 500;
     border-bottom-width: 2px !important;
     svg {
       color: var(--color-fg-default) !important;
@@ -115,11 +116,9 @@ header {
     border-bottom-color: var(--tag-bg-hover-color);
   }
 
-  @media (max-width: 350px) {
-    .UnderlineNav-item svg {
-      display: none;
-    }
-  }
+  // .UnderlineNav-item svg {
+  //   display: none;
+  // }
 
 }
 
@@ -295,6 +294,9 @@ figure {
 
 .media {
   &:hover {
+    p:first-of-type {
+      text-decoration: underline;
+    }
     img {
       transform: scale(1.025);
       opacity: 0.8;
@@ -316,5 +318,25 @@ figure {
     &:first-of-type {
       font-size: 15px;
     }
+  }
+}
+
+.about-menu {
+  .UnderlineNav-item[aria-current]:not([aria-current=false]) {
+    font-weight: 500;
+    svg {
+      color: var(--color-fg-default) !important;
+    }
+  }
+
+  .menu-item[aria-current]:not([aria-current=false]) {
+    font-weight: 500;
+    svg {
+      color: var(--color-fg-default) !important;
+    }
+  }
+
+  .menu-item[aria-current]:not([aria-current=false]) {
+    background-color: var(--color-accent-subtle)!important
   }
 }
