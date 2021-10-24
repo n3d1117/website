@@ -1,8 +1,8 @@
 {{ $context := . }}
-{{ range .Site.Params.education }}
+{{ range .Site.Params.work }}
     <div class="TimelineItem pt-0">
         <div class="TimelineItem-badge">
-            {{ partial "icons/edu" }}
+            {{ partial "icons/briefcase" }}
         </div>
         <div class="TimelineItem-body">
             <p class="text-bold f5 mb-0">{{.from}}{{ if isset . "to" }} → {{.to}}{{ end }}</p> 

@@ -8,9 +8,14 @@
 @import "@primer/css/subhead/index.scss";
 
 :root {
+  --color-canvas-default: #f6f8fa !important;
+  --color-bg-primary: #f6f8fa !important;
+  --color-canvas-subtle: #ffffff !important;
+  --color-bg-secondary: #ffffff !important;
   --tag-bg-hover-color: rgb(212, 234, 255);
   --post-container-color: var(--color-bg-primary);
   --color-primer-border-active: var(--color-accent-fg) !important;
+  --note-warning-bg-color: #fffbdd;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -22,6 +27,7 @@
     --color-canvas-subtle: #1e2531 !important;
     --color-bg-secondary: #1e2531 !important;
     --color-border-muted: #2b323b !important;
+    --note-warning-bg-color: #fadc7833;
   }
 }
 
@@ -116,9 +122,9 @@ header {
     border-bottom-color: var(--tag-bg-hover-color);
   }
 
-  // .UnderlineNav-item svg {
-  //   display: none;
-  // }
+  .UnderlineNav-item svg {
+    display: none;
+  }
 
 }
 
@@ -180,7 +186,7 @@ article {
       border-radius: 0px !important;
       border-left: none !important;
       border-right: none !important;
-      padding: 20px;
+      padding: $spacer-3;
     }
   }
 }
@@ -338,5 +344,43 @@ figure {
 
   .menu-item[aria-current]:not([aria-current=false]) {
     background-color: var(--color-accent-subtle)!important
+  }
+}
+
+.inline-note {
+
+  @media (max-width: 600px) {
+    .highlight pre.chroma {
+      margin-left: initial !important;
+      margin-right: initial !important;
+      border-radius: 10px !important;
+      border: 1px solid var(--color-border-muted) !important;
+    }
+  }
+
+  border-left: 6px solid;
+  border-right: 6px solid;
+  border-right-color: transparent !important;
+  p {
+    margin-bottom: $spacer-2;
+  }
+  & > :last-child {
+    margin-bottom: 0 !important;
+  }
+  &.info {
+    background-color: var(--color-accent-subtle);
+    border-color: rgba(84,174,255,0.4);
+  }
+  &.warning {
+    background-color: var(--note-warning-bg-color);
+    border-color: #ffd33d;
+  }
+  &.danger {
+    background-color: var(--color-bg-danger);
+    border-color: rgba(255, 110, 84, 0.4);
+  }
+  &.success {
+    background-color: var(--color-bg-success);
+    border-color: #64ff3d63;
   }
 }

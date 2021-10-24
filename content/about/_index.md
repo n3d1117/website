@@ -7,7 +7,7 @@ type: simple
 {{< about-menu >}}
 
 {{< subhead title="💼 Work Experience" subtitle=" " >}}
-todo
+{{< work-timeline >}}
 
 {{< subhead title="🎓 Education" subtitle=" " >}}
 {{< education-timeline >}}

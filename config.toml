@@ -6,12 +6,39 @@ enableRobotsTXT = true
 paginate = 10
 paginatePath = ''
 
-
 [params]
   dateFormat = "Jan 2, 2006"
   name = "Edoardo D'Angelis"
   bio = "MSc Computer Engineering [@UNIFI](https://unifi.it)"
   image = "https://avatars.githubusercontent.com/u/11541888?v=4"
+
+  [[params.work]]
+    from = "Jun 2021"
+    to = "Present"
+    title = "Software Engineer @ [Magenta](https://magentalab.it)"
+    additionalText = """
+- AirQuino backend management using Java + Spring
+- Optimizing performance of time-series database (Timescale) queries by 10x using continuous aggregates
+- Studying machine learning models to improve batch sensors calibration
+  """
+
+  [[params.education]]
+    from = "Sep 2019"
+    to = "?"
+    title = "Master's degree in Computer Science & Engineering"
+    additionalText = "soon"
+  [[params.education]]
+    from = "Sep 2015"
+    to = "Apr 2019"
+    title = "Bachelor's degree in Computer Science & Engineering"
+    additionalText = "**Thesis:** _Semantic expansion of bibliographic records_: using ML-based entity extraction tools and SPARQL queries to generate semantic annotations based on geographic data"
+    where = "Università degli Studi di Firenze, Florence, Italy"
+  [[params.education]]
+    from = "Jun 2015"
+    title = "Secondary school diploma"
+    additionalText = "**Thesis:** _Bitcoin: the currency of the future?_"
+    where = "Liceo Scientifico _Guido Castelnuovo_, Florence, Italy"
+
 
 [sitemap]
     changefreq = "weekly"

@@ -14,7 +14,7 @@
             {{ if (.Page.Resources.Match $webpPath) -}}
                 <source srcset="{{ $webp.RelPermalink }}" type="image/webp" >
             {{ else }}
-                {{ warnf "No %q found! Forgot to run sh /content/blog/genwebp.sh?" $webpPath }}
+                {{ warnf "No %q found! Forgot to run sh content/blog/genwebp.sh?" $webpPath }}
             {{ end }}
 
             {{ $width := $resized.Width }}
@@ -32,7 +32,7 @@
                 loading="lazy" 
                 decoding="async"
             >
-            <figcaption>{{ .Get "caption" }}</figcaption>
+            <figcaption>{{ .Get "caption" | .Page.RenderString }}</figcaption>
         </picture>
     </figure>
 {{ else if .Get "alt" }}

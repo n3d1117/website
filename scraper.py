@@ -65,9 +65,11 @@ for movie in movies[:20]:
 d = feedparser.parse('https://letterboxd.com/n3d1117/rss/')
 lbxd_cinema_list = [item for item in d['entries'] if item['title'] == '🍿 Cinema'][0]
 cinema_movies_raw = re.findall("<li>(.*?)</li>", lbxd_cinema_list['summary'])
-cinema_movies = [movie.split('">')[1].split('</a>')[0] for movie in cinema_movies_raw]
-for title in cinema_movies:
-    items = [item for item in d['entries'] if 'letterboxd_filmtitle' in item and item['letterboxd_filmtitle'] == title]
+cinema_movies = []
+for movie in cinema_movies_raw:
+    cinema_movies.append({ 'title': movie.split('">')[1].split('</a>')[0], 'link': movie.split('href="')[1].split('"')[0] })
+for movie in cinema_movies:
+    items = [item for item in d['entries'] if 'letterboxd_filmtitle' in item and item['letterboxd_filmtitle'] == movie['title']]
     if len(items) > 0:
         item = items[0]
 
@@ -77,7 +79,7 @@ for title in cinema_movies:
 
         data['movies'].append({
             'title': item['letterboxd_filmtitle'],
-            'guid': item['link'].replace('/n3d1117', ''),
+            'guid': movie['link'],
             'year': item['letterboxd_filmyear'],
             'img': slug + '.jpg',
             'img_webp': slug + '.webp',

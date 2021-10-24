@@ -1,0 +1,4 @@
+{{ $variant := .Get "variant" }}
+<div class="inline-note p-3 rounded-2 mb-4 {{$variant}}">
+    {{ .Inner | .Page.RenderString }} 
+</div>
