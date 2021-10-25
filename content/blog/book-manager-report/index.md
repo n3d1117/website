@@ -9,8 +9,9 @@ math: false
 ---
 
 ## Introduction
-
-The following report describes the process of developing **Book Manager**, a small Java app built using the _Test Driven Development_ (TDD) model together with _Build Automation_ and _Continuous Integration_ techniques, as seen in [Test-Driven Development, Build Automation, Continuous Integration](https://leanpub.com/tdd-buildautomation-ci) (official book from the course).
+{{< note variant="info" >}}
+  The following report describes the process of developing **Book Manager**, a small Java app built using the _Test Driven Development_ (TDD) model together with _Build Automation_ and _Continuous Integration_ techniques, as seen in [Test-Driven Development, Build Automation, Continuous Integration](https://leanpub.com/tdd-buildautomation-ci) (official book from the course).
+{{< /note >}}
 
 ## High Level Description
 

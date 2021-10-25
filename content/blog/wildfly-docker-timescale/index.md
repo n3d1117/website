@@ -9,7 +9,9 @@ math: false
 ---
 
 ## Introduction
-In this post I will show you how to create a Wildfly docker image with full support for the popular time-series database [TimescaleDB](https://www.timescale.com), and how to easily combine the two using Docker Compose.
+{{< note variant="info" >}}
+  In this post I will show you how to create a Wildfly docker image with full support for the popular time-series database [TimescaleDB](https://www.timescale.com), and how to easily combine the two using Docker Compose.
+{{< /note >}}
 
 ## Wildfly docker image
 

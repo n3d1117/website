@@ -13,13 +13,13 @@ paginatePath = ''
   image = "https://avatars.githubusercontent.com/u/11541888?v=4"
 
   [[params.work]]
-    from = "Jun 2021"
+    from = "Sep 2021"
     to = "Present"
     title = "Software Engineer @ [Magenta](https://magentalab.it)"
     additionalText = """
-- AirQuino backend management using Java + Spring
-- Optimizing performance of time-series database (Timescale) queries by 10x using continuous aggregates
-- Studying machine learning models to improve batch sensors calibration
+- [AirQuino](https://www.airqino.it/en/) backend management using Java + Spring
+- Optimizing performance of time-series ([Timescale](https://www.timescale.com)) queries by 10x, using continuous aggregates
+- Training machine learning models to improve batch sensors calibration
   """
 
   [[params.education]]
