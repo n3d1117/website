@@ -18,6 +18,7 @@ SPOTIFY_CLIENT_ID = os.environ["SPOTIFY_CLIENT_ID"]
 SPOTIFY_CLIENT_SECRET = os.environ["SPOTIFY_CLIENT_SECRET"]
 SPOTIFY_REFRESH_TOKEN = os.environ["SPOTIFY_REFRESH_TOKEN"]
 
+LIMIT = 20
 IMG_WIDTH = '350'
 
 data = {}
@@ -47,7 +48,7 @@ rows = j['response']['data']['rows']
 ## Movies
 data['movies'] = []
 movies = [row for row in rows if row['media_type'] == 'movie' and row['user'] == PLEX_USER]
-for movie in movies[:20]:
+for movie in movies[:LIMIT]:
     slug = slugify(movie['title'])
     img_url = PLEX_PROXY_IMG + movie['thumb'] + '&width=' + IMG_WIDTH
     save_images(slug, 'png', img_url)
@@ -97,7 +98,7 @@ for show in tv_shows:
     if show['grandparent_title'] not in unique_show_titles:
         unique_show_titles.append(show['grandparent_title'])
         unique_shows.append(show)
-for show in unique_shows[:20]:
+for show in unique_shows[:LIMIT]:
     slug = slugify(show['grandparent_title'])
     img_url = PLEX_PROXY_IMG + show['thumb'] + '&width=' + IMG_WIDTH
     save_images(slug, 'png', img_url)
@@ -120,7 +121,7 @@ TO_READ='I0Ai5'
 d = requests.get(OKU_URL + READ).json()
 d2 = requests.get(OKU_URL + READING).json()
 d3 = requests.get(OKU_URL + TO_READ).json()
-for book in (d3['books'] + d2['books'] + d['books'])[:20]:
+for book in (d3['books'] + d2['books'] + d['books'])[:LIMIT]:
     slug = book['slug']
     save_images(slug, 'jpg', book['thumbnail'])
     data['books'].append({
@@ -140,7 +141,7 @@ auth_header = base64.urlsafe_b64encode((SPOTIFY_CLIENT_ID + ':' + SPOTIFY_CLIENT
 headers = {'Content-Type': 'application/x-www-form-urlencoded', 'Authorization': 'Basic {}'.format(auth_header.decode('ascii'))}
 res = requests.post(url=SPOTIFY_TOKEN_URL, data={'grant_type': 'refresh_token', 'refresh_token': SPOTIFY_REFRESH_TOKEN}, headers=headers).json()
 ACCESS_TOKEN = res['access_token']
-URL = SPOTIFY_BASE_URL + '?{}'.format(parse.urlencode({'time_range': 'short_term', 'limit': '20'}))
+URL = SPOTIFY_BASE_URL + '?{}'.format(parse.urlencode({'time_range': 'short_term', 'limit': LIMIT}))
 j = requests.get(url=URL, headers={'Authorization': 'Bearer {}'.format(ACCESS_TOKEN)}).json()
 for item in j['items']:
     slug = slugify(item['name'])
@@ -153,6 +154,22 @@ for item in j['items']:
         'img_webp': slug + '.webp'
     })
 
+
+# GitHub
+data['github'] = []
+GITHUB_URL = 'https://api.github.com/users/{}/repos?per_page=50'.format('n3d1117')
+exclude = ['CrackBot']
+j = requests.get(GITHUB_URL).json()
+d = sorted(j, key=lambda item: item['stargazers_count'], reverse=True)
+for project in [p for p in d if p['name'] not in exclude][:LIMIT]:
+    data['github'].append({
+        'name': project['name'],
+        'html_url': project['html_url'],
+        'description': project['description'],
+        'language': project['language'],
+        'stargazers_count': project['stargazers_count'],
+        'forks_count': project['forks_count'],
+    })
 
 # Write data
 with open('data/scraper.json', 'w') as f:

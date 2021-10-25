@@ -9,7 +9,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 ---
 
 {{< subhead title="☕️ Projects" subtitle="GitHub repositories that I have built. You can visit my [GitHub profile](https://github.com/n3d1117/) to explore more projects." >}}
-{{< github username="n3d1117" count="6" >}}
+{{< github-projects count="6" >}}
 
 ---
 
