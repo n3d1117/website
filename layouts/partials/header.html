@@ -1,14 +1,14 @@
-<div class="Header px-4 pt-3 pb-0 wrapper text-center d-flex color-bg-primary mx-auto flex-column">
+<div class="Header px-4 pt-3 pb-0 wrapper text-center d-flex color-bg-default mx-auto flex-column">
 
     <div class="d-flex" style="height: 48px;">
         <a href="/">
             <img src="{{ .Site.Params.image }}" class="circle anim-hover-grow mr-2" height="48" width="48">
         </a>
         <div class="pl-1 d-flex text-left flex-column align-items-center m-0 mb-1">
-            <p class="m-0 p-0 f4 name color-text-primary text-bold">
+            <p class="m-0 p-0 f4 name color-fg-default text-bold">
                 {{ .Site.Params.name }}
             </p>
-            <p class="no-wrap bio m-0 p-0 f5 color-text-secondary">
+            <p class="no-wrap bio m-0 p-0 f5 color-fg-muted">
                 {{ .Site.Params.bio | (.Site.GetPage "/blog").RenderString }}
             </p>
         </div>
@@ -29,7 +29,7 @@
 
             <a class="UnderlineNav-item mt-1 py-1" href="{{ .URL }}" {{ if $active }}aria-current="page" {{ end }}>
                 {{ partial $icon }}
-                <span class="ml-1 {{ if $active }}color-text-primary{{ else }}color-text-secondary{{ end }}">{{ .Name }}</span>
+                <span class="ml-1 {{ if $active }}color-fg-default{{ else }}color-fg-muted{{ end }}">{{ .Name }}</span>
             </a>
 
             {{ end }}

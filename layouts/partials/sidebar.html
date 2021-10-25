@@ -4,7 +4,7 @@
     </a>
 
     <h1 class="mb-2 lh-condensed">{{ .Site.Params.name }}</h1>
-    <p class="mb-3 color-text-secondary f4">{{ .Site.Params.bio | (.Site.GetPage "/blog").RenderString }}</p>
+    <p class="mb-3 color-fg-muted f4">{{ .Site.Params.bio | (.Site.GetPage "/blog").RenderString }}</p>
 
     <ul class="filter-list mt-6 mb-6">
         {{ $current := . }}
@@ -18,8 +18,8 @@
         {{ $icon := printf "icons/%s" .Pre }}
         <li>
             <a class="filter-item 
-            {{ if $active }}color-text-primary color-bg-info border color-border-info selected text-semibold
-            {{ else }}color-text-secondary{{end}}" href="{{ .URL }}" {{ if $active }}aria-current="page" {{ end }}>
+            {{ if $active }}color-fg-default color-bg-accent border color-border-accent-emphasis selected text-semibold
+            {{ else }}color-fg-muted{{end}}" href="{{ .URL }}" {{ if $active }}aria-current="page" {{ end }}>
                 <span class="mr-2">{{ partial $icon }}</span>
                 {{ .Name }}
             </a>

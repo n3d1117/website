@@ -8,21 +8,21 @@
   <body class="mx-auto">
     <div class="main-container max mx-auto">
 
-      <header class="width-full hide-xl hide-lg border-bottom color-border-secondary">
+      <header class="width-full hide-xl hide-lg border-bottom color-border-muted">
         {{ partial "header" . }}
       </header>
 
       <div class="d-flex flex-row">
-        <aside class="sidebar hide-sm hide-md height-100 position-sticky top-0 border-right color-border-secondary color-bg-primary">
+        <aside class="sidebar hide-sm hide-md height-100 position-sticky top-0 border-right color-border-muted color-bg-default">
           {{ partial "sidebar" . }}
         </aside>
 
-        <main class="main flex-1 color-bg-secondary border-lg-right color-border-secondary">
+        <main class="main flex-1 color-bg-subtle border-lg-right color-border-muted">
           {{ block "main" . }} {{ end}}
         </main>
       </div>
 
-      <footer class="width-full hide-xl hide-lg border-top color-border-secondary">
+      <footer class="width-full hide-xl hide-lg border-top color-border-muted">
         {{ partial "footer" . }}
       </footer>
 

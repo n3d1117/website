@@ -1,6 +1,7 @@
 @import "@primer/css/core";
 @import "@primer/css/utilities";
 @import "@primer/css/layout";
+@import "@primer/css/color-modes/index.scss";
 @import "@primer/css/header/index.scss";
 @import "@primer/css/markdown/index.scss";
 @import "@primer/css/labels/index.scss";
@@ -9,13 +10,12 @@
 
 :root {
   --color-canvas-default: #f6f8fa !important;
-  --color-bg-primary: #f6f8fa !important;
+  --color-bg-default: #f6f8fa !important;
   --color-canvas-subtle: #ffffff !important;
-  --color-bg-secondary: #ffffff !important;
+  --color-bg-subtle: #ffffff !important;
   --tag-bg-hover-color: rgb(212, 234, 255);
-  --post-container-color: var(--color-bg-primary);
+  --post-container-color: var(--color-bg-default);
   --color-primer-border-active: var(--color-accent-fg) !important;
-  --note-warning-bg-color: #fffbdd;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -23,11 +23,10 @@
     --tag-bg-hover-color: rgba(56,139,253,0.2);
     --post-container-color: #1c232e;
     --color-canvas-default: #1a202c !important;
-    --color-bg-primary: #1a202c !important;
+    --color-bg-default: #1a202c !important;
     --color-canvas-subtle: #1e2531 !important;
-    --color-bg-secondary: #1e2531 !important;
+    --color-bg-subtle: #1e2531 !important;
     --color-border-muted: #2b323b !important;
-    --note-warning-bg-color: #fadc7833;
   }
 }
 
@@ -172,8 +171,12 @@ article {
     pointer-events: none;
   }
 
+  .markdown-body .footnotes {
+    border-top: none;
+  }
+
   .markdown-body .highlight pre, .markdown-body pre {
-    background-color: var(--color-bg-primary) !important;
+    background-color: var(--color-bg-default) !important;
     border-radius: 10px !important;
     outline: none;
     border: 1px solid var(--color-border-muted);
@@ -245,8 +248,8 @@ article {
   }
 
   .State.year {
-    color: var(--color-text-primary);
-    background-color: var(--color-bg-secondary);
+    color: var(--color-fg-default);
+    background-color: var(--color-bg-subtle);
     border: 1px solid var(--color-border-default) !important;
   }
 
@@ -280,7 +283,7 @@ figure {
     margin-top: .5em;
     text-align: center;
     font-size: 15px;
-    color: var(--color-text-secondary);
+    color: var(--color-fg-muted);
   }
 }
 
@@ -369,18 +372,22 @@ figure {
   }
   &.info {
     background-color: var(--color-accent-subtle);
-    border-color: rgba(84,174,255,0.4);
+    border-color: var(--color-accent-muted);
   }
   &.warning {
-    background-color: var(--note-warning-bg-color);
-    border-color: #ffd33d;
+    background-color: var(--color-attention-subtle);
+    border-color: var(--color-attention-muted);
   }
   &.danger {
-    background-color: var(--color-bg-danger);
-    border-color: rgba(255, 110, 84, 0.4);
+    background-color: var(--color-danger-subtle);
+    border-color: var(--color-danger-muted);
   }
   &.success {
-    background-color: var(--color-bg-success);
-    border-color: #64ff3d63;
+    background-color: var(--color-success-subtle);
+    border-color: var(--color-success-muted);
+  }
+  &.done {
+    background-color: var(--color-done-subtle);
+    border-color: var(--color-done-muted);
   }
 }

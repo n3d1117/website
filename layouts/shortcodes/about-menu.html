@@ -9,7 +9,7 @@
 
         <a class="UnderlineNav-item" href="{{ .URL }}" {{ if $active }}aria-current="page"{{ end }}>
             {{ partial $icon }}
-            <span class="ml-1 {{if not $active }}color-text-secondary{{ end }}">{{ .Name }}</span>
+            <span class="ml-1 {{if not $active }}color-fg-muted{{ end }}">{{ .Name }}</span>
         </a>
         {{ end }}
     </div>
@@ -24,7 +24,7 @@
 
     <a class="menu-item" href="{{ .URL }}" {{ if $active }}aria-current="page"{{ end }}>
         {{ partial $icon }}
-        <span class="{{if not $active }}color-text-secondary{{ end }}">{{ .Name }}</span>
+        <span class="{{if not $active }}color-fg-muted{{ end }}">{{ .Name }}</span>
     </a>
 
     {{ end }}

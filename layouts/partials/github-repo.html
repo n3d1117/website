@@ -9,10 +9,10 @@
       </a>
     </div>
     
-    <p class="color-text-secondary f5 d-block mt-2 mb-3">{{ .description }}</p>
+    <p class="color-fg-muted f5 d-block mt-2 mb-3">{{ .description }}</p>
   </div>
   
-  <p class="mb-0 f6 color-text-secondary">
+  <p class="mb-0 f6 color-fg-muted">
     {{ if .language }}
     <span class="d-inline-block mr-3">
       <span class="repo-language-color" {{ with index site.Data.colors .language }}style="background-color: {{ .color }}"{{ end }}></span>

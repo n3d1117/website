@@ -6,8 +6,8 @@
         </div>
         <div class="TimelineItem-body">
             <p class="text-bold f5 mb-0">{{.from}}{{ if isset . "to" }} → {{.to}}{{ end }}</p> 
-            <p class="text-bold color-text-primary mb-0">{{.title | $context.Page.RenderString}}</p>
-            {{ if isset . "additionalText" }}<p class="color-text-tertiary mb-2">{{ .additionalText | $context.Page.RenderString }}</p>{{ end }}
+            <p class="text-bold color-fg-default mb-0">{{.title | $context.Page.RenderString}}</p>
+            {{ if isset . "additionalText" }}<p class="color-fg-muted mb-2">{{ .additionalText | $context.Page.RenderString }}</p>{{ end }}
             {{ if isset . "where" }}<p class="mb-0">{{ .where | $context.Page.RenderString }}</p>{{ end }}
         </div>
     </div>
