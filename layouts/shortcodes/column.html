@@ -1,0 +1,11 @@
+{{ $position := .Get "p" }}
+{{ $markdown := .Get "md" }}
+<div class="column flex-1">
+    <div class="{{$position}}">
+        {{ if eq $markdown "true" }}
+            {{ .Inner | .Page.RenderString }}
+        {{ else }}
+            {{ .Inner }}
+        {{ end }}
+    </div>
+</div>

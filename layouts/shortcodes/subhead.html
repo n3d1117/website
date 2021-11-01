@@ -1,5 +1,5 @@
 {{ $username := .Get "title" }}
-<h2 class="pb-0 mb-1 border-0">{{ .Get "title" | .Page.RenderString }}</h2>
+<h2 class="pb-0 mb-1 mt-0 border-0">{{ .Get "title" | .Page.RenderString }}</h2>
 {{ if .Get "subtitle" }}
     <p class="color-fg-muted">{{ .Get "subtitle" | .Page.RenderString }}</p>
 {{ end }}

@@ -1,0 +1,4 @@
+{{ $align_top := .Get "at" }}
+<div class="columns d-flex {{ if ne $align_top `true` }}flex-items-center{{end}}">
+    {{ .Inner }}
+</div>

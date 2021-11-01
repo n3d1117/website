@@ -5,10 +5,10 @@
             {{ partial "icons/edu" }}
         </div>
         <div class="TimelineItem-body">
-            <p class="text-bold f5 mb-0">{{.from}}{{ if isset . "to" }} → {{.to}}{{ end }}</p> 
-            <p class="text-bold color-fg-default mb-0">{{.title | $context.Page.RenderString}}</p>
-            {{ if isset . "additionalText" }}<p class="color-fg-muted mb-2">{{ .additionalText | $context.Page.RenderString }}</p>{{ end }}
+            <p class="f5 mb-0">{{.from}}{{ if isset . "to" }} → {{.to}}{{ end }}</p> 
+            <p class="text-semibold color-fg-default mb-0">{{.title | $context.Page.RenderString}}</p>
             {{ if isset . "where" }}<p class="mb-0">{{ .where | $context.Page.RenderString }}</p>{{ end }}
+
         </div>
     </div>
 {{ end }}

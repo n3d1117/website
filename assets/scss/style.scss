@@ -248,6 +248,7 @@ article {
   }
 
   .post-container {
+    border-radius: 12px !important;
     background-color: var(--post-container-color);
   }
 }
@@ -379,5 +380,28 @@ figure {
   &.done {
     background-color: var(--color-done-subtle);
     border-color: var(--color-done-muted);
+  }
+}
+
+.columns {
+  .column {
+    .right {
+      margin-left: 16px;
+    }
+    .left {
+      margin-right: 16px;
+    }
+  }
+  @media (max-width: 600px) {
+    flex-direction: column;
+    .column {
+      .right {
+        margin-top: 24px;
+        margin-left: 0;
+      }
+      .left {
+        margin-right: 0;
+      }
+    }
   }
 }

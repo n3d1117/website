@@ -21,20 +21,21 @@ languageCode = "en-us"
     to = "Present"
     title = "Software Engineer @ [Magenta](https://magentalab.it)"
     additionalText = """
-- [AirQuino](https://www.airqino.it/en/) backend management using Java + Spring
-- Optimizing performance of time-series ([Timescale](https://www.timescale.com)) queries by 10x, using continuous aggregates
-- Training machine learning models to improve batch sensors calibration
+- Built a sensors calibration dashboard for [AirQuino](https://www.airqino.it/en/) project
+- Optimized performance of [Timescale](https://www.timescale.com) queries by 10x using [continuous aggregates](https://docs.timescale.com/timescaledb/latest/overview/core-concepts/continuous-aggregates/)
+- Trained machine learning models to improve batch sensors calibration
   """
 
   [[params.education]]
     from = "Sep 2019"
-    to = "?"
-    title = "Master's degree in Computer Science & Engineering"
+    to = "Apr 2022"
+    title = "MSc in Computer Science & Engineering"
     additionalText = "soon"
+    where = "Università degli Studi di Firenze, Florence, Italy"
   [[params.education]]
     from = "Sep 2015"
     to = "Apr 2019"
-    title = "Bachelor's degree in Computer Science & Engineering"
+    title = "BSc in Computer Science & Engineering"
     additionalText = "**Thesis:** _Semantic expansion of bibliographic records_: using ML-based entity extraction tools and SPARQL queries to generate semantic annotations based on geographic data"
     where = "Università degli Studi di Firenze, Florence, Italy"
   [[params.education]]
