@@ -31,6 +31,10 @@
 {{- $CSS := slice (resources.Get "/css/primer.css") (resources.Get "/scss/style.scss" | toCSS) | resources.Concat "css/main.css" | minify | postCSS | fingerprint "sha512" }}
 <link rel="stylesheet" href="{{ $CSS.RelPermalink }}" integrity="{{ $CSS.Data.Integrity }}">
 
+{{ range .AlternativeOutputFormats -}}
+    {{ printf `<link rel="%s" type="%s" href="%s" title="%s" />` .Rel .MediaType.Type .Permalink $.Site.Title | safeHTML }}
+{{ end -}}
+
 {{ if .Params.math }}
   {{ partial "math" . }}
 {{ end }}

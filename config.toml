@@ -4,6 +4,11 @@ description = "A description"
 enableRobotsTXT = true
 paginate = 10
 paginatePath = ''
+copyright = "© Edoardo D'Angelis — All rights reserved"
+languageCode = "en-us"
+
+[author]
+  name = "Edoardo D'Angelis"
 
 [params]
   dateFormat = "Jan 2, 2006"
@@ -45,6 +50,7 @@ paginatePath = ''
 
 [taxonomies]
   tag = "tags"
+
 [permalinks]
   blog = "/blog/:year/:month/:slug/"
   page = "/:slug/"
@@ -93,7 +99,7 @@ paginatePath = ''
     pre = "heart"
   [[menu.social]]
     name = "RSS"
-    url = "/feed.rss"
+    url = "/blog/index.xml"
     weight = 5
     pre = "rss"
 
@@ -126,3 +132,10 @@ paginatePath = ''
 [markup]
   [markup.highlight]
     noClasses = false
+
+[outputs]
+    page = ["HTML"]
+    home = ["HTML"]
+    section = ["HTML","RSS"]
+    taxonomyTerm = ["HTML"]
+    taxonomy = ["HTML"]
