@@ -1,4 +1,4 @@
-{{ $link := printf "https://www.thetvdb.com/?tab=series&id=%s" .guid }}
+{{ $link := printf "https://www.themoviedb.org/tv/%s" .guid }}
 
 <a {{ if ne .guid "episode" }}href="{{ $link }}" target="_blank" rel="noopener nofollow" class="no-underline"{{ end }}>
     <div class="width-full p-1 p-md-2 media">

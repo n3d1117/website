@@ -2,7 +2,7 @@
 {{ if hasPrefix .guid "https"}}
     {{ $link = .guid }}
 {{ else }}
-    {{ $link = printf "https://www.imdb.com/title/%s" .guid }}
+    {{ $link = printf "https://www.themoviedb.org/movie/%s" .guid }}
 {{ end }}
 
 <a href="{{ $link }}" target="_blank" rel="noopener nofollow" class="no-underline">
