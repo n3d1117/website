@@ -1,13 +1,3 @@
-@import "@primer/css/core";
-@import "@primer/css/utilities";
-@import "@primer/css/layout";
-@import "@primer/css/color-modes/index.scss";
-@import "@primer/css/header/index.scss";
-@import "@primer/css/markdown/index.scss";
-@import "@primer/css/labels/index.scss";
-@import "@primer/css/timeline/index.scss";
-@import "@primer/css/subhead/index.scss";
-
 :root {
   --color-canvas-default: #f6f8fa !important;
   --color-bg-default: #f6f8fa !important;
@@ -39,7 +29,7 @@ body {
 }
 
 li ul, li ol {
-  padding-left: $spacer-3;
+  padding-left: 16px;
   margin-bottom: 0;
 }
 
@@ -79,7 +69,7 @@ footer {
       flex-direction: column-reverse;
 
       .social {
-        margin-bottom: $spacer-3;
+        margin-bottom: 16px;
       }
     }
 
@@ -189,7 +179,7 @@ article {
       border-radius: 0px !important;
       border-left: none !important;
       border-right: none !important;
-      padding: $spacer-3;
+      padding: 16px;
     }
   }
 }
@@ -239,7 +229,7 @@ article {
   }
 
   &:not(:first-of-type) .TimelineItem:nth-child(1) {
-    padding-top: $spacer-5 !important;
+    padding-top: 32px !important;
   }
 
   .TimelineItem-body a.title {
@@ -365,7 +355,7 @@ figure {
   border-right: 6px solid;
   border-right-color: transparent !important;
   p {
-    margin-bottom: $spacer-2;
+    margin-bottom: 8px;
   }
   & > :last-child {
     margin-bottom: 0 !important;

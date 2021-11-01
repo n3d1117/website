@@ -1,14 +1,15 @@
-const purgecss = require('@fullhuman/postcss-purgecss')({
-    content: ['./hugo_stats.json'],
-    defaultExtractor: (content) => {
-        let els = JSON.parse(content).htmlElements;
-        return els.tags.concat(els.classes, els.ids);
-    }
-});
-
-const autoprefixer = require("autoprefixer");
+const purgecss = require('@fullhuman/postcss-purgecss');
+const autoprefixer = require('autoprefixer');
 
 module.exports = {
     map: false,
-    plugins: [autoprefixer, purgecss]
-};
+    plugins: [
+        purgecss({
+            content: ['./**/*.html'],
+            fontFace: true,
+            keyframes: true,
+            variables: true,
+        }),
+        autoprefixer()
+    ],
+}

@@ -1,7 +1,6 @@
 baseURL = "https://example.com"
 title = "Hugo Blog"
 description = "A description"
-canonifyURLs = true
 enableRobotsTXT = true
 paginate = 10
 paginatePath = ''
@@ -46,7 +45,6 @@ paginatePath = ''
 
 [taxonomies]
   tag = "tags"
-
 [permalinks]
   blog = "/blog/:year/:month/:slug/"
   page = "/:slug/"
@@ -128,6 +126,3 @@ paginatePath = ''
 [markup]
   [markup.highlight]
     noClasses = false
-
-[build]
-  writeStats = true
