@@ -18,6 +18,7 @@ PLEX_PROXY_IMG = os.environ["PLEX_PROXY_IMG"]
 SPOTIFY_CLIENT_ID = os.environ["SPOTIFY_CLIENT_ID"]
 SPOTIFY_CLIENT_SECRET = os.environ["SPOTIFY_CLIENT_SECRET"]
 SPOTIFY_REFRESH_TOKEN = os.environ["SPOTIFY_REFRESH_TOKEN"]
+TMDB_API_KEY=os.environ["TMDB_API_KEY"]
 
 LIMIT = 20
 IMG_WIDTH = '350'
@@ -61,7 +62,8 @@ for movie in movies[:LIMIT]:
         'img': slug + '.png',
         'img_webp': slug + '.webp',
         'last_watch': movie['last_watch'],
-        'cinema': 'false'
+        'cinema': 'false',
+        'is_favorite': 'false'
     })
 
 # Cinema
@@ -87,11 +89,30 @@ for movie in cinema_movies:
             'img': slug + '.jpg',
             'img_webp': slug + '.webp',
             'last_watch': int(datetime.datetime.strptime(item['letterboxd_watcheddate'], "%Y-%m-%d").timestamp()),
-            'cinema': 'true'
+            'cinema': 'true',
+            'is_favorite': 'false'
         })
 
+# Fav Movies
+top_movies = requests.get(url="https://api.themoviedb.org/3/list/7112446?api_key=" + TMDB_API_KEY)
+top_movies_json = top_movies.json()
+for movie in top_movies_json['items']:
+    slug = slugify(movie['title'])
+    img_url = 'https://image.tmdb.org/t/p/w300' + movie['poster_path']
+    save_images(slug, 'jpg', img_url)
 
-## TV Shows
+    data['movies'].append({
+        'title': movie['title'],
+        'guid': str(movie['id']),
+        'year': movie['release_date'].split('-')[0],
+        'img': slug + '.jpg',
+        'img_webp': slug + '.webp',
+        'last_watch': int(datetime.datetime.strptime(movie['release_date'], "%Y-%m-%d").timestamp()),
+        'cinema': 'false',
+        'is_favorite': 'true'
+    })
+
+# TV Shows
 data['shows'] = []
 tv_shows = [row for row in rows if row['media_type'] == 'episode' and row['user'] == PLEX_USER]
 unique_shows = []
@@ -111,9 +132,27 @@ for show in unique_shows[:LIMIT]:
         'guid': guids[1].split('//')[1],
         'ep': 'S' + str(show['parent_media_index']) + 'E' + str(show['media_index']),
         'img': slug + '.png',
-        'img_webp': slug + '.webp'
+        'img_webp': slug + '.webp',
+        'is_favorite': 'false'
     })
 
+# Fav TV Shows
+top_shows = requests.get(url="https://api.themoviedb.org/3/list/7112447?api_key=" + TMDB_API_KEY)
+top_shows_json = top_shows.json()
+for show in top_shows_json['items']:
+    slug = slugify(show['name'])
+    img_url = 'https://image.tmdb.org/t/p/w300' + show['poster_path']
+    save_images(slug, 'jpg', img_url)
+
+    data['shows'].append({
+        'title': show['name'],
+        'guid': str(show['id']),
+        'ep': show['first_air_date'].split('-')[0],
+        'img': slug + '.jpg',
+        'img_webp': slug + '.webp',
+        'last_watch': int(datetime.datetime.strptime(show['first_air_date'], "%Y-%m-%d").timestamp()),
+        'is_favorite': 'true'
+    })
 
 # Books
 data['books'] = []

@@ -1,8 +1,16 @@
 <div class="d-flex flex-wrap gutter-condensed">
-    {{ $count := .Get "count" }}
-    {{ range sort site.Data.scraper.movies "last_watch" "desc" | first $count }}
-        <div class="col-sm-3 col-md-3 col-lg-2 col-xl-2 col-4">
-            {{ partial "movie" . }}
-        </div>
+    {{ if eq (.Get "favorite") "true" }}
+        {{ range where site.Data.scraper.movies "is_favorite" "true" }}
+            <div class="col-sm-3 col-md-3 col-lg-2 col-xl-2 col-4">
+                {{ partial "movie" . }}
+            </div>
+        {{ end }}
+    {{ else }}
+        {{ $movies := (where site.Data.scraper.movies "is_favorite" "false") }}
+        {{ range sort $movies "last_watch" "desc" | first (.Get "count") }}
+            <div class="col-sm-3 col-md-3 col-lg-2 col-xl-2 col-4">
+                {{ partial "movie" . }}
+            </div>
+        {{ end }}
     {{ end }}
 </div>

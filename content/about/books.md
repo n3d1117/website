@@ -7,7 +7,7 @@ type: simple
 {{< about-menu >}}
 
 {{< subhead title="⭐️ Favorites" subtitle=" " >}}
-{{< latest-books count="18" favorite="true" >}}
+{{< latest-books favorite="true" >}}
 
 ---
 
