@@ -14,7 +14,7 @@ languageCode = "en-us"
   dateFormat = "Jan 2, 2006"
   name = "Edoardo D'Angelis"
   bio = "MSc Computer Engineering [@UNIFI](https://unifi.it)"
-  image = "https://avatars.githubusercontent.com/u/11541888?v=4"
+  image = "/me.jpeg"
 
   [[params.work]]
     from = "Sep 2021"

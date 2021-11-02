@@ -53,10 +53,6 @@ hr {
 .social {
   font-size: 0.9em;
 
-  li svg path {
-    transition: .3s;
-  }
-
   li:hover svg path {
     opacity: 0.7;
   }

@@ -2,26 +2,26 @@
     <h2 class="pb-0 mt-0 {{ if .Get `subtitle` }}mb-1{{ else}}mb-gentle{{ end }} border-0 flex-1">{{ .Get "title" | .Page.RenderString }}</h2>
     
     {{ if eq (.Get "icon") "tmdb" }}
-        <a href="https://www.themoviedb.org" class="p-1" target="_blank" rel="noopener nofollow" style="width: 35px; height: 28px">
+        <a href="https://www.themoviedb.org" class="p-1" target="_blank" rel="noopener nofollow" style="width: 35px; height: 28px" aria-label="TMDB">
             {{ partial "icons/tmdb" }}
         </a>
     {{ else if eq (.Get "icon") "spotify" }}
-        <a href="https://open.spotify.com/user/68ejmk6u5fd1rqbplyvd9gqrh" class="p-1" target="_blank" rel="noopener nofollow" style="width: 30px; height: 30px">
+        <a href="https://open.spotify.com/user/68ejmk6u5fd1rqbplyvd9gqrh" class="p-1" target="_blank" rel="noopener nofollow" style="width: 30px; height: 30px" aria-label="Spotify">
             {{ partial "icons/spotify" }}
         </a>
     {{ else if eq (.Get "icon") "oku" }}
-        <a href="https://oku.club/user/ned" class="p-1" target="_blank" rel="noopener nofollow" style="width: 60px; height: 24px">
+        <a href="https://oku.club/user/ned" class="p-1" target="_blank" rel="noopener nofollow" style="width: 60px; height: 24px" aria-label="Oku">
             {{ partial "icons/oku" }}
         </a>
     {{ else if eq (.Get "icon") "plex" }}
-        <a href="https://www.plex.tv" class="p-1" target="_blank" rel="noopener nofollow" style="width: 30px; height: 30px">
+        <a href="https://www.plex.tv" class="p-1" target="_blank" rel="noopener nofollow" style="width: 30px; height: 30px" aria-label="Plex">
             {{ partial "icons/plex" }}
         </a>
     {{ else if eq (.Get "icon") "plex+lbxd" }}
-        <a href="https://www.plex.tv" class="p-1" target="_blank" rel="noopener nofollow" style="width: 30px; height: 30px">
+        <a href="https://www.plex.tv" class="p-1" target="_blank" rel="noopener nofollow" style="width: 30px; height: 30px" aria-label="Plex">
             {{ partial "icons/plex" }}
         </a>
-        <a href="https://letterboxd.com/n3d1117/" class="p-1" target="_blank" rel="noopener nofollow" style="width: 30px; height: 30px">
+        <a href="https://letterboxd.com/n3d1117/" class="p-1" target="_blank" rel="noopener nofollow" style="width: 30px; height: 30px" aria-label="Letterboxd">
             {{ partial "icons/lbxd" }}
         </a>
     {{ end }}
