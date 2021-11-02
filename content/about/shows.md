@@ -6,10 +6,10 @@ type: simple
 
 {{< about-menu >}}
 
-{{< subhead title="⭐️ Favorites" subtitle=" " >}}
+{{< subhead title="⭐️ Favorites" icon="tmdb" >}}
 {{< latest-shows favorite="true" >}}
 
 ---
 
-{{< subhead title="🎬 Recently Watched" subtitle=" " >}}
+{{< subhead title="🎬 Recently Watched" icon="plex" >}}
 {{< latest-shows count="18" >}}

@@ -13,7 +13,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 ---
 
-{{< subhead title="📥 Latest blog posts" subtitle=" " >}}
+{{< subhead title="📥 Latest blog posts" >}}
 {{< latest-posts count="3" >}}
 
 
