@@ -6,5 +6,10 @@ type: simple
 
 {{< about-menu >}}
 
-{{< subhead title="📚 Books I'm reading" subtitle="Follow me [on Oku](https://oku.club/user/ned)!" >}}
+{{< subhead title="⭐️ Favorites" subtitle=" " >}}
+{{< latest-books count="18" favorite="true" >}}
+
+---
+
+{{< subhead title="📚 Reading" subtitle="Follow me [on Oku](https://oku.club/user/ned)!" >}}
 {{< latest-books count="18" >}}

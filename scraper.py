@@ -121,9 +121,22 @@ OKU_URL='https://oku.club/api/collections/'
 READING='yjUNL'
 READ='xSQso'
 TO_READ='I0Ai5'
+FAVORITES='IPgqn'
+f = requests.get(OKU_URL + FAVORITES).json()
 d = requests.get(OKU_URL + READ).json()
 d2 = requests.get(OKU_URL + READING).json()
 d3 = requests.get(OKU_URL + TO_READ).json()
+for fav_book in f['books']:
+    slug = fav_book['slug']
+    save_images(slug, 'jpg', fav_book['thumbnail'])
+    data['books'].append({
+        'title': fav_book['title'],
+        'author': fav_book['authors'][0]['name'],
+        'url': 'https://oku.club/book/' + fav_book['slug'],
+        'img': slug + '.jpg',
+        'img_webp': slug + '.webp',
+        'is_favorite': 'true'
+    })
 for book in (d3['books'] + d2['books'] + d['books'])[:LIMIT]:
     slug = book['slug']
     save_images(slug, 'jpg', book['thumbnail'])
@@ -132,7 +145,8 @@ for book in (d3['books'] + d2['books'] + d['books'])[:LIMIT]:
         'author': book['authors'][0]['name'],
         'url': 'https://oku.club/book/' + book['slug'],
         'img': slug + '.jpg',
-        'img_webp': slug + '.webp'
+        'img_webp': slug + '.webp',
+        'is_favorite': 'false'
     })
 
 
