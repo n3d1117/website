@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import requests
 import json
 import os
@@ -8,6 +10,8 @@ import base64
 from dotenv import load_dotenv
 import datetime
 import feedparser
+
+print('Scraping sources...')
 
 load_dotenv()
 os.mkdir('static/img')
