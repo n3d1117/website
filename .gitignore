@@ -6,3 +6,4 @@ resources/
 /tmp
 /.env
 /static/img
+/data/scraper.json

@@ -13,7 +13,7 @@ math: false
 {{< /note >}}
 
 ## Introduction
-Part of my work at [Magenta](https://magentalab.it) was to investigate the possibility of having a 1:1 replica of the production database (which had more than **50M rows**, running PostgreSQL 13 and [Timescale](https://www.timescale.com)), possibly on a different server, and having them **in sync** all the time for performance tests, availability and other stuff.
+Part of my work at [Magenta](https://magentalab.it) was to investigate the possibility of having a 1:1 replica of the production database (which had more than **50M rows**, running PostgreSQL 13 and [Timescale](https://www.timescale.com)), possibly on a different server, and having them **in sync** all the time for performance tests, offloading heavy queries and availability.
 
 As it turns out, TimescaleDB does not support for logical replication (using libraries like [pglogical](https://github.com/2ndQuadrant/pglogical)), but it can handle replication using PostgreSQL's built-in [streaming replication](https://www.postgresql.org/docs/current/warm-standby.html#STREAMING-REPLICATION), which is what i ended up using. PostgreSQL achieves streaming replication by having replicas continuously stream the **WAL** (*Write-Ahead Logging*) from the primary database. For more information see PostgreSQL's [WAL Documentation](https://www.postgresql.org/docs/13/wal-intro.html)[^1].
 
