@@ -10,6 +10,7 @@ import datetime
 import feedparser
 
 load_dotenv()
+os.mkdir('static/img')
 
 PLEX_URL = os.environ["PLEX_URL"]
 PLEX_METADATA_URL = os.environ["PLEX_METADATA_URL"]
