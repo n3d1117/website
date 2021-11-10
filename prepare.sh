@@ -1,0 +1,12 @@
+# /bin/bash
+
+# Install cwebp
+wget -c https://storage.googleapis.com/downloads.webmproject.org/releases/webp/libwebp-1.2.1-linux-x86-64.tar.gz
+tar -xvf libwebp-1.2.1-linux-x86-64.tar.gz
+export PATH=$PATH:"$(pwd)"/libwebp-1.2.1-linux-x86-64/bin
+
+# NPM install
+npm install
+
+# Scrape 
+python scraper.py
