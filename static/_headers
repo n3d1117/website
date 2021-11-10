@@ -6,10 +6,28 @@
   Feature-Policy: none
   Referrer-Policy: strict-origin
   Permissions-Policy: interest-cohort=()
-  Content-Security-Policy: default-src 'self'; font-src 'self'; img-src 'self' data:; script-src 'self'; style-src 'self'; ; base-uri 'self';
+  Content-Security-Policy: default-src 'self'; font-src 'self'; img-src 'self' data:; script-src 'self'; style-src 'self'; ; base-uri 'self'; frame-ancestors 'none';
 
 # Cache assets
 /img/*
+  Cache-Control: public,max-age=31536000,immutable
+
+/blog/*.webp
+  Cache-Control: public,max-age=31536000,immutable
+
+/blog/*.jpg
+  Cache-Control: public,max-age=31536000,immutable
+
+/blog/*.jpeg
+  Cache-Control: public,max-age=31536000,immutable
+
+/blog/*.png
+  Cache-Control: public,max-age=31536000,immutable
+
+/blog/*.gif
+  Cache-Control: public,max-age=31536000,immutable
+
+/blog/*.mp4
   Cache-Control: public,max-age=31536000,immutable
 
 /*.jpeg
