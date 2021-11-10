@@ -6,10 +6,13 @@
   Feature-Policy: none
   Referrer-Policy: strict-origin
   Permissions-Policy: interest-cohort=()
-  Content-Security-Policy: default-src 'self'; font-src 'self'; img-src 'self' data:; script-src 'self'; style-src 'self'; ; base-uri 'self'; frame-ancestors 'none';
+  Content-Security-Policy: default-src 'self'; font-src 'self'; img-src 'self' data:; script-src 'self'; style-src 'self'; ; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; require-trusted-types-for 'script';
 
 # Cache assets
 /img/*
+  Cache-Control: public,max-age=31536000,immutable
+
+/fonts/*
   Cache-Control: public,max-age=31536000,immutable
 
 /blog/*.webp
