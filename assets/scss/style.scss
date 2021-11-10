@@ -366,6 +366,7 @@ figure {
     border-color: var(--color-accent-muted);
   }
   &.warning {
+    font-weight: normal;
     background-color: var(--color-attention-subtle);
     border-color: var(--color-attention-muted);
   }

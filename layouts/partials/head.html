@@ -28,12 +28,9 @@
 {{ template "_internal/opengraph.html" . }}
 {{ template "_internal/twitter_cards.html" . }}
 
-{{ with resources.Get "/css/critical.css" | minify }}
+{{ with slice (resources.Get "/css/primer.css") (resources.Get "/scss/style.scss" | toCSS) | resources.Concat "css/main.css" | minify | postCSS }}
 <style>{{ .Content | safeCSS }}</style>
 {{ end }}
-
-{{- $CSS := slice (resources.Get "/css/primer.css") (resources.Get "/scss/style.scss" | toCSS) | resources.Concat "css/main.css" | minify | postCSS | fingerprint "sha512" }}
-<link rel="stylesheet" href="{{ $CSS.RelPermalink }}" integrity="{{ $CSS.Data.Integrity }}" media="print" onload="this.media='all'">
 
 {{ range .AlternativeOutputFormats -}}
     {{ printf `<link rel="%s" type="%s" href="%s" title="%s" />` .Rel .MediaType.Type .Permalink $.Site.Title | safeHTML }}
