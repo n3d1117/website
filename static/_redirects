@@ -1,2 +1,0 @@
-# todo: add real domain too
-www.:project.pages.dev/* https://:project.pages.dev/:splat 302
