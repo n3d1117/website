@@ -1,6 +1,6 @@
 {{ define "main" }}
 
-{{ with resources.Get "/css/syntax.css" | minify | postCSS }}
+{{ with resources.Get "/css/syntax.css" | postCSS | minify }}
 <style type="text/css" nonce="DuNA/uqEdJUe/qofrw6Hy2EO6gvFnH4/4bKaeIiQg2A=">{{ .Content | safeCSS }}</style>
 {{ end }}
 
