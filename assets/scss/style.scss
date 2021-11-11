@@ -341,6 +341,7 @@ figure {
   }
 }
 
+/*! purgecss start ignore */
 .inline-note {
 
   @media (max-width: 600px) {
@@ -383,6 +384,7 @@ figure {
     border-color: var(--color-done-muted);
   }
 }
+/*! purgecss end ignore */
 
 .columns {
   .column {
