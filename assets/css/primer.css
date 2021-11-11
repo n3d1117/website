@@ -1,3 +1,4 @@
+/*! purgecss start ignore */
 :root, [data-color-mode=light][data-light-theme=light], [data-color-mode=dark][data-dark-theme=light] {
     --color-canvas-default-transparent: rgba(255, 255, 255, 0);
     --color-checks-bg: #24292f;
@@ -422,6 +423,7 @@
     color: var(--color-fg-default);
     background-color: var(--color-canvas-default)
 }
+/*! purgecss end ignore */
 
 html {
     font-family: sans-serif;
