@@ -12635,13 +12635,6 @@ a.branch-name .octicon {
     }
 }
 
-/*!
- * @primer/css/marketing
- * http://primer.style/css
- *
- * Released under MIT license. Copyright (c) 2019 GitHub Inc.
- */
-
 .h0-mktg, .h1-mktg, .h2-mktg, .h3-mktg, .h4-mktg, .h5-mktg, .h6-mktg {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
     font-feature-settings: "ss02" on, "ss01" on;

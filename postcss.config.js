@@ -9,7 +9,8 @@ module.exports = {
             content: ['./**/*.html'],
             fontFace: true,
             keyframes: true,
-            //variables: true,
+            variables: true,
+            whitelist: ['blockquote', 'inline-note']
         }),
         autoprefixer(),
         cssnano({preset: 'default'})
