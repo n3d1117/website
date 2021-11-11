@@ -361,7 +361,6 @@ figure {
   & > :last-child {
     margin-bottom: 0 !important;
   }
-  /*! purgecss start ignore */
   &.info {
     background-color: var(--color-accent-subtle);
     border-color: var(--color-accent-muted);
@@ -383,7 +382,6 @@ figure {
     background-color: var(--color-done-subtle);
     border-color: var(--color-done-muted);
   }
-  /*! purgecss end ignore */
 }
 
 .columns {

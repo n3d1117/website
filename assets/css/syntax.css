@@ -1,3 +1,4 @@
+/*! purgecss start ignore */
 @media (prefers-color-scheme: dark) {
     /* Background */
     .chroma {
@@ -637,3 +638,4 @@
         color: #bbbbbb
     }
 }
+/*! purgecss end ignore */
