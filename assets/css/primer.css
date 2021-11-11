@@ -1,10 +1,3 @@
-/*!
- * Primer CSS
- * https://primer.style
- *
- * Released under MIT license.
- */
-
 :root, [data-color-mode=light][data-light-theme=light], [data-color-mode=dark][data-dark-theme=light] {
     --color-canvas-default-transparent: rgba(255, 255, 255, 0);
     --color-checks-bg: #24292f;
@@ -429,15 +422,6 @@
     color: var(--color-fg-default);
     background-color: var(--color-canvas-default)
 }
-
-/*!
- * @primer/css/core
- * http://primer.style/css
- *
- * Released under MIT license. Copyright (c) 2019 GitHub Inc.
- */
-
-/*! normalize.css v4.1.1 | MIT License | github.com/necolas/normalize.css */
 
 html {
     font-family: sans-serif;
@@ -10288,13 +10272,6 @@ a.tabnav-extra:hover {
     height: auto;
     clip: auto
 }
-
-/*!
- * @primer/css/product
- * http://primer.style/css
- *
- * Released under MIT license. Copyright (c) 2019 GitHub Inc.
- */
 
 .flash {
     position: relative;
