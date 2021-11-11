@@ -15,7 +15,7 @@
   <p class="mb-0 f6 color-fg-muted">
     {{ if .language }}
     <span class="d-inline-block mr-3">
-      <span class="repo-language-color" {{ with index site.Data.colors .language }}style="background-color: {{ .color }}"{{ end }}></span>
+      <span class="repo-language-color{{ with index site.Data.colors .language }} color-{{ .color }}{{ end }}"></span>
       <span itemprop="programmingLanguage">{{ .language }}</span>
     </span>
     {{ end }}

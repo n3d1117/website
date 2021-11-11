@@ -365,19 +365,23 @@ figure {
     background-color: var(--color-accent-subtle);
     border-color: var(--color-accent-muted);
   }
+  /* purgecss ignore */
   &.warning {
     font-weight: normal;
     background-color: var(--color-attention-subtle);
     border-color: var(--color-attention-muted);
   }
+  /* purgecss ignore */
   &.danger {
     background-color: var(--color-danger-subtle);
     border-color: var(--color-danger-muted);
   }
+  /* purgecss ignore */
   &.success {
     background-color: var(--color-success-subtle);
     border-color: var(--color-success-muted);
   }
+  /* purgecss ignore */
   &.done {
     background-color: var(--color-done-subtle);
     border-color: var(--color-done-muted);
@@ -424,3 +428,62 @@ figure {
     }
   }
 }
+
+.h100 {
+  height: 100%;
+}
+
+.mw150 {
+  max-width: 150px;
+}
+
+.mw980 {
+  max-width: 980px;
+}
+
+.height-48 {
+  height: 48px;
+}
+
+.notFoundVideo {
+  width: 100%; 
+  max-width: 550px; 
+  height: auto; 
+  margin-top: 10px; 
+  border-radius: 15px;
+}
+
+.blogPostIcon {
+  width: 14px !important; 
+  margin-right: 5px !important;
+}
+
+.mt3 {
+  margin-top: 3px
+}
+
+.w30h30 {
+  width: 30px; 
+  height: 30px
+}
+
+.w35h28 {
+  width: 35px; 
+  height: 28px
+}
+
+.w60h24 {
+  width: 60px; 
+  height: 24px
+}
+
+/*! purgecss start ignore */
+$allcolors: #F05138 #555555 #89e051 #ccc #438eff #3572A5 
+#3D6117 #f34b7d #b07219 #00ADD8 #e34c26 #563d7c #4F5D95
+#41b883 #e38c00 #f1e05a #DA5B0B #2b7489;
+@each $color in $allcolors {
+  .color-#{unquote("\\" + $color)} {
+    background-color: nth($color, 1);
+  }
+}
+/*! purgecss end ignore */
