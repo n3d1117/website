@@ -9,7 +9,7 @@ module.exports = {
             content: ['./**/*.html'],
             fontFace: true,
             keyframes: true,
-            variables: true,
+            //variables: true,
         }),
         autoprefixer(),
         cssnano({preset: 'default'})
