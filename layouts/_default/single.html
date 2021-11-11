@@ -20,7 +20,7 @@
       {{ end }}
 
       <div class="d-flex flex-items-center">
-        <img src="{{ .Site.Params.image }}" class="circle anim-hover-grow mr-2" height="18" width="18">
+        <img src="{{ .Site.Params.image }}" class="circle anim-hover-grow mr-2" height="18" width="18" alt="{{ .Site.Params.name }}">
         <span class="pl-2 color-fg-muted text-uppercase text-small text-semibold d-flex flex-items-center">
           <span>{{ partial "icons/calendar" }}</span><span>{{ .Date.Format "Jan 2, 2006" }}</span>
           <span class="pl-3">{{ partial "icons/stopwatch" }}</span><span>{{.ReadingTime}} min read</span>

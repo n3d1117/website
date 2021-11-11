@@ -553,28 +553,23 @@
     .chroma .p {}
     /* Comment */
     .chroma .c {
-        color: #408080;
-        font-style: italic
+        color: #717171;
     }
     /* CommentHashbang */
     .chroma .ch {
-        color: #408080;
-        font-style: italic
+        color: #717171;
     }
     /* CommentMultiline */
     .chroma .cm {
-        color: #408080;
-        font-style: italic
+        color: #717171;
     }
     /* CommentSingle */
     .chroma .c1 {
-        color: #408080;
-        font-style: italic
+        color: #717171;
     }
     /* CommentSpecial */
     .chroma .cs {
-        color: #408080;
-        font-style: italic
+        color: #717171;
     }
     /* CommentPreproc */
     .chroma .cp {
