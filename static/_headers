@@ -6,7 +6,7 @@
   Feature-Policy: none
   Referrer-Policy: strict-origin
   Permissions-Policy: interest-cohort=()
-  Content-Security-Policy: default-src 'none'; font-src 'self'; img-src 'self' data:; script-src 'self' 'nonce-qYe28Y506blr0GgBDOadPeR+ESzcyx3EEacKp8bjHIE=' 'unsafe-inline'; style-src 'self' 'nonce-DuNA/uqEdJUe/qofrw6Hy2EO6gvFnH4/4bKaeIiQg2A=' 'unsafe-inline'; base-uri 'self'; form-action 'self', frame-ancestors 'none'; object-src 'none'; require-trusted-types-for 'script';
+  Content-Security-Policy: default-src 'self'; font-src 'self'; img-src 'self' data:; script-src 'self' 'nonce-qYe28Y506blr0GgBDOadPeR+ESzcyx3EEacKp8bjHIE=' 'unsafe-inline'; style-src 'self' 'nonce-DuNA/uqEdJUe/qofrw6Hy2EO6gvFnH4/4bKaeIiQg2A=' 'unsafe-inline'; base-uri 'self'; form-action 'self', frame-ancestors 'none'; object-src 'none'; require-trusted-types-for 'script';
 
 # Cache assets
 /img/*
