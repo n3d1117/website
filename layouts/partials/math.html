@@ -3,13 +3,13 @@
 
 <!-- The loading of KaTeX is deferred to speed up page rendering -->
 {{- $KatexJS := resources.Get "/js/katex.min.js" | fingerprint "sha512" }}
-<script defer src="{{ $KatexJS.RelPermalink }}" integrity="{{ $KatexJS.Data.Integrity }}"></script>
+<script defer type="text/javascript" nonce="qYe28Y506blr0GgBDOadPeR+ESzcyx3EEacKp8bjHIE=" src="{{ $KatexJS.RelPermalink }}" integrity="{{ $KatexJS.Data.Integrity }}"></script>
 
 <!-- To automatically render math in text elements, include the auto-render extension: -->
 {{- $AutoRenderJS := resources.Get "/js/auto-render.min.js" | fingerprint "sha512" }}
-<script defer src="{{ $AutoRenderJS.RelPermalink }}" integrity="{{ $AutoRenderJS.Data.Integrity }}" onload="renderMathInElement(document.body);"></script>
+<script defer type="text/javascript" nonce="qYe28Y506blr0GgBDOadPeR+ESzcyx3EEacKp8bjHIE=" src="{{ $AutoRenderJS.RelPermalink }}" integrity="{{ $AutoRenderJS.Data.Integrity }}" onload="renderMathInElement(document.body);"></script>
 
-<script>
+<script type="text/javascript" nonce="qYe28Y506blr0GgBDOadPeR+ESzcyx3EEacKp8bjHIE=">
     document.addEventListener("DOMContentLoaded", function() {
         renderMathInElement(document.body, {
             delimiters: [

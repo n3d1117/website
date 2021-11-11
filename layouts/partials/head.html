@@ -29,7 +29,7 @@
 {{ template "_internal/twitter_cards.html" . }}
 
 {{ with slice (resources.Get "/css/primer.css") (resources.Get "/scss/style.scss" | toCSS) | resources.Concat "css/main.css" | minify | postCSS }}
-<style>{{ .Content | safeCSS }}</style>
+<style type="text/css" nonce="DuNA/uqEdJUe/qofrw6Hy2EO6gvFnH4/4bKaeIiQg2A=">{{ .Content | safeCSS }}</style>
 {{ end }}
 
 {{ range .AlternativeOutputFormats -}}
