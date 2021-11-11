@@ -10,7 +10,7 @@ module.exports = {
             fontFace: true,
             keyframes: true,
             variables: true,
-            whitelist: ['blockquote', 'inline-note']
+            safelist: ['blockquote', 'inline-note']
         }),
         autoprefixer(),
         cssnano({preset: 'default'})
