@@ -1,5 +1,6 @@
 const purgecss = require('@fullhuman/postcss-purgecss');
 const autoprefixer = require('autoprefixer');
+const cssnano = require('cssnano');
 
 module.exports = {
     map: false,
@@ -10,6 +11,7 @@ module.exports = {
             keyframes: true,
             variables: true,
         }),
-        autoprefixer()
+        autoprefixer(),
+        cssnano({preset: 'default'})
     ],
 }
