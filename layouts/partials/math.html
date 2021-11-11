@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="{{ $KatexCSS.RelPermalink }}" integrity="{{ $KatexCSS.Data.Integrity }}">
 
 {{- $mathJS := slice (resources.Get "/js/katex.min.js") (resources.Get "/js/auto-render.min.js") | resources.Concat "js/math.js" | minify | fingerprint "sha512" }}
-<script defer src="{{ $mathJS.RelPermalink }}" integrity="{{ $mathJS.Data.Integrity }}" onload="renderMathInElement(document.body);"></script>
+<script defer type="text/javascript" nonce="qYe28Y506blr0GgBDOadPeR+ESzcyx3EEacKp8bjHIE=" src="{{ $mathJS.RelPermalink }}" integrity="{{ $mathJS.Data.Integrity }}" onload="renderMathInElement(document.body);"></script>
 
 <script type="text/javascript" nonce="qYe28Y506blr0GgBDOadPeR+ESzcyx3EEacKp8bjHIE=">
     document.addEventListener("DOMContentLoaded", function() {
