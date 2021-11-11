@@ -1,13 +1,8 @@
 {{ define "main" }}
 
-<style type="text/css" media="screen">
-  @media (prefers-color-scheme: dark) { 
-    {{ partial "css/syntax-dark.css" . | safeCSS }}
-  }
-  @media (prefers-color-scheme: light) { 
-    {{ partial "css/syntax-light.css" . | safeCSS }} 
-  }
-</style>
+{{ with resources.Get "/css/syntax.css" | minify | postCSS }}
+<style type="text/css" nonce="DuNA/uqEdJUe/qofrw6Hy2EO6gvFnH4/4bKaeIiQg2A=">{{ .Content | safeCSS }}</style>
+{{ end }}
 
 <div class="mx-auto px-3 px-md-4 px-lg-6 py-4 py-md-5 py-lg-7 main-content">
   <article class="mb-3">
