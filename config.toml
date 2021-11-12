@@ -21,8 +21,8 @@ languageCode = "en-us"
     to = "Present"
     title = "Software Engineer @ [Magenta](https://magentalab.it)"
     additionalText = """
-- Built a sensors calibration dashboard for [AirQuino](https://www.airqino.it/en/) project
-- Optimized performance of [Timescale](https://www.timescale.com) queries by 10x using [continuous aggregates](https://docs.timescale.com/timescaledb/latest/overview/core-concepts/continuous-aggregates/)
+- Built a sensors calibration dashboard for [AirQino](https://www.airqino.it/en/) project
+- Optimized performance of [Timescale](https://www.timescale.com) queries by 10x
 - Trained machine learning models to improve batch sensors calibration
   """
 

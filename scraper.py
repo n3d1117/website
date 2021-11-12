@@ -10,6 +10,7 @@ import base64
 from dotenv import load_dotenv
 import datetime
 import feedparser
+from PIL import Image
 
 print('Scraping sources...')
 
@@ -42,12 +43,33 @@ def slugify(text):
     text = u'_'.join(re.split(r'\s+', text))
     return text.lower()
 
-def save_images(slug, ext, url):
+def save_images(slug, ext, url, square=False):
     if not exists('static/img/' + slug + '.' + ext):
         img_data = requests.get(url).content
         with open('static/img/' + slug + '.' + ext, 'wb') as f:
             f.write(img_data)
+        if square:    
+            with open('static/img/' + slug + '.' + ext, 'r+b') as f:
+                with Image.open(f) as image:
+                    square_image(image, 320).save('static/img/' + slug + '.' + ext, image.format)
         os.system('cd static/img && cwebp ' + slug + '.' + ext + ' -o ' + slug + '.webp')
+
+# https://stackoverflow.com/a/65977483/6022481
+def square_image(image: Image, length: int) -> Image:
+    if image.size[0] == image.size[1]:
+        return image
+    elif image.size[0] < image.size[1]:
+        resized_image = image.resize((length, int(image.size[1] * (length / image.size[0]))))
+        required_loss = (resized_image.size[1] - length)
+        resized_image = resized_image.crop(
+            box=(0, required_loss / 2, length, resized_image.size[1] - required_loss / 2))
+        return resized_image
+    else:
+        resized_image = image.resize((int(image.size[0] * (length / image.size[1])), length))
+        required_loss = resized_image.size[0] - length
+        resized_image = resized_image.crop(
+            box=(required_loss / 2, 0, resized_image.size[0] - required_loss / 2, length))
+        return resized_image
 
 # PLEX
 r = requests.get(url=PLEX_URL)
@@ -208,7 +230,7 @@ URL = SPOTIFY_BASE_URL + '?{}'.format(parse.urlencode({'time_range': 'short_term
 j = requests.get(url=URL, headers={'Authorization': 'Bearer {}'.format(ACCESS_TOKEN)}).json()
 for item in j['items']:
     slug = slugify(item['name'])
-    save_images(slug, 'jpeg', item['images'][1]['url'])
+    save_images(slug, 'jpeg', item['images'][1]['url'], square=True)
     data['spotify'].append({
         'name': item['name'],
         'url': item['external_urls']['spotify'],

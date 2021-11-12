@@ -11,5 +11,5 @@ type: simple
 
 ---
 
-{{< subhead title="📚 Reading" icon="oku" >}}
+{{< subhead title="📚 Reading" >}}
 {{< latest-books count="18" >}}

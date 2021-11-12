@@ -11,5 +11,5 @@ type: simple
 
 ---
 
-{{< subhead title="🍿 Recently Watched" icon="plex+lbxd" >}}
+{{< subhead title="🍿 Recently Watched" >}}
 {{< latest-movies count="18" >}}

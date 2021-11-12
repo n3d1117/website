@@ -322,6 +322,9 @@ figure {
 }
 
 .about-menu {
+
+  font-size: 15px;
+
   .UnderlineNav-item[aria-current]:not([aria-current=false]) {
     font-weight: 500;
     svg {
@@ -337,7 +340,7 @@ figure {
   }
 
   .menu-item[aria-current]:not([aria-current=false]) {
-    background-color: var(--color-accent-subtle)!important
+    background-color: var(--color-accent-subtle) !important
   }
 }
 
