@@ -1,0 +1,19 @@
+name: Deploy to Cloudflare Pages
+
+'on':
+  pull_request:
+  push:
+    branches: [ master ]
+ schedule:
+   - cron: "0 4 */1 * *" # every day at 4AM
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to Cloudflare Pages
+        uses: fjogeleit/http-request-action@master
+        with:
+          url: ${{ secrets.DEPLOY_HOOK }}
+          method: 'POST'
+          
