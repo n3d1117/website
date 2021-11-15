@@ -1,6 +1,7 @@
 {{ $position := .Get "p" }}
 {{ $markdown := .Get "md" }}
-<div class="column flex-1">
+{{ $class := .Get "class" }}
+<div class="column flex-1 {{$class}}">
     <div class="{{$position}}">
         {{ if eq $markdown "true" }}
             {{ .Inner | .Page.RenderString }}

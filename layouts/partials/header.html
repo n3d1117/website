@@ -29,7 +29,7 @@
 
             <a class="UnderlineNav-item mt-1 py-1" href="{{ .URL }}" {{ if $active }}aria-current="page" {{ end }}>
                 {{ partial $icon }}
-                <span class="ml-1 {{ if $active }}color-fg-default{{ else }}color-fg-muted{{ end }}">{{ .Name }}</span>
+                <span class="{{ if $active }}color-fg-default{{ else }}color-fg-muted{{ end }}">{{ .Name }}</span>
             </a>
 
             {{ end }}

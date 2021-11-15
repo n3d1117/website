@@ -13,36 +13,47 @@ languageCode = "en-us"
 [params]
   dateFormat = "Jan 2, 2006"
   name = "Edoardo D'Angelis"
-  bio = "MSc Computer Engineering [@UNIFI](https://unifi.it)"
+  bio = "Software Engineer [@Magenta](https://magentalab.it)"
   image = "/me.jpeg"
 
   [[params.work]]
-    from = "Sep 2021"
-    to = "Present"
+    from = "September 2021"
+    to = "present"
     title = "Software Engineer @ [Magenta](https://magentalab.it)"
     additionalText = """
-- Built a sensors calibration dashboard for [AirQino](https://www.airqino.it/en/) project
-- Optimized performance of [Timescale](https://www.timescale.com) queries by 10x
 - Trained machine learning models to improve batch sensors calibration
+- Built a sensors calibration dashboard for [AirQino](https://www.airqino.it/en/) project
+- Optimized performance of [Timescale](https://www.timescale.com) queries by 10x using techniques such as [continuous aggregates](https://docs.timescale.com/timescaledb/latest/how-to-guides/continuous-aggregates/)
+- Set up a 1:1 read-only streaming replica of the primary database (>60M rows) for performance tests, offloading heavy queries and availability
   """
 
   [[params.education]]
-    from = "Sep 2019"
-    to = "Apr 2022"
+    from = "September 2019"
+    to = "April 2022"
     title = "MSc in Computer Science & Engineering"
-    additionalText = "soon"
-    where = "Università degli Studi di Firenze, Florence, Italy"
+    where = "[University of Florence](https://unifi.it), Italy 🇮🇹"
+    additionalText = """
+- **Thesis:** Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+- **Final grade:** `110/110`
+- **Relevant courses:** Big Data Architectures, Advanced Programming Techniques, Parallel Computing, Software Engineering for Embedded Systems, Penetration Testing, Human Computer Interaction, Software Architectures and Methodologies
+"""
   [[params.education]]
-    from = "Sep 2015"
-    to = "Apr 2019"
+    from = "September 2015"
+    to = "April 2019"
     title = "BSc in Computer Science & Engineering"
-    additionalText = "**Thesis:** _Semantic expansion of bibliographic records_: using ML-based entity extraction tools and SPARQL queries to generate semantic annotations based on geographic data"
-    where = "Università degli Studi di Firenze, Florence, Italy"
+    additionalText = """
+- **Thesis:** _Semantic expansion of bibliographic records_: using ML-based entity extraction tools (such as [spaCy](https://spacy.io)) and [SPARQL](https://www.w3.org/TR/rdf-sparql-query/) queries to generate semantic annotations based on geographic data.
+- **Relevant courses:** Algorithms and Data Structures, Operating Systems, Databases, Software Engineering, Artificial Intelligence, Multimedia Design and Production, Telecommunication Networks
+"""
+    where = "[University of Florence](https://unifi.it), Italy 🇮🇹"
   [[params.education]]
-    from = "Jun 2015"
+    from = "June 2015"
     title = "Secondary school diploma"
-    additionalText = "**Thesis:** _Bitcoin: the currency of the future?_"
-    where = "Liceo Scientifico _Guido Castelnuovo_, Florence, Italy"
+    additionalText = """
+- **Thesis:** _Bitcoin: the currency of the future?_
+- Implemented the (now defunct) school newspaper website called *DeGeneratione*, [still available](https://web.archive.org/web/20160217175239/https://degeneratione.it/) on the Wayback Machine
+"""
+    where = "Liceo Scientifico [_Guido Castelnuovo_](https://www.liceocastelnuovo.edu.it), Florence, Italy 🇮🇹"
 
 
 [sitemap]
@@ -67,11 +78,6 @@ languageCode = "en-us"
     url = "/blog/"
     weight = 2
     pre = "hashtag"
-  [[menu.main]]
-    name = "Contact"
-    url = "/contact/"
-    weight = 3
-    pre = "pencil"
   [[menu.main]]
     name = "About"
     url = "/about/"

@@ -24,8 +24,11 @@
   max-width: 980px;
 }
 
-body {
+body, .markdown-body {
   font-size: 16px;
+  @media (max-width: 650px) {
+    font-size: 15px;
+  }
 }
 
 li ul, li ol {
@@ -91,8 +94,8 @@ header {
   }
 
   .UnderlineNav-item {
-    padding-left: 12px;
-    padding-right: 12px;
+    padding-left: 20px;
+    padding-right: 20px;
     border-bottom-color: var(--color-canvas-default);
     svg {
       width: 14px;
@@ -257,6 +260,46 @@ article {
   font-size: 11px !important;
 }
 
+.gen-timeline {
+  padding-bottom: 10px;
+  a {
+      color: var(--color-fg-muted);
+      text-decoration: underline;
+      &:hover {
+          color: var(--color-accent-fg);
+      }
+  }
+  .title {
+      a {
+          text-decoration: none;
+          color: var(--color-accent-fg);
+          &:hover {
+            text-decoration: underline;
+          }
+      }
+      font-size: 17px !important;
+  }
+  .date-range {
+      font-size: 14px !important;
+      font-weight: 450;
+  }
+  p.additional-text {
+      font-size: 1em !important;
+  }
+  .where {
+      font-size: 1em !important;
+  }
+
+  @media (max-width: 650px) {
+      .title {
+          font-size: 16px !important;
+      }
+      .date-range {
+          margin-bottom: 0px !important;
+      }
+  }
+}
+
 figure {
   margin-bottom: 2em;
   margin-left: 0;
@@ -271,9 +314,9 @@ figure {
   }
 
   figcaption {
-    margin-top: .5em;
+    margin-top: .4em;
     text-align: center;
-    font-size: 15px;
+    font-size: 14px;
     color: var(--color-fg-muted);
   }
 }
@@ -390,7 +433,16 @@ figure {
 /*! purgecss end ignore */
 
 .columns {
+  &:not(:first-of-type) {
+    margin-top: 15px;
+  }
   .column {
+    h2, h3, h4 {
+      border-bottom: none;
+      margin-top: 0;
+      padding-bottom: 0;
+      margin-bottom: 12px;
+    }
     .right {
       margin-left: 16px;
     }
@@ -402,7 +454,7 @@ figure {
     flex-direction: column;
     .column {
       .right {
-        margin-top: 24px;
+        margin-top: 15px;
         margin-left: 0;
       }
       .left {
@@ -411,6 +463,25 @@ figure {
     }
   }
 }
+
+/*! purgecss start ignore */
+.bold-default-color {
+  li {
+    color: var(--color-fg-muted);
+    strong {
+      font-weight: 450;
+      color: var(--color-fg-default);
+    }
+  }
+  a {
+    color: var(--color-fg-muted);
+    text-decoration: underline;
+    &:hover {
+        color: var(--color-accent-fg);
+    }
+  }
+}
+/*! purgecss end ignore */
 
 .hmsubhead {
 
@@ -425,7 +496,7 @@ figure {
   .mb-gentle {
     margin-bottom: 12px;
     @media (max-width: 600px) {
-      margin-bottom: 16px;
+      margin-bottom: 15px;
     }
   }
 }

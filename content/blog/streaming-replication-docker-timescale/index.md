@@ -203,7 +203,9 @@ And then run it with `docker-compose up`, you should see an output like this:
 {{< img src="screenshot.png" caption="Example output of the `docker-compose up` command" w="800" >}}
 
 ## Conclusion
-You should now have a fully working replica database always in sync with the primary one. Congrats! 🎉
+{{< note variant="success" >}}
+  You should now have a fully working replica database always in sync with the primary one. Congrats! 🎉
+{{< /note >}}
 
 Keep in mind that it is read-only and there are a few limitations:
 - Users and access roles are mirrored from the primary instance, which means you cannot use different credentials or add additional user to the replica only

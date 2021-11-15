@@ -1,14 +1,16 @@
 {{ $context := . }}
 {{ range .Site.Params.education }}
-    <div class="TimelineItem pt-0">
+    <div class="gen-timeline TimelineItem pt-0">
         <div class="TimelineItem-badge">
             {{ partial "icons/edu" }}
         </div>
         <div class="TimelineItem-body">
-            <p class="f5 mb-0">{{.from}}{{ if isset . "to" }} → {{.to}}{{ end }}</p> 
-            <p class="text-semibold color-fg-default mb-0">{{.title | $context.Page.RenderString}}</p>
-            {{ if isset . "where" }}<p class="mb-0">{{ .where | $context.Page.RenderString }}</p>{{ end }}
-
+            <p class="date-range mb-1">{{.from}}{{ if isset . "to" }} – {{.to}}{{ end }}</p>
+            <span class="d-inline-flex flex-wrap">
+                <p class="title text-semibold color-fg-default mr-2 mb-1">{{.title | $context.Page.RenderString}}</p>
+                {{ if isset . "where" }}<p class="where mb-2">{{ .where | $context.Page.RenderString }}</p>{{ end }}
+            </span>
+            {{ if isset . "additionalText" }}<p class="additional-text color-fg-muted mb-0">{{ .additionalText | $context.Page.RenderString }}</p>{{ end }}
         </div>
     </div>
 {{ end }}
