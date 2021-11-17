@@ -6,5 +6,5 @@ type: simple
 
 {{< about-menu >}}
 
-{{< subhead title="👾 Recently Played" >}}
-{{< latest-games count="18" >}}
+{{< subhead title="👾 Recently Played" icon="igdb" >}}
+{{< latest-games count="24" >}}

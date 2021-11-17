@@ -139,7 +139,7 @@ languageCode = "en-us"
     name = "Games"
     url = "/about/games/"
     weight = 6
-    pre = "music"
+    pre = "games"
 
 [markup]
   [markup.highlight]
