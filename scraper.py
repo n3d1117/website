@@ -81,9 +81,13 @@ SPOTIFY_TOKEN_URL='https://accounts.spotify.com/api/token'
 SPOTIFY_BASE_URL='https://api.spotify.com/v1/me/top/artists'
 auth_header = base64.urlsafe_b64encode((SPOTIFY_CLIENT_ID + ':' + SPOTIFY_CLIENT_SECRET).encode('ascii'))
 headers = {'Content-Type': 'application/x-www-form-urlencoded', 'Authorization': 'Basic {}'.format(auth_header.decode('ascii'))}
+print(headers)
 res = requests.post(url=SPOTIFY_TOKEN_URL, data={'grant_type': 'refresh_token', 'refresh_token': SPOTIFY_REFRESH_TOKEN}, headers=headers).json()
+print(res)
 ACCESS_TOKEN = res['access_token']
+print(ACCESS_TOKEN)
 URL = SPOTIFY_BASE_URL + '?{}'.format(parse.urlencode({'time_range': 'short_term', 'limit': LIMIT}))
+print(URL)
 j = requests.get(url=URL, headers={'Authorization': 'Bearer {}'.format(ACCESS_TOKEN)}).json()
 for item in j['items']:
     slug = slugify(item['name'])
