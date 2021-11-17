@@ -8,10 +8,10 @@ from os.path import exists
 from urllib import parse
 import base64
 from dotenv import load_dotenv
-import datetime
 import feedparser
 from PIL import Image
 import csv
+from datetime import datetime
 
 print('Scraping sources...')
 
@@ -121,7 +121,7 @@ for movie in cinema_movies:
             'year': item['letterboxd_filmyear'],
             'img': slug + '.jpg',
             'img_webp': slug + '.webp',
-            'last_watch': int(datetime.datetime.strptime(item['letterboxd_watcheddate'], "%Y-%m-%d").timestamp()),
+            'last_watch': int(datetime.strptime(item['letterboxd_watcheddate'], "%Y-%m-%d").timestamp()),
             'cinema': 'true',
             'is_favorite': 'false'
         })
@@ -140,7 +140,7 @@ for movie in top_movies_json['items']:
         'year': movie['release_date'].split('-')[0],
         'img': slug + '.jpg',
         'img_webp': slug + '.webp',
-        'last_watch': int(datetime.datetime.strptime(movie['release_date'], "%Y-%m-%d").timestamp()),
+        'last_watch': int(datetime.strptime(movie['release_date'], "%Y-%m-%d").timestamp()),
         'cinema': 'false',
         'is_favorite': 'true'
     })
@@ -183,7 +183,7 @@ for show in top_shows_json['items']:
         'ep': show['first_air_date'].split('-')[0],
         'img': slug + '.jpg',
         'img_webp': slug + '.webp',
-        'last_watch': int(datetime.datetime.strptime(show['first_air_date'], "%Y-%m-%d").timestamp()),
+        'last_watch': int(datetime.strptime(show['first_air_date'], "%Y-%m-%d").timestamp()),
         'is_favorite': 'true'
     })
 
@@ -233,7 +233,6 @@ ACCESS_TOKEN = res['access_token']
 URL = SPOTIFY_BASE_URL + '?{}'.format(parse.urlencode({'time_range': 'short_term', 'limit': LIMIT}))
 spotify_req = requests.get(url=URL, headers={'Authorization': 'Bearer {}'.format(ACCESS_TOKEN)})
 print(spotify_req)
-print(spotify_req.content)
 j = spotify_req.json()
 for item in j['items']:
     slug = slugify(item['name'])
@@ -280,7 +279,7 @@ headers = {
 response = requests.get('https://www.igdb.com/users/nedda/lists/games-i-play.csv', cookies={ '_server_session': IGDB_COOKIE })
 reader = csv.DictReader(response.content.decode('utf-8').splitlines(), delimiter=',')
 for row in reader:
-    d = 'fields cover.url; where id = ' + row['id'] + ';'
+    d = 'fields first_release_date, cover.url; where id = ' + row['id'] + ';'
     cover = requests.post('https://api.igdb.com/v4/games', headers=headers, data=d)
     cover_url = cover.json()[0]['cover']['url'].replace('t_thumb', 't_cover_big').replace('//', 'https://')
     slug = slugify(row['game'])
@@ -288,7 +287,7 @@ for row in reader:
     data['videogames'].append({
         'name': row['game'],
         'url': row['url'],
-        'year': row['release_date'].split(', ')[1].split(' ')[0],
+        'year': datetime.utcfromtimestamp(int(cover.json()[0]['first_release_date'])).strftime('%Y'),
         'img': slug + '.jpg',
         'img_webp': slug + '.webp'
     })
