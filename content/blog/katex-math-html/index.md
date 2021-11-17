@@ -1,6 +1,6 @@
 ---
 title: Rendering beautiful mathematical expressions into HTML using Katex
-description: This is a sample post for testing Katex integration as a Publish plugin in order to render beautiful mathematical expressions from Markdown into HTML.
+description: This is a sample post for testing Katex integration in order to render beautiful mathematical expressions from Markdown into HTML.
 date: 2021-05-31T05:24:54.000Z
 slug: katex-math-html
 tags: [math, html, katex]

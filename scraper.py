@@ -11,6 +11,7 @@ from dotenv import load_dotenv
 import datetime
 import feedparser
 from PIL import Image
+import csv
 
 print('Scraping sources...')
 
@@ -27,6 +28,9 @@ SPOTIFY_CLIENT_ID = os.environ["SPOTIFY_CLIENT_ID"]
 SPOTIFY_CLIENT_SECRET = os.environ["SPOTIFY_CLIENT_SECRET"]
 SPOTIFY_REFRESH_TOKEN = os.environ["SPOTIFY_REFRESH_TOKEN"]
 TMDB_API_KEY=os.environ["TMDB_API_KEY"]
+IGDB_COOKIE=os.environ["IGDB_COOKIE"]
+IGDB_CLIENT_ID=os.environ["IGDB_CLIENT_ID"]
+IGDB_CLIENT_SECRET=os.environ["IGDB_CLIENT_SECRET"]
 
 LIMIT = 20
 IMG_WIDTH = '350'
@@ -254,6 +258,36 @@ for project in [p for p in d if p['name'] not in exclude][:LIMIT]:
         'language': project['language'],
         'stargazers_count': project['stargazers_count'],
         'forks_count': project['forks_count'],
+    })
+
+# Videogames
+data['videogames'] = []
+params = (
+    ('client_id', IGDB_CLIENT_ID),
+    ('client_secret', IGDB_CLIENT_SECRET),
+    ('grant_type', 'client_credentials'),
+)
+response = requests.post('https://id.twitch.tv/oauth2/token', params=params)
+access_token = response.json()['access_token']
+headers = {
+    'Client-ID': IGDB_CLIENT_ID,
+    'Authorization': 'Bearer ' + access_token,
+    'Accept': 'application/json',
+}
+response = requests.get('https://www.igdb.com/users/nedda/lists/games-i-play.csv', cookies={ '_server_session': IGDB_COOKIE })
+reader = csv.DictReader(response.content.decode('utf-8').splitlines(), delimiter=',')
+for row in reader:
+    d = 'fields cover.url; where id = ' + row['id'] + ';'
+    cover = requests.post('https://api.igdb.com/v4/games', headers=headers, data=d)
+    cover_url = cover.json()[0]['cover']['url'].replace('t_thumb', 't_cover_big').replace('//', 'https://')
+    slug = slugify(row['game'])
+    save_images(slug, 'jpg', cover_url)
+    data['videogames'].append({
+        'name': row['game'],
+        'url': row['url'],
+        'year': row['release_date'].split(', ')[1].split(' ')[0],
+        'img': slug + '.jpg',
+        'img_webp': slug + '.webp'
     })
 
 # Write data

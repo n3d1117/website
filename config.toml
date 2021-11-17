@@ -135,6 +135,11 @@ languageCode = "en-us"
     url = "/about/music/"
     weight = 5
     pre = "music"
+  [[menu.about]]
+    name = "Games"
+    url = "/about/games/"
+    weight = 6
+    pre = "music"
 
 [markup]
   [markup.highlight]

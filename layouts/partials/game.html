@@ -1,0 +1,10 @@
+<a href="{{ .url }}" target="_blank" rel="noopener nofollow" class="no-underline">
+    <div class="width-full p-1 p-md-2 media">
+        <picture>
+            <source srcset="/img/{{ .img_webp }}" type="image/webp">
+            <img src="/img/{{ .img }}" class="rounded rounded-1 mh-120" loading="lazy" decoding="async" alt="{{ .title }}">
+        </picture>
+        <p class="mb-1 lh-condensed color-fg-default">{{.name}}</p>
+        <p class="mb-2 mb-lg-1 lh-condensed f5 color-fg-muted">{{.year}}</p>
+    </div>
+</a>

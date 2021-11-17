@@ -14,11 +14,13 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 ## ℹ️ Information
 - **Birthday:** November 17th, 1996
 - **Nationality:** Italian
+- **Interests:** technology, sports (football, basketball, tennis), [movies](/about/movies/), [tv shows](/about/shows/), [books](/about/books/), [music](/about/music/), [videogames](/about/games/)
 {{< /column >}}
 
 {{< column p="right" md="true" class="bold-default-color" >}}
 ## 🖌 Contact
 - **Email:** [me@edodangelis.com](mailto:me@edodangelis.com)
+- **Telegram:** [@ne_do](https://t.me/ne_do)
 - **LinkedIn:** [edoardodangelis](https://linkedin.com/in/edoardodangelis/)
 - **Phone:** [+39 339 273 4226](tel:+393392734226)
 {{< /column >}}
@@ -40,7 +42,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 - **Programming:** Swift, Python, Java, Bash, C++, C
 - **Web:** HTML, CSS, PHP, TypeScript, Angular, Vue
 - **Databases:** SQL, MySQL, PostgreSQL, TimescaleDB
-- **Other**: Git, CI/CD, LaTeX, Pandas, Numpy, Matplotlib
+- **Other**: Git, CI/CD, Docker, LaTeX, Pandas, Numpy
 {{< /column >}}
 
 {{< /columns >}}
