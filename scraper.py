@@ -231,7 +231,10 @@ headers = {'Content-Type': 'application/x-www-form-urlencoded', 'Authorization':
 res = requests.post(url=SPOTIFY_TOKEN_URL, data={'grant_type': 'refresh_token', 'refresh_token': SPOTIFY_REFRESH_TOKEN}, headers=headers).json()
 ACCESS_TOKEN = res['access_token']
 URL = SPOTIFY_BASE_URL + '?{}'.format(parse.urlencode({'time_range': 'short_term', 'limit': LIMIT}))
-j = requests.get(url=URL, headers={'Authorization': 'Bearer {}'.format(ACCESS_TOKEN)}).json()
+spotify_req = requests.get(url=URL, headers={'Authorization': 'Bearer {}'.format(ACCESS_TOKEN)})
+print(spotify_req)
+print(spotify_req.content)
+j = spotify_req.json()
 for item in j['items']:
     slug = slugify(item['name'])
     save_images(slug, 'jpeg', item['images'][1]['url'], square=True)
