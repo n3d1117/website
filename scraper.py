@@ -88,6 +88,8 @@ ACCESS_TOKEN = res['access_token']
 print(ACCESS_TOKEN)
 URL = SPOTIFY_BASE_URL + '?{}'.format(parse.urlencode({'time_range': 'short_term', 'limit': LIMIT}))
 print(URL)
+print(requests.get(url=URL, headers={'Authorization': 'Bearer {}'.format(ACCESS_TOKEN)}))
+print(requests.get(url=URL, headers={'Authorization': 'Bearer {}'.format(ACCESS_TOKEN)}).content)
 j = requests.get(url=URL, headers={'Authorization': 'Bearer {}'.format(ACCESS_TOKEN)}).json()
 for item in j['items']:
     slug = slugify(item['name'])
