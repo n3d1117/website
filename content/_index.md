@@ -14,7 +14,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 ## ℹ️ Information
 - **Birthday:** November 17th, 1996
 - **Nationality:** Italian
-- **Interests:** technology, sports (football, basketball, tennis), [movies](/about/movies/), [tv shows](/about/shows/), [books](/about/books/), [music](/about/music/), [videogames](/about/games/)
+- **Interests:** technology, sports (football, basketball), [movies](/about/movies/), [tv shows](/about/shows/), [books](/about/books/), [music](/about/music/), [videogames](/about/games/)
 {{< /column >}}
 
 {{< column p="right" md="true" class="bold-default-color" >}}
