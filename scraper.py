@@ -232,7 +232,6 @@ res = requests.post(url=SPOTIFY_TOKEN_URL, data={'grant_type': 'refresh_token', 
 ACCESS_TOKEN = res['access_token']
 URL = SPOTIFY_BASE_URL + '?{}'.format(parse.urlencode({'time_range': 'short_term', 'limit': LIMIT}))
 spotify_req = requests.get(url=URL, headers={'Authorization': 'Bearer {}'.format(ACCESS_TOKEN)})
-print(spotify_req)
 j = spotify_req.json()
 for item in j['items']:
     slug = slugify(item['name'])

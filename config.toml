@@ -51,7 +51,6 @@ languageCode = "en-us"
     title = "Secondary school diploma"
     additionalText = """
 - **Thesis:** _Bitcoin: the currency of the future?_
-- Implemented the (now defunct) school newspaper website called *DeGeneratione*, [still available](https://web.archive.org/web/20160217175239/https://degeneratione.it/) on the Wayback Machine
 """
     where = "Liceo Scientifico [_Guido Castelnuovo_](https://www.liceocastelnuovo.edu.it), Florence, Italy 🇮🇹"
 
