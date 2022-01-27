@@ -7,3 +7,4 @@ resources/
 /.env
 /static/img
 /data/scraper.json
+.hugo_build.lock
