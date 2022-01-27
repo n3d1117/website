@@ -207,9 +207,10 @@ for fav_book in f['books']:
         'url': 'https://oku.club/book/' + fav_book['slug'],
         'img': slug + '.jpg',
         'img_webp': slug + '.webp',
-        'is_favorite': 'true'
+        'is_favorite': 'true',
+        'reading': 'false'
     })
-for book in (d2['books'] + d['books'])[:LIMIT]:
+for book in (d['books'])[:LIMIT]:
     slug = book['slug']
     save_images(slug, 'jpg', book['thumbnail'])
     data['books'].append({
@@ -218,7 +219,20 @@ for book in (d2['books'] + d['books'])[:LIMIT]:
         'url': 'https://oku.club/book/' + book['slug'],
         'img': slug + '.jpg',
         'img_webp': slug + '.webp',
-        'is_favorite': 'false'
+        'is_favorite': 'false',
+        'reading': 'false'
+    })
+for book in (d2['books'])[:LIMIT]:
+    slug = book['slug']
+    save_images(slug, 'jpg', book['thumbnail'])
+    data['books'].append({
+        'title': book['title'],
+        'author': book['authors'][0]['name'],
+        'url': 'https://oku.club/book/' + book['slug'],
+        'img': slug + '.jpg',
+        'img_webp': slug + '.webp',
+        'is_favorite': 'false',
+        'reading': 'true'
     })
 
 

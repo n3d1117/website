@@ -6,7 +6,12 @@ type: simple
 
 {{< about-menu >}}
 
-{{< subhead title="📚 Reading" >}}
+{{< subhead title="📖 Reading" >}}
+{{< latest-books count="6" reading="true" >}}
+
+---
+
+{{< subhead title="📚 Recently Read" >}}
 {{< latest-books count="18" >}}
 
 ---
