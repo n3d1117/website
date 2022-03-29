@@ -15,17 +15,42 @@
     </div>
 </nav>
 
-
-<nav class="menu hide-lg hide-xl about-menu mb-4">
-
-    {{ range .Site.Menus.about }}
-    {{ $icon := printf "icons/%s" .Pre }}
-    {{ $active := strings.HasSuffix $permalink .URL }}
-
-    <a class="menu-item" href="{{ .URL }}" {{ if $active }}aria-current="page"{{ end }}>
-        {{ partial $icon }}
-        <span class="{{if not $active }}color-fg-muted{{ end }}">{{ .Name }}</span>
-    </a>
-
-    {{ end }}
-</nav>
+<div class="d-flex">
+    <div class="flex-1 pr-2">
+        <nav class="menu hide-lg hide-xl about-menu mb-4">
+    
+            {{ range $i, $about := .Site.Menus.about }}
+            {{ $icon := printf "icons/%s" .Pre }}
+            {{ $active := strings.HasSuffix $permalink .URL }}
+        
+            {{ if le $i 2 }}
+                <a class="menu-item" href="{{ .URL }}" {{ if $active }}aria-current="page"{{ end }}>
+                    {{ partial $icon }}
+                    <span class="{{if not $active }}color-fg-muted{{ end }}">{{ .Name }}</span>
+                </a>
+            {{ end }}
+        
+            {{ end }}
+        
+        </nav>
+    </div>
+    
+    <div class="flex-1 pl-2">
+        <nav class="menu hide-lg hide-xl about-menu mb-4">
+    
+            {{ range $i, $about := .Site.Menus.about }}
+            {{ $icon := printf "icons/%s" .Pre }}
+            {{ $active := strings.HasSuffix $permalink .URL }}
+    
+            {{ if ge $i 3 }}
+                <a class="menu-item" href="{{ .URL }}" {{ if $active }}aria-current="page"{{ end }}>
+                    {{ partial $icon }}
+                    <span class="{{if not $active }}color-fg-muted{{ end }}">{{ .Name }}</span>
+                </a>
+            {{ end }}
+    
+            {{ end }}
+    
+        </nav>
+    </div>
+</div>
