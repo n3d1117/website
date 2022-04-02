@@ -3,21 +3,21 @@
     {{ if eq (.Get "favorite") "true" }}
         {{ range where site.Data.scraper.books "is_favorite" "true" }}
             <div class="col-sm-3 col-md-3 col-lg-2 col-xl-2 col-4">
-                {{ partial "book" . }}
+                {{ partial "book" (dict "context" . "lazy" "true") }}
             </div>
         {{ end }}
     
     {{ else if eq (.Get "reading") "true" }}
         {{ range where site.Data.scraper.books "reading" "true" }}
             <div class="col-sm-3 col-md-3 col-lg-2 col-xl-2 col-4">
-                {{ partial "book" . }}
+                {{ partial "book" (dict "context" . "lazy" "false") }}
             </div>
         {{ end }}
         
     {{ else }}
         {{ range (where (where site.Data.scraper.books "is_favorite" "false") "reading" "false") | first (.Get "count") }}
             <div class="col-sm-3 col-md-3 col-lg-2 col-xl-2 col-4">
-                {{ partial "book" . }}
+                {{ partial "book" (dict "context" . "lazy" "false") }}
             </div>
         {{ end }}
     {{ end }}

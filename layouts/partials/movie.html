@@ -1,17 +1,17 @@
 {{ $link := "" }}
-{{ if hasPrefix .guid "https"}}
-    {{ $link = .guid }}
+{{ if hasPrefix .context.guid "https"}}
+    {{ $link = .context.guid }}
 {{ else }}
-    {{ $link = printf "https://www.themoviedb.org/movie/%s" .guid }}
+    {{ $link = printf "https://www.themoviedb.org/movie/%s" .context.guid }}
 {{ end }}
 
 <a href="{{ $link }}" target="_blank" rel="noopener nofollow" class="no-underline">
     <div class="width-full p-1 p-md-2 media">
         <picture>
-            <source srcset="/img/{{ .img_webp }}" type="image/webp">
-            <img src="/img/{{ .img }}" class="rounded rounded-1 mh-120" loading="lazy" decoding="async" alt="{{ .title }}">
+            <source srcset="/img/{{ .context.img_webp }}" type="image/webp">
+            <img src="/img/{{ .context.img }}" class="rounded rounded-1 mh-120" {{if ne .lazy "false" }}loading="lazy"{{ end }} decoding="async" alt="{{ .context.title }}">
         </picture>
-        <p class="mb-1 lh-condensed color-fg-default">{{.title}}</p>
-        <p class="mb-2 mb-lg-1 lh-condensed f5 color-fg-muted">{{.year}} {{ if eq .cinema "true" }}🎬{{ end }}</p>
+        <p class="mb-1 lh-condensed color-fg-default">{{.context.title}}</p>
+        <p class="mb-2 mb-lg-1 lh-condensed f5 color-fg-muted">{{.context.year}} {{ if eq .context.cinema "true" }}🎬{{ end }}</p>
     </div>
 </a>

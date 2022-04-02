@@ -87,10 +87,11 @@ for movie in movies[:LIMIT]:
     slug = slugify(movie['title'])
     img_url = PLEX_PROXY_IMG + movie['thumb'] + '&width=' + IMG_WIDTH
     save_images(slug, 'png', img_url)
-    guids = requests.get(PLEX_METADATA_URL + str(movie['rating_key'])).json()['response']['data']['guids']
+    j = requests.get(PLEX_METADATA_URL + str(movie['rating_key'])).json()
+    guid = j['response']['data']['guids'][1].split('//')[1] if 'guids' in j['response']['data'] else ''
     data['movies'].append({
         'title': movie['title'],
-        'guid': guids[1].split('//')[1],
+        'guid': guid,
         'year': movie['year'],
         'img': slug + '.png',
         'img_webp': slug + '.webp',
@@ -158,11 +159,11 @@ for show in unique_shows[:LIMIT]:
     slug = slugify(show['grandparent_title'])
     img_url = PLEX_PROXY_IMG + show['thumb'] + '&width=' + IMG_WIDTH
     save_images(slug, 'png', img_url)
-    guids = requests.get(PLEX_METADATA_URL + str(show['rating_key'])).json()['response']['data']['guids']
-
+    j = requests.get(PLEX_METADATA_URL + str(show['rating_key'])).json()
+    guid = j['response']['data']['guids'][1].split('//')[1] if 'guids' in j['response']['data'] else ''
     data['shows'].append({
         'title': show['grandparent_title'],
-        'guid': guids[1].split('//')[1],
+        'guid': guid,
         'ep': 'S' + str(show['parent_media_index']) + 'E' + str(show['media_index']),
         'img': slug + '.png',
         'img_webp': slug + '.webp',

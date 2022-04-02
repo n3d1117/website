@@ -4,7 +4,7 @@
             {{ if ne .img_webp "kanye_west.webp" }}
             <source srcset="/img/{{ .img_webp }}" type="image/webp">
             {{ end }}
-            <img src="/img/{{ .img }}" class="circle mh-70" loading="lazy" decoding="async" alt="{{.name}}">
+            <img src="/img/{{ .img }}" class="circle mh-70" decoding="async" alt="{{.name}}">
         </picture>
         <p class="mb-3 text-center lh-condensed color-fg-default">{{.name}}</p>
     </div>
