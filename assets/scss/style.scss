@@ -219,6 +219,19 @@ article {
 }
 
 .year {
+  
+  @media (max-width: 768px) {
+    .TimelineItem-badge {
+      margin-left: -5px;
+    }
+    .TimelineItem:nth-child(1)::before {
+      margin-left: 10px;
+    }
+    .TimelineItem--condensed::before {
+      margin-left: 10px;
+    }
+  }
+
   & > .TimelineItem:nth-child(2) .Box {
     margin-top: 0 !important;
   }
