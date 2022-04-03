@@ -4,7 +4,7 @@
             <source srcset="/img/{{ .context.img_webp }}" type="image/webp">
             <img src="/img/{{ .context.img }}" class="rounded rounded-1 mh-120" {{if ne .lazy "false" }}loading="lazy"{{ end }} decoding="async" alt="{{ .context.title }} by {{ .context.author }}">
         </picture>
-        <p class="mb-1 lh-condensed color-fg-default">{{.title}}</p>
-        <p class="mb-2 mb-lg-1 lh-condensed f5 color-fg-muted">{{.author}}</p>
+        <p class="mb-1 lh-condensed color-fg-default">{{.context.title}}</p>
+        <p class="mb-2 mb-lg-1 lh-condensed f5 color-fg-muted">{{.context.author}}</p>
     </div>
 </a>
