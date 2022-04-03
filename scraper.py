@@ -102,30 +102,32 @@ for movie in movies[:LIMIT]:
 
 # Cinema
 d = feedparser.parse('https://letterboxd.com/n3d1117/rss/')
-lbxd_cinema_list = [item for item in d['entries'] if item['title'] == '🍿 Cinema'][0]
-cinema_movies_raw = re.findall("<li>(.*?)</li>", lbxd_cinema_list['summary'])
-cinema_movies = []
-for movie in cinema_movies_raw:
-    cinema_movies.append({ 'title': movie.split('">')[1].split('</a>')[0], 'link': movie.split('href="')[1].split('"')[0] })
-for movie in cinema_movies:
-    items = [item for item in d['entries'] if 'letterboxd_filmtitle' in item and item['letterboxd_filmtitle'] == movie['title']]
-    if len(items) > 0:
-        item = items[0]
+lbxd_cinema_lists = [item for item in d['entries'] if item['title'] == '🍿 Cinema']
+if len(lbxd_cinema_lists) > 0:
+    lbxd_cinema_list = lbxd_cinema_lists[0]
+    cinema_movies_raw = re.findall("<li>(.*?)</li>", lbxd_cinema_list['summary'])
+    cinema_movies = []
+    for movie in cinema_movies_raw:
+        cinema_movies.append({ 'title': movie.split('">')[1].split('</a>')[0], 'link': movie.split('href="')[1].split('"')[0] })
+    for movie in cinema_movies:
+        items = [item for item in d['entries'] if 'letterboxd_filmtitle' in item and item['letterboxd_filmtitle'] == movie['title']]
+        if len(items) > 0:
+            item = items[0]
 
-        slug = slugify(item['letterboxd_filmtitle'])
-        img_url = item['summary'].split('src="')[1].split('"')[0].replace('0-500-0-750', '0-230-0-345')
-        save_images(slug, 'jpg', img_url)
+            slug = slugify(item['letterboxd_filmtitle'])
+            img_url = item['summary'].split('src="')[1].split('"')[0].replace('0-500-0-750', '0-230-0-345')
+            save_images(slug, 'jpg', img_url)
 
-        data['movies'].append({
-            'title': item['letterboxd_filmtitle'],
-            'guid': movie['link'],
-            'year': item['letterboxd_filmyear'],
-            'img': slug + '.jpg',
-            'img_webp': slug + '.webp',
-            'last_watch': int(datetime.strptime(item['letterboxd_watcheddate'], "%Y-%m-%d").timestamp()),
-            'cinema': 'true',
-            'is_favorite': 'false'
-        })
+            data['movies'].append({
+                'title': item['letterboxd_filmtitle'],
+                'guid': movie['link'],
+                'year': item['letterboxd_filmyear'],
+                'img': slug + '.jpg',
+                'img_webp': slug + '.webp',
+                'last_watch': int(datetime.strptime(item['letterboxd_watcheddate'], "%Y-%m-%d").timestamp()),
+                'cinema': 'true',
+                'is_favorite': 'false'
+            })
 
 # Fav Movies
 top_movies = requests.get(url="https://api.themoviedb.org/3/list/7112446?api_key=" + TMDB_API_KEY)
