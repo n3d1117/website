@@ -42,7 +42,7 @@ languageCode = "en-us"
     title = "MSc in Computer Science & Engineering"
     where = "[University of Florence](https://unifi.it), Italy 🇮🇹"
     additionalText = """
-- **Final grade:** `110/110`
+- **Final grade:** `110/110` with honours
 - **Thesis:** Design and development of components for the [AirQino](https://www.airqino.it/en/) platform dedicated to air quality monitoring 
 - **Relevant courses:** Software Architectures and Methodologies, Big Data Architectures, Advanced Programming Techniques, Parallel Computing, Human Computer Interaction
 """
@@ -51,7 +51,7 @@ languageCode = "en-us"
     to = "April 2019"
     title = "BSc in Computer Science & Engineering"
     additionalText = """
-- **Thesis:** _Semantic expansion of bibliographic records_: using ML-based entity extraction tools (such as [spaCy](https://spacy.io)) and [SPARQL](https://www.w3.org/TR/rdf-sparql-query/) queries to generate semantic annotations based on geographic data.
+- **Thesis:** _Semantic expansion of bibliographic records_: using ML-based entity extraction tools (such as [spaCy](https://spacy.io)) and [SPARQL](https://www.w3.org/TR/rdf-sparql-query/) queries to generate annotations based on geographic data.
 - **Relevant courses:** Algorithms and Data Structures, Operating Systems, Artificial Intelligence, Databases, Software Engineering
 """
     where = "[University of Florence](https://unifi.it), Italy 🇮🇹"
