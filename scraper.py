@@ -295,18 +295,19 @@ headers = {
 response = requests.get('https://www.igdb.com/users/nedda/lists/games-i-play.csv', cookies={ '_server_session': IGDB_COOKIE })
 reader = csv.DictReader(response.content.decode('utf-8').splitlines(), delimiter=',')
 for row in reader:
-    d = 'fields first_release_date, cover.url; where id = ' + row['id'] + ';'
-    cover = requests.post('https://api.igdb.com/v4/games', headers=headers, data=d)
-    cover_url = cover.json()[0]['cover']['url'].replace('t_thumb', 't_cover_big').replace('//', 'https://')
-    slug = slugify(row['game'])
-    save_images(slug, 'jpg', cover_url)
-    data['videogames'].append({
-        'name': row['game'],
-        'url': row['url'],
-        'year': datetime.utcfromtimestamp(int(cover.json()[0]['first_release_date'])).strftime('%Y'),
-        'img': slug + '.jpg',
-        'img_webp': slug + '.webp'
-    })
+    if 'id' in row:
+        d = 'fields first_release_date, cover.url; where id = ' + row['id'] + ';'
+        cover = requests.post('https://api.igdb.com/v4/games', headers=headers, data=d)
+        cover_url = cover.json()[0]['cover']['url'].replace('t_thumb', 't_cover_big').replace('//', 'https://')
+        slug = slugify(row['game'])
+        save_images(slug, 'jpg', cover_url)
+        data['videogames'].append({
+            'name': row['game'],
+            'url': row['url'],
+            'year': datetime.utcfromtimestamp(int(cover.json()[0]['first_release_date'])).strftime('%Y'),
+            'img': slug + '.jpg',
+            'img_webp': slug + '.webp'
+        })
 
 # Write data
 with open('data/scraper.json', 'w') as f:
