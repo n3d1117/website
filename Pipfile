@@ -8,6 +8,7 @@ requests = "*"
 python-dotenv = "*"
 feedparser = "*"
 pillow = "*"
+cloudscraper = "*"
 
 [dev-packages]
 

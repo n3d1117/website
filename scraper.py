@@ -12,6 +12,7 @@ import feedparser
 from PIL import Image
 import csv
 from datetime import datetime
+import cloudscraper
 
 print('Scraping sources...')
 
@@ -292,7 +293,8 @@ headers = {
     'Authorization': 'Bearer ' + access_token,
     'Accept': 'application/json',
 }
-response = requests.get('https://www.igdb.com/users/nedda/lists/games-i-play.csv', cookies={ '_server_session': IGDB_COOKIE })
+scraper = cloudscraper.create_scraper()
+response = scraper.get('https://www.igdb.com/users/nedda/lists/games-i-play.csv', cookies={ '_server_session': IGDB_COOKIE })
 reader = csv.DictReader(response.content.decode('utf-8').splitlines(), delimiter=',')
 for row in reader:
     if 'id' in row:
