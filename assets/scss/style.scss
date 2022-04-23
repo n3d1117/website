@@ -24,6 +24,10 @@
   max-width: 980px;
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
 body, .markdown-body {
   font-size: 16px;
   @media (max-width: 650px) {
@@ -514,6 +518,14 @@ figure {
   }
 }
 
+.Subhead--spacious {
+  padding-bottom: .6em;
+}
+
+.Subhead-heading {
+  line-height: 1.25;
+}
+
 .h100 {
   height: 100%;
 }
@@ -549,6 +561,16 @@ figure {
 .blogPostIcon {
   width: 14px !important; 
   margin-right: 5px !important;
+}
+
+.blog-rss-icon {
+  &:hover {
+    text-decoration: none;
+    opacity: 0.7;
+  }
+  &:hover svg path {
+    opacity: 0.7;
+  }
 }
 
 .mt3 {

@@ -32,7 +32,7 @@
     <ul class="social list-style-none">
         {{ range .Site.Menus.social }}
         {{ $icon := printf "icons/%s" .Pre }}
-        <li class="tooltipped tooltipped-n tooltipped-no-delay d-inline-block mr-3" aria-label="{{ .Name }}">
+        <li class="cursor-pointer tooltipped tooltipped-n tooltipped-no-delay d-inline-block mr-3" aria-label="{{ .Name }}">
             <a href="{{ .URL }}" target="_blank" rel="noopener nofollow" aria-label="{{.Pre}}">{{ partial $icon }}</a>
         </li>
         {{ end }}

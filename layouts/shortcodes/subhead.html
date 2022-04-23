@@ -2,34 +2,34 @@
     <h2 class="pb-0 mt-0 {{ if .Get `subtitle` }}mb-1{{ else}}mb-gentle{{ end }} border-0 flex-1">{{ .Get "title" | .Page.RenderString }}</h2>
     
     {{ if eq (.Get "icon") "tmdb" }}
-        <a href="https://www.themoviedb.org" class="p-1 w35h28 tooltipped tooltipped-n tooltipped-no-delay" target="_blank" rel="noopener nofollow" aria-label="TMDB">
+        <a href="https://www.themoviedb.org" class="cursor-pointer p-1 w35h28 tooltipped tooltipped-n tooltipped-no-delay" target="_blank" rel="noopener nofollow" aria-label="TMDB">
             {{ partial "icons/tmdb" }}
         </a>
     {{ else if eq (.Get "icon") "spotify" }}
-        <a href="https://open.spotify.com/user/68ejmk6u5fd1rqbplyvd9gqrh" class="p-1 w30h30 tooltipped tooltipped-n tooltipped-no-delay" target="_blank" rel="noopener nofollow" aria-label="Spotify">
+        <a href="https://open.spotify.com/user/68ejmk6u5fd1rqbplyvd9gqrh" class="cursor-pointer p-1 w30h30 tooltipped tooltipped-n tooltipped-no-delay" target="_blank" rel="noopener nofollow" aria-label="Spotify">
             {{ partial "icons/spotify" }}
         </a>
     {{ else if eq (.Get "icon") "oku" }}
-        <a href="https://oku.club/user/ned" class="p-1 w60h24 tooltipped tooltipped-n tooltipped-no-delay" target="_blank" rel="noopener nofollow" aria-label="Oku">
+        <a href="https://oku.club/user/ned" class="cursor-pointer p-1 w60h24 tooltipped tooltipped-n tooltipped-no-delay" target="_blank" rel="noopener nofollow" aria-label="Oku">
             {{ partial "icons/oku" }}
         </a>
     {{ else if eq (.Get "icon") "plex" }}
-        <a href="https://www.plex.tv" class="p-1 w30h30 tooltipped tooltipped-n tooltipped-no-delay" target="_blank" rel="noopener nofollow" aria-label="Plex">
+        <a href="https://www.plex.tv" class="cursor-pointer p-1 w30h30 tooltipped tooltipped-n tooltipped-no-delay" target="_blank" rel="noopener nofollow" aria-label="Plex">
             {{ partial "icons/plex" }}
         </a>
     {{ else if eq (.Get "icon") "plex+lbxd" }}
-        <a href="https://www.plex.tv" class="p-1 w30h30 tooltipped tooltipped-n tooltipped-no-delay" target="_blank" rel="noopener nofollow" aria-label="Plex">
+        <a href="https://www.plex.tv" class="cursor-pointer p-1 w30h30 tooltipped tooltipped-n tooltipped-no-delay" target="_blank" rel="noopener nofollow" aria-label="Plex">
             {{ partial "icons/plex" }}
         </a>
-        <a href="https://letterboxd.com/n3d1117/" class="p-1 w30h30 tooltipped tooltipped-n tooltipped-no-delay" target="_blank" rel="noopener nofollow" aria-label="Letterboxd">
+        <a href="https://letterboxd.com/n3d1117/" class="cursor-pointer p-1 w30h30 tooltipped tooltipped-n tooltipped-no-delay" target="_blank" rel="noopener nofollow" aria-label="Letterboxd">
             {{ partial "icons/lbxd" }}
         </a>
     {{ else if eq (.Get "icon") "rss" }}
-        <a href="/blog/index.xml" class="p-1 pl-2 w30h30 tooltipped tooltipped-n tooltipped-no-delay" target="_blank" rel="noopener nofollow" aria-label="RSS Feed">
+        <a href="/blog/index.xml" class="cursor-pointer p-1 pl-2 w30h30 tooltipped tooltipped-n tooltipped-no-delay" target="_blank" rel="noopener nofollow" aria-label="RSS Feed">
             {{ partial "icons/rss" }}
         </a>
     {{ else if eq (.Get "icon") "igdb" }}
-        <a href="https://www.igdb.com/" class="p-1 w46h24 tooltipped tooltipped-n tooltipped-no-delay" target="_blank" rel="noopener nofollow" aria-label="IGDB">
+        <a href="https://www.igdb.com/" class="cursor-pointer p-1 w46h24 tooltipped tooltipped-n tooltipped-no-delay" target="_blank" rel="noopener nofollow" aria-label="IGDB">
             {{ partial "icons/igdb" }}
         </a>
     {{ end }}
