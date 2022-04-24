@@ -562,13 +562,26 @@ figure {
   margin-right: 5px !important;
 }
 
-.blog-rss-icon:hover svg path {
-  opacity: 0.7;
+.blog-rss-icon {
+  svg {
+    width: 18px;
+    height: 18px;
+  }
+  &:hover svg path {
+    opacity: 0.7;
+  }
 }
 
 .mt3 {
   margin-top: 3px
 }
+
+/*! purgecss start ignore */
+.w16h16 svg {
+  width: 16px; 
+  height: 16px;
+}
+/*! purgecss end ignore */
 
 .w30h30 {
   width: 30px; 

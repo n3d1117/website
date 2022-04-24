@@ -265,11 +265,11 @@ for item in j['items']:
 
 # GitHub
 data['github'] = []
-GITHUB_URL = 'https://api.github.com/users/{}/repos?per_page=50'.format('n3d1117')
+GITHUB_URL = 'https://api.github.com/users/{}/repos?per_page=100'.format('n3d1117')
 exclude = ['CrackBot']
 j = requests.get(GITHUB_URL).json()
 d = sorted(j, key=lambda item: item['stargazers_count'], reverse=True)
-for project in [p for p in d if p['name'] not in exclude][:LIMIT]:
+for project in [p for p in d if p['name'] not in exclude][:100]:
     data['github'].append({
         'name': project['name'],
         'html_url': project['html_url'],

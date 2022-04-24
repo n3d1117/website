@@ -32,6 +32,10 @@
         <a href="https://www.igdb.com/" class="cursor-pointer p-1 w46h24 tooltipped tooltipped-n tooltipped-no-delay" target="_blank" rel="noopener nofollow" aria-label="IGDB">
             {{ partial "icons/igdb" }}
         </a>
+    {{ else if eq (.Get "icon") "github" }}
+        <a href="https://github.com/n3d1117/" class="cursor-pointer p-1 w30h30 tooltipped tooltipped-n tooltipped-no-delay" target="_blank" rel="noopener nofollow" aria-label="GitHub">
+            {{ partial "icons/github" }}
+        </a>
     {{ end }}
 
 </div>
