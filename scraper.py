@@ -314,4 +314,6 @@ for row in reader:
 # Write data
 with open('data/scraper.json', 'w') as f:
     json.dump(data, f)
+with open('static/data.json', 'w') as f:
+    json.dump(data, f)
   

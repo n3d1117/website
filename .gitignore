@@ -8,3 +8,4 @@ resources/
 /static/img
 /data/scraper.json
 .hugo_build.lock
+/static/scraper.json
