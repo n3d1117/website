@@ -3,10 +3,12 @@
 <div class="markdown-body mx-auto px-3 px-md-4 px-lg-6 py-4 py-md-5 py-lg-7 main-content">
   
   {{ if (eq .Section "tags")}}
-    <a class="text-small text-uppercase text-bold hide-xl hide-lg hide-md" href="/tags">Browse all tags →</a>
-    <span class="Subhead mt-1 Subhead--spacious">
+    <span class="hide-xl hide-lg mb-1">
+      <a class="text-small text-uppercase text-bold" href="/tags">Browse all tags →</a>
+    </span>
+    <span class="Subhead mt-1 mt-lg-0 Subhead--spacious">
       <div class="pr-3 h1 Subhead-heading">Tagged with <span class="color-fg-accent">{{ .Title }}</span></div>
-      <div class="Subhead-actions mt-2 hide-sm"><a class="text-semibold" href="/tags">Browse all tags →</a></div>
+      <div class="Subhead-actions mt-2 hide-sm hide-md"><a class="text-semibold" href="/tags">Browse all tags →</a></div>
     </span>
   {{ else }}
     <span class="Subhead mt-0 Subhead--spacious">
