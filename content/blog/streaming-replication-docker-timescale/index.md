@@ -1,9 +1,9 @@
 ---
 title: Enabling TimescaleDB Streaming Replication for PostgreSQL 13 with Docker
-description: This post shows how to set up streaming replication for a PostgreSQL 13 database with TimescaleDB extension using Docker, in order to create a 1:1 replica of the primary database always in sync.
+description: This post shows how to set up streaming replication for a PostgreSQL 13 database with TimescaleDB extension using Docker, in order to create a 1:1 replica of the primary database that is always in sync.
 date: 2021-10-22T02:28:42.000Z
 slug: wildfly-docker-timescale
-tags: [replication, docker, timescaledb, postgresql]
+tags: [replication, docker, timescaledb, postgresql, big data]
 toc: true
 math: false
 ---
@@ -13,7 +13,7 @@ math: false
 {{< /note >}}
 
 ## Introduction
-Part of my work at [Magenta](https://magentalab.it) was to investigate the possibility of having a 1:1 replica of the production database (which had more than **50M rows**, running PostgreSQL 13 and [Timescale](https://www.timescale.com)), possibly on a different server, and having them **in sync** all the time for performance tests, offloading heavy queries and availability.
+Part of my work at [Magenta](https://magentalab.it) was to investigate the possibility of having a 1:1 replica of [AirQino](https://www.airqino.it/en/)'s production database (which had more than **100M rows**, running PostgreSQL 13 and [Timescale](https://www.timescale.com)), possibly on a different server, and having them **in sync** all the time for performance tests, offloading heavy queries and availability (also check out my [other post](/blog/2021/11/continuous-aggregates-timescale/) on implementing *continuous aggregates* to make database queries run faster).
 
 As it turns out, TimescaleDB does not support for logical replication (using libraries like [pglogical](https://github.com/2ndQuadrant/pglogical)), but it can handle replication using PostgreSQL's built-in [streaming replication](https://www.postgresql.org/docs/current/warm-standby.html#STREAMING-REPLICATION), which is what i ended up using. PostgreSQL achieves streaming replication by having replicas continuously stream the **WAL** (*Write-Ahead Logging*) from the primary database. For more information see PostgreSQL's [WAL Documentation](https://www.postgresql.org/docs/13/wal-intro.html)[^1].
 
