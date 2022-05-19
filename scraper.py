@@ -97,8 +97,8 @@ for movie in movies[:LIMIT]:
         'img': slug + '.png',
         'img_webp': slug + '.webp',
         'last_watch': movie['last_watch'],
-        'cinema': 'false',
-        'is_favorite': 'false'
+        'cinema': False,
+        'is_favorite': False
     })
 
 # Cinema
@@ -126,8 +126,8 @@ if len(lbxd_cinema_lists) > 0:
                 'img': slug + '.jpg',
                 'img_webp': slug + '.webp',
                 'last_watch': int(datetime.strptime(item['letterboxd_watcheddate'], "%Y-%m-%d").timestamp()),
-                'cinema': 'true',
-                'is_favorite': 'false'
+                'cinema': True,
+                'is_favorite': False
             })
 
 # Fav Movies
@@ -145,8 +145,8 @@ for movie in top_movies_json['items']:
         'img': slug + '.jpg',
         'img_webp': slug + '.webp',
         'last_watch': int(datetime.strptime(movie['release_date'], "%Y-%m-%d").timestamp()),
-        'cinema': 'false',
-        'is_favorite': 'true'
+        'cinema': False,
+        'is_favorite': True
     })
 
 # TV Shows
@@ -170,7 +170,7 @@ for show in unique_shows[:LIMIT]:
         'ep': 'S' + str(show['parent_media_index']) + 'E' + str(show['media_index']),
         'img': slug + '.png',
         'img_webp': slug + '.webp',
-        'is_favorite': 'false'
+        'is_favorite': False
     })
 
 # Fav TV Shows
@@ -188,7 +188,7 @@ for show in top_shows_json['items']:
         'img': slug + '.jpg',
         'img_webp': slug + '.webp',
         'last_watch': int(datetime.strptime(show['first_air_date'], "%Y-%m-%d").timestamp()),
-        'is_favorite': 'true'
+        'is_favorite': True
     })
 
 # Books
@@ -211,8 +211,8 @@ for fav_book in f['books']:
         'url': 'https://oku.club/book/' + fav_book['slug'],
         'img': slug + '.jpg',
         'img_webp': slug + '.webp',
-        'is_favorite': 'true',
-        'reading': 'false'
+        'is_favorite': True,
+        'reading': False
     })
 for book in (d['books'])[:LIMIT]:
     slug = book['slug']
@@ -223,8 +223,8 @@ for book in (d['books'])[:LIMIT]:
         'url': 'https://oku.club/book/' + book['slug'],
         'img': slug + '.jpg',
         'img_webp': slug + '.webp',
-        'is_favorite': 'false',
-        'reading': 'false'
+        'is_favorite': False,
+        'reading': False
     })
 for book in (d2['books'])[:LIMIT]:
     slug = book['slug']
@@ -235,8 +235,8 @@ for book in (d2['books'])[:LIMIT]:
         'url': 'https://oku.club/book/' + book['slug'],
         'img': slug + '.jpg',
         'img_webp': slug + '.webp',
-        'is_favorite': 'false',
-        'reading': 'true'
+        'is_favorite': False,
+        'reading': True
     })
 
 
