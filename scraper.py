@@ -33,7 +33,7 @@ IGDB_COOKIE=os.environ["IGDB_COOKIE"]
 IGDB_CLIENT_ID=os.environ["IGDB_CLIENT_ID"]
 IGDB_CLIENT_SECRET=os.environ["IGDB_CLIENT_SECRET"]
 
-LIMIT = 20
+LIMIT = 50
 IMG_WIDTH = '350'
 
 data = {}
@@ -85,21 +85,23 @@ rows = j['response']['data']['rows']
 data['movies'] = []
 movies = [row for row in rows if row['media_type'] == 'movie' and row['user'] == PLEX_USER]
 for movie in movies[:LIMIT]:
-    slug = slugify(movie['title'])
-    img_url = PLEX_PROXY_IMG + movie['thumb'] + '&width=' + IMG_WIDTH
-    save_images(slug, 'png', img_url)
     j = requests.get(PLEX_METADATA_URL + str(movie['rating_key'])).json()
-    guid = j['response']['data']['guids'][1].split('//')[1] if 'guids' in j['response']['data'] else ''
-    data['movies'].append({
-        'title': movie['title'],
-        'guid': guid,
-        'year': movie['year'],
-        'img': slug + '.png',
-        'img_webp': slug + '.webp',
-        'last_watch': movie['last_watch'],
-        'cinema': False,
-        'is_favorite': False
-    })
+    if 'guids' in j['response']['data']:
+        guid = j['response']['data']['guids'][1].split('//')[1]
+        if not any(m['guid'] == guid for m in data['movies']):
+            slug = slugify(movie['title'])
+            img_url = PLEX_PROXY_IMG + movie['thumb'] + '&width=' + IMG_WIDTH
+            save_images(slug, 'png', img_url)
+            data['movies'].append({
+                'title': movie['title'],
+                'guid': guid,
+                'year': movie['year'],
+                'img': slug + '.png',
+                'img_webp': slug + '.webp',
+                'last_watch': movie['last_watch'],
+                'cinema': False,
+                'is_favorite': False
+            })
 
 # Cinema
 d = feedparser.parse('https://letterboxd.com/n3d1117/rss/')
@@ -115,39 +117,39 @@ if len(lbxd_cinema_lists) > 0:
         if len(items) > 0:
             item = items[0]
 
-            slug = slugify(item['letterboxd_filmtitle'])
-            img_url = item['summary'].split('src="')[1].split('"')[0].replace('0-500-0-750', '0-230-0-345')
-            save_images(slug, 'jpg', img_url)
-
-            data['movies'].append({
-                'title': item['letterboxd_filmtitle'],
-                'guid': movie['link'],
-                'year': item['letterboxd_filmyear'],
-                'img': slug + '.jpg',
-                'img_webp': slug + '.webp',
-                'last_watch': int(datetime.strptime(item['letterboxd_watcheddate'], "%Y-%m-%d").timestamp()),
-                'cinema': True,
-                'is_favorite': False
-            })
+            if not any(m['guid'] == movie['link'] for m in data['movies']):
+                slug = slugify(item['letterboxd_filmtitle'])
+                img_url = item['summary'].split('src="')[1].split('"')[0].replace('0-500-0-750', '0-230-0-345')
+                save_images(slug, 'jpg', img_url)
+                data['movies'].append({
+                    'title': item['letterboxd_filmtitle'],
+                    'guid': movie['link'],
+                    'year': item['letterboxd_filmyear'],
+                    'img': slug + '.jpg',
+                    'img_webp': slug + '.webp',
+                    'last_watch': int(datetime.strptime(item['letterboxd_watcheddate'], "%Y-%m-%d").timestamp()),
+                    'cinema': True,
+                    'is_favorite': False
+                })
 
 # Fav Movies
 top_movies = requests.get(url="https://api.themoviedb.org/3/list/7112446?api_key=" + TMDB_API_KEY)
 top_movies_json = top_movies.json()
 for movie in top_movies_json['items']:
-    slug = slugify(movie['title'])
-    img_url = 'https://image.tmdb.org/t/p/w300' + movie['poster_path']
-    save_images(slug, 'jpg', img_url)
-
-    data['movies'].append({
-        'title': movie['title'],
-        'guid': str(movie['id']),
-        'year': movie['release_date'].split('-')[0],
-        'img': slug + '.jpg',
-        'img_webp': slug + '.webp',
-        'last_watch': int(datetime.strptime(movie['release_date'], "%Y-%m-%d").timestamp()),
-        'cinema': False,
-        'is_favorite': True
-    })
+    if not any(m['guid'] == str(movie['id']) for m in data['movies']):
+        slug = slugify(movie['title'])
+        img_url = 'https://image.tmdb.org/t/p/w300' + movie['poster_path']
+        save_images(slug, 'jpg', img_url)
+        data['movies'].append({
+            'title': movie['title'],
+            'guid': str(movie['id']),
+            'year': movie['release_date'].split('-')[0],
+            'img': slug + '.jpg',
+            'img_webp': slug + '.webp',
+            'last_watch': int(datetime.strptime(movie['release_date'], "%Y-%m-%d").timestamp()),
+            'cinema': False,
+            'is_favorite': True
+        })
 
 # TV Shows
 data['shows'] = []
@@ -159,19 +161,20 @@ for show in tv_shows:
         unique_show_titles.append(show['grandparent_title'])
         unique_shows.append(show)
 for show in unique_shows[:LIMIT]:
-    slug = slugify(show['grandparent_title'])
-    img_url = PLEX_PROXY_IMG + show['thumb'] + '&width=' + IMG_WIDTH
-    save_images(slug, 'png', img_url)
     j = requests.get(PLEX_METADATA_URL + str(show['rating_key'])).json()
-    guid = j['response']['data']['guids'][1].split('//')[1] if 'guids' in j['response']['data'] else ''
-    data['shows'].append({
-        'title': show['grandparent_title'],
-        'guid': guid,
-        'ep': 'S' + str(show['parent_media_index']) + 'E' + str(show['media_index']),
-        'img': slug + '.png',
-        'img_webp': slug + '.webp',
-        'is_favorite': False
-    })
+    if 'guids' in j['response']['data']:
+        slug = slugify(show['grandparent_title'])
+        img_url = PLEX_PROXY_IMG + show['thumb'] + '&width=' + IMG_WIDTH
+        save_images(slug, 'png', img_url)
+        guid = j['response']['data']['guids'][1].split('//')[1]
+        data['shows'].append({
+            'title': show['grandparent_title'],
+            'guid': guid,
+            'ep': 'S' + str(show['parent_media_index']) + 'E' + str(show['media_index']),
+            'img': slug + '.png',
+            'img_webp': slug + '.webp',
+            'is_favorite': False
+        })
 
 # Fav TV Shows
 top_shows = requests.get(url="https://api.themoviedb.org/3/list/7112447?api_key=" + TMDB_API_KEY)
@@ -180,7 +183,6 @@ for show in top_shows_json['items']:
     slug = slugify(show['name'])
     img_url = 'https://image.tmdb.org/t/p/w300' + show['poster_path']
     save_images(slug, 'jpg', img_url)
-
     data['shows'].append({
         'title': show['name'],
         'guid': str(show['id']),
