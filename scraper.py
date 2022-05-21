@@ -171,6 +171,7 @@ for show in unique_shows[:LIMIT]:
             'title': show['grandparent_title'],
             'guid': guid,
             'ep': 'S' + str(show['parent_media_index']) + 'E' + str(show['media_index']),
+            'last_watch': show['last_watch'],
             'img': slug + '.png',
             'img_webp': slug + '.webp',
             'is_favorite': False
