@@ -124,7 +124,7 @@ if len(lbxd_cinema_lists) > 0:
                 data['movies'].append({
                     'title': item['letterboxd_filmtitle'],
                     'guid': movie['link'],
-                    'year': item['letterboxd_filmyear'],
+                    'year': int(item['letterboxd_filmyear']),
                     'img': slug + '.jpg',
                     'img_webp': slug + '.webp',
                     'last_watch': int(datetime.strptime(item['letterboxd_watcheddate'], "%Y-%m-%d").timestamp()),
@@ -143,7 +143,7 @@ for movie in top_movies_json['items']:
         data['movies'].append({
             'title': movie['title'],
             'guid': str(movie['id']),
-            'year': movie['release_date'].split('-')[0],
+            'year': int(movie['release_date'].split('-')[0]),
             'img': slug + '.jpg',
             'img_webp': slug + '.webp',
             'last_watch': int(datetime.strptime(movie['release_date'], "%Y-%m-%d").timestamp()),
@@ -309,7 +309,7 @@ for row in reader:
         data['videogames'].append({
             'name': row['game'],
             'url': row['url'],
-            'year': datetime.utcfromtimestamp(int(cover.json()[0]['first_release_date'])).strftime('%Y'),
+            'year': int(datetime.utcfromtimestamp(int(cover.json()[0]['first_release_date'])).strftime('%Y')),
             'img': slug + '.jpg',
             'img_webp': slug + '.webp'
         })
