@@ -4,7 +4,8 @@
     </a>
 
     <h1 class="mb-2 lh-condensed">{{ .Site.Params.name }}</h1>
-    <p class="mb-3 color-fg-muted f4">{{ .Site.Params.bio | (.Site.GetPage "/blog").RenderString }}</p>
+    <p class="mb-1 color-fg-muted f4"><span class="mr10">{{ partial "icons/briefcase" }}</span>{{ .Site.Params.bio | (.Site.GetPage "/blog").RenderString }}</p>
+    <p class="mb-3 color-fg-muted f4"><span class="mr10">{{ partial "icons/location" }}</span>{{ .Site.Params.loc }}</p>
 
     <ul class="filter-list mt-6 mb-6">
         {{ $current := . }}

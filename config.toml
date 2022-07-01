@@ -14,6 +14,7 @@ languageCode = "en-us"
   dateFormat = "Jan 2, 2006"
   name = "Edoardo D'Angelis"
   bio = "Software Engineer [@Magenta](https://magentalab.it)"
+  loc = "Florence, Italy"
   image = "/me.jpeg"
 
   [[params.work]]
