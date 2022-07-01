@@ -22,8 +22,9 @@ languageCode = "en-us"
     to = "present"
     title = "Software Engineer @ [Magenta](https://magentalab.it)"
     additionalText = """
-- Building reactive web applications using [Angular](https://angular.io) and [NgRx](https://ngrx.io)
+- Refactoring the [GreenApes](https://www.greenapes.com)  iOS App using [Swift](https://www.swift.org), [SwiftUI](https://developer.apple.com/xcode/swiftui/) and [Combine](https://developer.apple.com/documentation/combine)
 - Writing Java backend microservices using [Quarkus](https://quarkus.io) and [Apache Kafka](https://kafka.apache.org)
+- Building reactive web applications using [Angular](https://angular.io) and [NgRx](https://ngrx.io)
 """
 
   [[params.work]]
