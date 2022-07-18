@@ -162,11 +162,11 @@ for show in tv_shows:
         unique_shows.append(show)
 for show in unique_shows[:LIMIT]:
     j = requests.get(PLEX_METADATA_URL + str(show['rating_key'])).json()
-    if 'guids' in j['response']['data']:
+    if 'grandparent_guids' in j['response']['data']:
         slug = slugify(show['grandparent_title'])
         img_url = PLEX_PROXY_IMG + show['thumb'] + '&width=' + IMG_WIDTH
         save_images(slug, 'png', img_url)
-        guid = j['response']['data']['guids'][1].split('//')[1]
+        guid = j['response']['data']['grandparent_guids'][1].split('//')[1]
         data['shows'].append({
             'title': show['grandparent_title'],
             'guid': guid,
