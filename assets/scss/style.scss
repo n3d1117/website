@@ -1,3 +1,4 @@
+/*! purgecss start ignore */
 :root {
   --color-canvas-default: #f6f8fa !important;
   --color-bg-default: #f6f8fa !important;
@@ -402,7 +403,6 @@ figure {
   }
 }
 
-/*! purgecss start ignore */
 .inline-note {
 
   @media (max-width: 600px) {
@@ -445,7 +445,6 @@ figure {
     border-color: var(--color-done-muted);
   }
 }
-/*! purgecss end ignore */
 
 .columns {
   &:not(:first-of-type) {
@@ -479,7 +478,6 @@ figure {
   }
 }
 
-/*! purgecss start ignore */
 .bold-default-color {
   li {
     color: var(--color-fg-muted);
@@ -496,7 +494,6 @@ figure {
     }
   }
 }
-/*! purgecss end ignore */
 
 .hmsubhead {
 
@@ -580,12 +577,10 @@ figure {
   margin-right: 10px
 }
 
-/*! purgecss start ignore */
 .w16h16 svg {
   width: 16px; 
   height: 16px;
 }
-/*! purgecss end ignore */
 
 .w30h30 {
   width: 30px; 
@@ -607,7 +602,13 @@ figure {
   height: 24px
 }
 
-/*! purgecss start ignore */
+.mb-1-sm-only {
+  margin-bottom: 0 !important;
+  @media (max-width: 544px) {
+    margin-bottom: 4px !important;
+  }
+}
+
 $allcolors: #F05138 #555555 #89e051 #ccc #438eff #3572A5 
 #3D6117 #f34b7d #b07219 #00ADD8 #e34c26 #563d7c #4F5D95
 #41b883 #e38c00 #f1e05a #DA5B0B #2b7489;

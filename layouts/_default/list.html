@@ -34,7 +34,7 @@
         <div class="TimelineItem-body">
           <div class="ml-n3 mb-0 mt-2 Box post-container px-3 pb-3 pt-3 pt-sm-2 position-relative">
             
-            <div class="d-flex flex-wrap flex-items-center">
+            <div class="d-flex flex-wrap flex-items-center mb-1-sm-only">
               <span class="metadata text-small pr-2 color-fg-muted text-semibold d-flex flex-items-center text-uppercase">
                 <span>{{ partial "icons/calendar" }}</span><span>{{ .Date.Format "Jan 2" }}</span>
                 <span class="pl-2">{{ partial "icons/stopwatch" }}</span><span>{{.ReadingTime}} min read</span>
@@ -51,7 +51,7 @@
             
             <a class="title lh-condensed mt-0" href="{{ .RelPermalink }}">{{ .Title }}</a>
             
-            <p class="color-fg-muted f5 mb-0">{{ .Description }}</p>
+            <p class="color-fg-muted f5 mb-0 hide-sm">{{ .Description }}</p>
           </div>
         </div>
       </div>
