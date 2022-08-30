@@ -1,6 +1,8 @@
 /*! purgecss start ignore */
 :root {
   --color-canvas-default: #f6f8fa !important;
+  --color-fg-default: #444 !important;
+  --color-heading: #333 !important;
   --color-bg-default: #f6f8fa !important;
   --color-canvas-subtle: #ffffff !important;
   --color-bg-subtle: #ffffff !important;
@@ -15,10 +17,22 @@
     --post-container-color: #1c232e;
     --color-canvas-default: #1a202c !important;
     --color-bg-default: #1a202c !important;
+    --color-fg-default: #abb2bf !important;
+    --color-heading: #c9d1d9 !important;
     --color-canvas-subtle: #1e2531 !important;
     --color-bg-subtle: #1e2531 !important;
     --color-border-muted: #2b323b !important;
   }
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--color-heading) !important;
+  letter-spacing: -.02rem; 
+}
+
+h1, h2 {
+  border-bottom: 0px !important;
+  padding-bottom: 0px !important;
 }
 
 .main-content {
@@ -281,6 +295,7 @@ article {
   a {
       color: var(--color-fg-muted);
       text-decoration: underline;
+      text-underline-offset: .1rem;
       &:hover {
           color: var(--color-accent-fg);
       }
@@ -291,6 +306,7 @@ article {
           color: var(--color-accent-fg);
           &:hover {
             text-decoration: underline;
+            text-underline-offset: .1rem;
           }
       }
       font-size: 17px !important;
@@ -355,6 +371,7 @@ figure {
   &:hover {
     p:first-of-type {
       text-decoration: underline;
+      text-underline-offset: .1rem;
     }
     img {
       transform: scale(1.025);
@@ -375,7 +392,10 @@ figure {
     -webkit-box-orient: vertical;
     
     &:first-of-type {
-      font-size: 15px;
+      @media (max-width: 544px) {
+        font-size: .85rem
+      }
+      font-size: .92rem
     }
   }
 }
@@ -489,6 +509,7 @@ figure {
   a {
     color: var(--color-fg-muted);
     text-decoration: underline;
+    text-underline-offset: .1rem;
     &:hover {
         color: var(--color-accent-fg);
     }

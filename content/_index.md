@@ -8,28 +8,6 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 ---
 
-{{< columns at="true" >}}
-
-{{< column p="left" md="true" class="bold-default-color" >}}
-## 🤖 Skills
-- **Programming:** Swift, Python, Java, Bash, C++, C
-- **Web:** HTML, CSS, TypeScript, Angular, Vue, PHP
-- **Databases:** SQL, MySQL, PostgreSQL, TimescaleDB
-- **Other**: Git, CI/CD, Pandas, Docker, LaTeX
-{{< /column >}}
-
-{{< column p="right" md="true" class="bold-default-color" >}}
-## 🖌 Contact
-- **Email:** [me@edodangelis.com](mailto:me@edodangelis.com)
-- **Telegram:** [@ne_do](https://t.me/ne_do)
-- **LinkedIn:** [edoardodangelis](https://linkedin.com/in/edoardodangelis/)
-- **Phone:** [+39 339 273 4226](tel:+393392734226)
-{{< /column >}}
-
-{{< /columns >}}
-
----
-
 {{< subhead title="💼 Experience" >}}
 {{< work-timeline >}}
 
