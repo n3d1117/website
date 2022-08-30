@@ -291,7 +291,9 @@ article {
 }
 
 .gen-timeline {
-  padding-bottom: 10px;
+  padding-top: 10px;
+  padding-bottom: 0px;
+
   a {
       color: var(--color-fg-muted);
       text-decoration: underline;
