@@ -7,7 +7,7 @@
         {{ $icon := printf "icons/%s" .Pre }}
         {{ $active := strings.HasSuffix $permalink .URL }}
 
-        <a class="UnderlineNav-item" href="{{ .URL }}" {{ if $active }}aria-current="page"{{ end }}>
+        <a class="UnderlineNav-item px-3" href="{{ .URL }}" {{ if $active }}aria-current="page"{{ end }}>
             {{ partial $icon }}
             <span class="ml5 {{if not $active }}color-fg-muted{{ end }}">{{ .Name }}</span>
         </a>

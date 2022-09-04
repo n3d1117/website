@@ -7,7 +7,7 @@
 
   <ul class="list-style-none pl-0 tag-list mb-2">
   {{ range .Data.Terms.ByCount }}
-    <li class="d-inline-block color-bg-accent color-fg-default mb-2 full" >
+    <li class="d-inline-block color-bg-accent color-fg-default mb-2 mr-2 full" >
       <a href="{{ .Page.RelPermalink }}" class="d-flex flex-items-center">
         <span>{{ .Page.Title }}</span>
         <span class="Counter ml-2">{{ .Count }}</span>
