@@ -9,7 +9,7 @@
                 <span>{{ partial "icons/calendar" }}</span><span>{{ .Date.Format "Jan 2" }}</span>
                 <span class="pl-2">{{ partial "icons/stopwatch" }}</span><span>{{.ReadingTime}} min read</span>
             </div>
-            <a class="lh-condensed mt-1 text-bold flex-auto min-width-0" href="{{ .RelPermalink }}">{{ .Title }}</a>
+            <a class="lh-sm-condensed mt-1 text-bold flex-auto min-width-0" href="{{ .RelPermalink }}">{{ .Title }}</a>
             <p class="color-fg-muted f5 mb-0 mt-1 hide-sm">{{ .Description }}</p>
         </div>
     </div>

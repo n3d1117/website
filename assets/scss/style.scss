@@ -596,6 +596,17 @@ figure {
   }
 }
 
+.lh-ultra-condensed {
+  line-height: 1.1;
+}
+
+.lh-sm-condensed {
+  line-height: 1.35!important;
+  @media (max-width: 544px) {
+    line-height: 1.5!important;
+  }
+}
+
 .mt3 {
   margin-top: 3px
 }
