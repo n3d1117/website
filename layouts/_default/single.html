@@ -8,13 +8,13 @@
   <article class="mb-3">
 
     <div class="mb-4">
-      <h1 class="lh-ultra-condensed mb-1">{{ .Title }}</h1>
+      <h1 class="lh-ultra-condensed mb-12">{{ .Title }}</h1>
 
       {{ with .Params.tags }}
         <ul class="list-style-none tag-list mb-2">
           {{ range . }}
             {{ $href := print (relURL "tags/") (urlize .) }}
-            <li class="d-inline-block color-bg-accent color-fg-default px-0 py-1 mb-1 mr-1"><a href="{{ $href }}">{{ . }}</a></li>
+            <li class="d-inline-block color-bg-accent color-fg-default px-0 py-1 mb-1"><a href="{{ $href }}">{{ . }}</a></li>
           {{ end }}
         </ul>
       {{ end }}

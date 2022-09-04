@@ -27,7 +27,7 @@
             {{ $active = or $active (and (eq .Name "About") (eq $current.Section "about")) }}
             {{ $icon := printf "icons/%s" .Pre }}
 
-            <a class="UnderlineNav-item mt-1 py-1" href="{{ .URL }}" {{ if $active }}aria-current="page" {{ end }}>
+            <a class="UnderlineNav-item mt-1" href="{{ .URL }}" {{ if $active }}aria-current="page"{{ end }}>
                 {{ partial $icon }}
                 <span class="{{ if $active }}color-fg-default{{ else }}color-fg-muted{{ end }}">{{ .Name }}</span>
             </a>

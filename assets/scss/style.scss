@@ -116,6 +116,11 @@ header {
     margin-top: -0.1em !important;
   }
 
+  .UnderlineNav {
+    box-shadow: none !important;
+    min-height: 44px !important;
+  }
+
   .UnderlineNav-item {
     padding-left: 20px;
     padding-right: 20px;
@@ -133,12 +138,20 @@ header {
     }
   }
 
+  .UnderlineNav-item.selected:after, .UnderlineNav-item[aria-current]:not([aria-current=false]):after {
+    bottom: calc(50% - 21px);
+  }
+
   .UnderlineNav-item:hover, .UnderlineNav-item:focus {
     border-bottom-color: var(--tag-bg-hover-color);
   }
 
   .UnderlineNav-item svg {
     display: none;
+  }
+
+  .UnderlineNav-body {
+    gap: 0 !important;
   }
 
 }
@@ -571,6 +584,10 @@ figure {
 
 .mh-70 {
   min-height: 70px;
+}
+
+.mb-12 {
+  margin-bottom: 12px !important;
 }
 
 .notFoundVideo {
