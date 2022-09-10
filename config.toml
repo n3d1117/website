@@ -66,7 +66,7 @@ languageCode = "en-us"
 
 
 [sitemap]
-    changefreq = "weekly"
+    changefreq = "monthly"
     priority = 0.5
 
 [taxonomies]
