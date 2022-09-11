@@ -16,6 +16,7 @@ languageCode = "en-us"
   bio = "Software Engineer [@Magenta](https://magentalab.it)"
   loc = "Florence, Italy"
   image = "/me.jpeg"
+  images = ["me.jpeg"]
 
   [[params.work]]
     from = "February 2022"
