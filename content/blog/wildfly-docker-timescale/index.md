@@ -9,8 +9,9 @@ math: false
 ---
 
 ## Introduction
+
 {{< note variant="info" >}}
-  In this post I will show you how to create a Wildfly docker image with full support for the popular time-series database [TimescaleDB](https://www.timescale.com), and how to easily combine the two using Docker Compose.
+In this post I will show you how to create a Wildfly docker image with full support for the popular time-series database [TimescaleDB](https://www.timescale.com), and how to easily combine the two using Docker Compose.
 {{< /note >}}
 
 ## Wildfly docker image
@@ -18,10 +19,10 @@ math: false
 As a base image, we'll use the latest [official Wildfly docker image](https://hub.docker.com/r/jboss/wildfly), named `jboss/wildfly:24.0.0.Final`.
 Since TimescaleDB relies on PostgreSQL, we also need to setup the PostgreSQL driver and datasource in Wildfly. This requires the following:
 
--   Download PostgreSQL driver from the [official maven repository](https://mvnrepository.com/artifact/org.postgresql/postgresql)
--   Adding PostgreSQL module
--   Adding PostgreSQL driver
--   Setup a main Datasource
+- Download PostgreSQL driver from the [official maven repository](https://mvnrepository.com/artifact/org.postgresql/postgresql)
+- Adding PostgreSQL module
+- Adding PostgreSQL driver
+- Setup a main Datasource
 
 Luckily, all these steps can be automated using jboss cli (located at `/opt/jboss/wildfly/bin/jboss-cli.sh`).
 
@@ -79,9 +80,9 @@ CMD ["/opt/jboss/wildfly/bin/standalone.sh", "-b", "0.0.0.0", "-bmanagement", "0
 
 The following ports are exposed:
 
--   `8080` for the application
--   `9990` for the admin console
--   `5005` for debugging
+- `8080` for the application
+- `9990` for the admin console
+- `5005` for debugging
 
 Remember to specify the correct datasource in your project's `persistence.xml` file:
 
@@ -96,8 +97,8 @@ Remember to specify the correct datasource in your project's `persistence.xml` f
 
 For the docker-compose file, there are two services required:
 
--   The modified Wildfly image with Timescale support, as seen above
--   The Timescale instance
+- The modified Wildfly image with Timescale support, as seen above
+- The Timescale instance
 
 Both services are fully configurable through environment variables and are able to communicate using Docker's [bridge networks](https://docs.docker.com/network/bridge/). Here's the full `docker-compose.yml`:
 
@@ -119,9 +120,9 @@ services:
       - DB_HOST=db
       - DB_PORT=5432
     depends_on:
-    - db
-    volumes: 
-    - ./workdir/deploy/wildfly/:/opt/jboss/wildfly/standalone/deployments/:rw
+      - db
+    volumes:
+      - ./workdir/deploy/wildfly/:/opt/jboss/wildfly/standalone/deployments/:rw
     ports:
       - "8080:8080"
       - "9990:9990"
@@ -139,17 +140,17 @@ services:
       - ./workdir/db/data/:/var/lib/postgresql/
     ports:
       - "5432:5432"
-    
+
 networks:
-    default:
-        driver: bridge
+  default:
+    driver: bridge
 ```
 
 Note that:
 
--   Wildfly image is automatically fetched from the `Dockerfile`, which should be in the same folder as the `docker-compose.yml`
--   Thanks to docker's volume mapping, you can add `.war` files in the `workdir/deploy/wildfly` and they will be deployed to Wildfly automatically
--   Database data is persisted in the `workdir/db` folder even when the container is destroyed. However, remember to set `hibernate.hbm2ddl.auto` property to `update` in your `persistence.xml` file, in order to avoid losing your data between launches.
+- Wildfly image is automatically fetched from the `Dockerfile`, which should be in the same folder as the `docker-compose.yml`
+- Thanks to docker's volume mapping, you can add `.war` files in the `workdir/deploy/wildfly` and they will be deployed to Wildfly automatically
+- Database data is persisted in the `workdir/db` folder even when the container is destroyed. However, remember to set `hibernate.hbm2ddl.auto` property to `update` in your `persistence.xml` file, in order to avoid losing your data between launches.
 
 To start the services, simply run `docker-compose up` from any terminal instance.
 
