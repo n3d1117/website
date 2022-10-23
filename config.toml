@@ -117,7 +117,7 @@ disableHugoGeneratorInject = true
     pre = "heart"
   [[menu.social]]
     name = "RSS"
-    url = "/blog/index.xml"
+    url = "feed://https://edoardo.fyi/blog/index.xml"
     weight = 5
     pre = "rss"
 
