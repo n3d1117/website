@@ -6,6 +6,7 @@ paginate = 10
 paginatePath = ''
 copyright = "© Edoardo D'Angelis — All rights reserved"
 languageCode = "en-us"
+disableHugoGeneratorInject = true
 
 [author]
   name = "Edoardo D'Angelis"
