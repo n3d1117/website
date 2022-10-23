@@ -1,9 +1,7 @@
 <meta charset="utf-8" />
 <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport" />
 
-{{ with .OutputFormats.Get "rss" -}}
-    {{ printf `<link rel="%s" type="%s" href="%s" title="%s" />` .Rel .MediaType.Type .Permalink $.Site.Title | safeHTML }}
-{{ end -}}
+<link rel="alternate" type="application/rss+xml" href="https://edoardo.fyi/blog/index.xml" title="Blog">
 
 {{ $title := print .Title " · " .Site.Title }}
 {{ if .IsHome }}{{ $title = .Site.Title }}{{ end }}
