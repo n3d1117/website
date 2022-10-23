@@ -1,6 +1,6 @@
 baseURL = "https://edoardo.fyi/"
-title = "Edoardo D'Angelis - Software Engineer"
-description = "I build things"
+title = "Edoardo D'Angelis"
+description = "Software Engineer"
 enableRobotsTXT = true
 paginate = 10
 paginatePath = ''
