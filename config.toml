@@ -1,6 +1,6 @@
-baseURL = "https://website-1eb.pages.dev/"
-title = "Hugo Blog"
-description = "A description"
+baseURL = "https://edoardo.fyi/"
+title = "Edoardo D'Angelis - Software Engineer"
+description = "I build things"
 enableRobotsTXT = true
 paginate = 10
 paginatePath = ''
