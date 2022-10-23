@@ -1,4 +1,46 @@
+/*
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+  X-XSS-Protection: 1; mode=block
+  X-Frame-Options: SAMEORIGIN
+  X-Content-Type-Options: nosniff
+  Feature-Policy: none
+  Referrer-Policy: strict-origin
+  Permissions-Policy: interest-cohort=()
+  Content-Security-Policy: default-src 'self'; font-src 'self'; img-src 'self' data:; script-src 'self' 'nonce-qYe28Y506blr0GgBDOadPeR+ESzcyx3EEacKp8bjHIE=' 'unsafe-inline'; style-src 'self' 'nonce-DuNA/uqEdJUe/qofrw6Hy2EO6gvFnH4/4bKaeIiQg2A=' 'unsafe-inline'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none';
 
+# Cache assets
+/img/*
+  Cache-Control: public,max-age=31536000,immutable
+
+/fonts/*
+  Cache-Control: public,max-age=31536000,immutable
+
+/blog/*.webp
+  Cache-Control: public,max-age=31536000,immutable
+
+/blog/*.jpg
+  Cache-Control: public,max-age=31536000,immutable
+
+/blog/*.jpeg
+  Cache-Control: public,max-age=31536000,immutable
+
+/blog/*.png
+  Cache-Control: public,max-age=31536000,immutable
+
+/blog/*.gif
+  Cache-Control: public,max-age=31536000,immutable
+
+/blog/*.mp4
+  Cache-Control: public,max-age=31536000,immutable
+
+/*.jpeg
+  Cache-Control: public,max-age=31536000,immutable
+
+/*.ico
+  Cache-Control: public,max-age=31536000,immutable
+
+/*.mp4
+  Cache-Control: public,max-age=31536000,immutable
 
 # Prevent pages.dev deployments from showing in search results
 https://:project.pages.dev/*
