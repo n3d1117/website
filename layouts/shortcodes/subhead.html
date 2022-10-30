@@ -25,7 +25,7 @@
             {{ partial "icons/lbxd" }}
         </a>
     {{ else if eq (.Get "icon") "rss" }}
-        <a href="/blog/index.xml" class="cursor-pointer p-1 pl-2 w30h30 tooltipped tooltipped-n tooltipped-no-delay" target="_blank" rel="noopener nofollow" aria-label="RSS Feed">
+        <a href="feed://edoardo.fyi/blog/index.xml" class="cursor-pointer p-1 pl-2 w30h30 tooltipped tooltipped-n tooltipped-no-delay" target="_blank" rel="noopener nofollow" aria-label="RSS Feed">
             {{ partial "icons/rss" }}
         </a>
     {{ else if eq (.Get "icon") "igdb" }}
