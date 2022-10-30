@@ -12,7 +12,6 @@ import feedparser
 from PIL import Image
 import csv
 from datetime import datetime
-import cloudscraper
 
 print('Scraping sources...')
 
@@ -29,7 +28,6 @@ SPOTIFY_CLIENT_ID = os.environ["SPOTIFY_CLIENT_ID"]
 SPOTIFY_CLIENT_SECRET = os.environ["SPOTIFY_CLIENT_SECRET"]
 SPOTIFY_REFRESH_TOKEN = os.environ["SPOTIFY_REFRESH_TOKEN"]
 TMDB_API_KEY=os.environ["TMDB_API_KEY"]
-IGDB_COOKIE=os.environ["IGDB_COOKIE"]
 IGDB_CLIENT_ID=os.environ["IGDB_CLIENT_ID"]
 IGDB_CLIENT_SECRET=os.environ["IGDB_CLIENT_SECRET"]
 
@@ -296,27 +294,25 @@ headers = {
     'Authorization': 'Bearer ' + access_token,
     'Accept': 'application/json',
 }
-scraper = cloudscraper.create_scraper()
-response = scraper.get('https://www.igdb.com/users/nedda/lists/games-i-play.csv', cookies={ '_server_session': IGDB_COOKIE })
-reader = csv.DictReader(response.content.decode('utf-8').splitlines(), delimiter=',')
-for row in reader:
-    if 'id' in row:
-        d = 'fields first_release_date, cover.url; where id = ' + row['id'] + ';'
-        cover = requests.post('https://api.igdb.com/v4/games', headers=headers, data=d)
-        cover_url = cover.json()[0]['cover']['url'].replace('t_thumb', 't_cover_big').replace('//', 'https://')
-        slug = slugify(row['game'])
-        save_images(slug, 'jpg', cover_url)
-        data['videogames'].append({
-            'name': row['game'],
-            'url': row['url'],
-            'year': int(datetime.utcfromtimestamp(int(cover.json()[0]['first_release_date'])).strftime('%Y')),
-            'img': slug + '.jpg',
-            'img_webp': slug + '.webp'
-        })
+ids = ['154986', '43335', '732', '27081', '96209', '114287', '134101', '114285', '1020', '7331', '8837', 
+       '4645', '4647', '4649', '4648', '10662', '96', '3136', '19560', '6036', '157446', '205780']
+for id in ids:
+    d = 'fields first_release_date, cover.url, name, url; where id = ' + id + ';'
+    response = requests.post('https://api.igdb.com/v4/games', headers=headers, data=d).json()[0]
+    cover_url = response['cover']['url'].replace('t_thumb', 't_cover_big').replace('//', 'https://')
+    year = int(datetime.utcfromtimestamp(int(response['first_release_date'])).strftime('%Y'))
+    slug = slugify(response['name'])
+    save_images(slug, 'jpg', cover_url)
+    data['videogames'].append({
+        'name': response['name'],
+        'url': response['url'],
+        'year': year,
+        'img': slug + '.jpg',
+        'img_webp': slug + '.webp'
+    })
 
 # Write data
 with open('data/scraper.json', 'w') as f:
     json.dump(data, f)
 with open('static/data.json', 'w', encoding='utf8') as f:
     json.dump(data, f)
-  
