@@ -154,10 +154,25 @@ data['shows'] = []
 tv_shows = [row for row in rows if row['media_type'] == 'episode' and row['user'] == PLEX_USER]
 unique_shows = []
 unique_show_titles = []
+episodes = {}
 for show in tv_shows:
+    key = str(show['grandparent_rating_key'])
+    
     if show['grandparent_title'] not in unique_show_titles:
         unique_show_titles.append(show['grandparent_title'])
         unique_shows.append(show)
+        episodes[key] = []
+        episodes[key].append({
+            'episode': 'S' + str(show['parent_media_index']) + 'E' + str(show['media_index']), 
+            'name': show['grandchild_title'], 
+            'watched_on': show['last_watch']
+        })
+    else:
+        episodes[key].append({
+            'episode': 'S' + str(show['parent_media_index']) + 'E' + str(show['media_index']), 
+            'name': show['grandchild_title'], 
+            'watched_on': show['last_watch']
+        })
 for show in unique_shows[:LIMIT]:
     j = requests.get(PLEX_METADATA_URL + str(show['rating_key'])).json()
     if 'grandparent_guids' in j['response']['data']:
@@ -172,6 +187,7 @@ for show in unique_shows[:LIMIT]:
             'last_watch': show['last_watch'],
             'img': slug + '.png',
             'img_webp': slug + '.webp',
+            'episodes': episodes[str(show['grandparent_rating_key'])],
             'is_favorite': False
         })
 
@@ -189,6 +205,7 @@ for show in top_shows_json['items']:
         'img': slug + '.jpg',
         'img_webp': slug + '.webp',
         'last_watch': int(datetime.strptime(show['first_air_date'], "%Y-%m-%d").timestamp()),
+        'episodes': [],
         'is_favorite': True
     })
 
