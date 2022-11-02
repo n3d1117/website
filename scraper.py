@@ -229,6 +229,7 @@ for fav_book in f['books']:
         'url': 'https://oku.club/book/' + fav_book['slug'],
         'img': slug + '.jpg',
         'img_webp': slug + '.webp',
+        'added_at': int(datetime.strptime(fav_book['addedAt'], "%Y-%m-%d").timestamp()),
         'is_favorite': True,
         'reading': False
     })
@@ -241,6 +242,7 @@ for book in (d['books'])[:LIMIT]:
         'url': 'https://oku.club/book/' + book['slug'],
         'img': slug + '.jpg',
         'img_webp': slug + '.webp',
+        'added_at': int(datetime.strptime(book['addedAt'], "%Y-%m-%d").timestamp()),
         'is_favorite': False,
         'reading': False
     })
@@ -253,6 +255,7 @@ for book in (d2['books'])[:LIMIT]:
         'url': 'https://oku.club/book/' + book['slug'],
         'img': slug + '.jpg',
         'img_webp': slug + '.webp',
+        'added_at': int(datetime.strptime(book['addedAt'], "%Y-%m-%d").timestamp()),
         'is_favorite': False,
         'reading': True
     })
