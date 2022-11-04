@@ -180,6 +180,9 @@ for show in unique_shows[:LIMIT]:
         img_url = PLEX_PROXY_IMG + show['thumb'] + '&width=' + IMG_WIDTH
         save_images(slug, 'png', img_url)
         guid = j['response']['data']['grandparent_guids'][1].split('//')[1]
+        eps = episodes[str(show['grandparent_rating_key'])]
+        for ep in eps:
+            ep['parent_show_id'] = guid
         data['shows'].append({
             'title': show['grandparent_title'],
             'guid': guid,
@@ -187,7 +190,7 @@ for show in unique_shows[:LIMIT]:
             'last_watch': show['last_watch'],
             'img': slug + '.png',
             'img_webp': slug + '.webp',
-            'episodes': episodes[str(show['grandparent_rating_key'])],
+            'episodes': eps,
             'is_favorite': False
         })
 
