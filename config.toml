@@ -35,9 +35,9 @@ disableHugoGeneratorInject = true
     to = "January 2022"
     title = "Software Engineering Internship @ [Magenta](https://magentalab.it)"
     additionalText = """
-- Built a web dashboard to make batch calibration of [AirQino](https://www.airqino.it/en/) stations easier, using regression models with advanced robust techniques
-- Optimized performance of [Timescale](https://www.timescale.com) queries by 10x using advanced features such as [continuous aggregates](https://docs.timescale.com/timescaledb/latest/how-to-guides/continuous-aggregates/), improving efficiency and scalability of the system
-- Set up a 1:1 read-only [streaming replica](https://wiki.postgresql.org/wiki/Streaming_Replication) of the primary database (>100M rows) for performance tests, offloading heavy queries and availability
+- Improved the process of calibrating [AirQino](https://www.airqino.it/en/) stations using regression models with advanced robust techniques based on previous historical data
+- Optimized performance of [Timescale](https://www.timescale.com) queries using [continuous aggregates](https://docs.timescale.com/timescaledb/latest/how-to-guides/continuous-aggregates/), significantly improving response times of the [AirQino](https://www.airqino.it/en/) backend APIs
+- Set up a 1:1 read-only [streaming replica](https://wiki.postgresql.org/wiki/Streaming_Replication) of the primary [AirQino](https://www.airqino.it/en/) database (>100M rows) for performance tests, offloading heavy queries and availability
   """
 
   [[params.education]]

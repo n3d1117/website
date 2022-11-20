@@ -9,16 +9,6 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 ---
 
-{{< subhead title="💼 Experience" >}}
-{{< work-timeline >}}
-
----
-
-{{< subhead title="🎓 Education" >}}
-{{< education-timeline >}}
-
----
-
 {{< subhead title="☕️ Side projects" icon="github" >}}
 {{< github-projects count="6" >}}
 
