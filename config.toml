@@ -10,7 +10,7 @@ disableHugoGeneratorInject = true
 
 [author]
   name = "Edoardo D'Angelis"
-  email = "me@edoardo.fyi"
+  email = "contact@edoardo.fyi"
 
 [params]
   dateFormat = "Jan 2, 2006"
@@ -107,7 +107,7 @@ disableHugoGeneratorInject = true
     pre = "telegram"
   [[menu.social]]
     name = "Email"
-    url = "mailto:me@edoardo.fyi"
+    url = "mailto:contact@edoardo.fyi"
     weight = 3
     pre = "mail"
   [[menu.social]]
