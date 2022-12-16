@@ -318,21 +318,23 @@ headers = {
     'Accept': 'application/json',
 }
 ids = ['154986', '43335', '732', '27081', '96209', '114287', '134101', '114285', '1020', '7331', '8837', 
-       '4645', '4647', '4649', '4648', '10662', '96', '3136', '19560', '6036', '157446', '205780', '112875']
+       '4647', '4649', '4648', '10662', '96', '3136', '19560', '6036', '157446', '205780', '112875']
 for id in ids:
     d = 'fields first_release_date, cover.url, name, url; where id = ' + id + ';'
-    response = requests.post('https://api.igdb.com/v4/games', headers=headers, data=d).json()[0]
-    cover_url = response['cover']['url'].replace('t_thumb', 't_cover_big').replace('//', 'https://')
-    year = int(datetime.utcfromtimestamp(int(response['first_release_date'])).strftime('%Y'))
-    slug = slugify(response['name'])
-    save_images(slug, 'jpg', cover_url)
-    data['videogames'].append({
-        'name': response['name'],
-        'url': response['url'],
-        'year': year,
-        'img': slug + '.jpg',
-        'img_webp': slug + '.webp'
-    })
+    response = requests.post('https://api.igdb.com/v4/games', headers=headers, data=d).json()
+    if len(response) > 0:
+        response = response[0]
+        cover_url = response['cover']['url'].replace('t_thumb', 't_cover_big').replace('//', 'https://')
+        year = int(datetime.utcfromtimestamp(int(response['first_release_date'])).strftime('%Y'))
+        slug = slugify(response['name'])
+        save_images(slug, 'jpg', cover_url)
+        data['videogames'].append({
+            'name': response['name'],
+            'url': response['url'],
+            'year': year,
+            'img': slug + '.jpg',
+            'img_webp': slug + '.webp'
+        })
 
 # Write data
 with open('data/scraper.json', 'w') as f:
