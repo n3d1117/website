@@ -6,6 +6,7 @@ slug: continuous-aggregates-timescale
 tags: [timescaledb, postgresql, aggregation, big data]
 toc: true
 math: false
+comments: true
 ---
 
 {{< note variant="info" >}}

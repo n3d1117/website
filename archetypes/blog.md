@@ -6,4 +6,5 @@ slug: some-slug
 tags: []
 toc: true
 math: false
+comments: true
 ---

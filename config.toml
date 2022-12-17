@@ -19,6 +19,12 @@ disableHugoGeneratorInject = true
   loc = "Florence, Italy"
   image = "/me.jpeg"
   images = ["me.jpeg"]
+  
+  [[params.giscus]]
+    repo = "n3d1117/website"
+    repoID = "R_kgDOGWo_kQ"
+    category = "Articles"
+    categoryID = "DIC_kwDOGWo_kc4CTH2w"
 
   [[params.work]]
     from = "February 2022"

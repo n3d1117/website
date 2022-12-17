@@ -6,6 +6,7 @@ slug: wildfly-docker-timescale
 tags: [replication, docker, timescaledb, postgresql, big data]
 toc: true
 math: false
+comments: true
 ---
 
 {{< note variant="info" >}}

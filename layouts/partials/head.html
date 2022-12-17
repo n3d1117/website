@@ -36,4 +36,8 @@
   {{ partial "math" . }}
 {{ end }}
 
+{{ if .Params.comments }}
+  {{ partial "comments" . }}
+{{ end }}
+
 <link rel="alternate" type="application/rss+xml" href="https://edoardo.fyi/blog/index.xml" title="Blog">

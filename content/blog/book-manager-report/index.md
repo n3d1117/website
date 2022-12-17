@@ -6,6 +6,7 @@ slug: book-manager
 tags: [java, tdd, ci, github actions, docker, uni]
 toc: true
 math: false
+comments: true
 ---
 
 ## Introduction

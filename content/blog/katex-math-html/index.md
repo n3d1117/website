@@ -6,6 +6,7 @@ slug: katex-math-html
 tags: [math, html, katex]
 toc: true
 math: true
+comments: true
 ---
 
 ## Introduction

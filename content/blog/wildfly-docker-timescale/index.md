@@ -6,6 +6,7 @@ slug: wildfly-docker-timescale
 tags: [java, docker, wildfly, timescaledb, postgresql]
 toc: true
 math: false
+comments: true
 ---
 
 ## Introduction
