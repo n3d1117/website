@@ -6,7 +6,7 @@
   Feature-Policy: none
   Referrer-Policy: strict-origin
   Permissions-Policy: interest-cohort=()
-  Content-Security-Policy: default-src 'self'; font-src 'self'; img-src 'self' data:; script-src 'self' 'nonce-qYe28Y506blr0GgBDOadPeR+ESzcyx3EEacKp8bjHIE=' 'unsafe-inline' https://giscus.app/ 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://giscus.app/ 'nonce-DuNA/uqEdJUe/qofrw6Hy2EO6gvFnH4/4bKaeIiQg2A='; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; frame-src https://giscus.app/; object-src 'none';
+  Content-Security-Policy: default-src 'self'; font-src 'self'; img-src 'self' data:; script-src 'self' 'nonce-qYe28Y506blr0GgBDOadPeR+ESzcyx3EEacKp8bjHIE=' 'unsafe-inline' https://giscus.app/ 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://giscus.app/; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; frame-src https://giscus.app/; object-src 'none';
 
 # Cache assets
 /img/*
