@@ -192,3 +192,9 @@ main .pagination-loader-container {
     }
   }
 }
+
+/*! Workaround for weird wiggling when hovering (https://stackoverflow.com/a/34151784) */
+.gsc-main {
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+}
