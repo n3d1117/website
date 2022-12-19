@@ -668,7 +668,9 @@ figure {
   }
 }
 
+/*! Giscus  */
 .giscus-frame {
+  /*! Workaround for weird wiggling when hovering (https://stackoverflow.com/q/73726714) */
   filter: blur(0px);
 }
 
@@ -676,6 +678,7 @@ figure {
   margin-top: 3rem !important;
 }
 
+/*! Colors */
 $allcolors: #F05138 #555555 #89e051 #ccc #438eff #3572A5 
 #3D6117 #f34b7d #b07219 #00ADD8 #e34c26 #563d7c #4F5D95
 #41b883 #e38c00 #f1e05a #DA5B0B #2b7489;

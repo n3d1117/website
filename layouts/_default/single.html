@@ -40,7 +40,9 @@
     
   </article>
   
-  <div class="giscus"></div>
+  {{ if .Params.comments }}
+    {{ partial "comments" . }}
+  {{ end }}
 
 </div>
 {{ end }}
