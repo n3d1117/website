@@ -669,11 +669,6 @@ figure {
 }
 
 /*! Giscus  */
-.giscus-frame {
-  /*! Workaround for weird wiggling when hovering (https://stackoverflow.com/q/73726714) */
-  filter: blur(0px);
-}
-
 .giscus:not(:empty) {
   margin-top: 3rem !important;
 }
