@@ -192,7 +192,3 @@ main .pagination-loader-container {
     }
   }
 }
-
-.giscus-frame {
-  filter: blur(0px);
-}

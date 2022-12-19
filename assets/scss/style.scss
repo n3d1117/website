@@ -668,6 +668,10 @@ figure {
   }
 }
 
+.giscus-frame {
+  filter: blur(0px);
+}
+
 .giscus:not(:empty) {
   margin-top: 3rem !important;
 }
