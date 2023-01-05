@@ -1,0 +1,8 @@
+{
+  "editor.default_syntax" : "plain-text",
+  "python.interpreter" : "\/opt\/homebrew\/bin\/python3",
+  "workspace.color" : 8,
+  "workspace.preview_append_paths" : false,
+  "workspace.preview_type" : "custom",
+  "workspace.preview_url" : "http:\/\/localhost:1313"
+}
