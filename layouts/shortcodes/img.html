@@ -15,7 +15,7 @@
 {{ if .Get "caption" }}
 <figure>
     <picture>
-        <source srcset="{{ $set }}" type="image/webp">
+        <source srcset="{{ $set }}" type="image/webp" loading="lazy" decoding="async">
         
         {{ $width := $res.Width }}
         {{ $height := $res.Height }}
