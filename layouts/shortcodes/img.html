@@ -1,32 +1,35 @@
-{{- $res := (.Page.Resources.ByType "image").GetMatch (printf "*%s" (.Get "src")) -}}
-{{- $ws := slice 480 768 1366 1920 -}}
-{{- $srcset := slice -}}
-{{- range $ws -}}
-    {{- if (le . $res.Width) -}}
-        {{- $w := printf "%dx webp q95" . -}}
-        {{- $url := ($res.Resize $w).RelPermalink | safeURL -}}
-        {{- $fmt := printf "%s %dw" $url . -}}
-        {{- $srcset = $srcset | append $fmt -}}
-    {{- end -}}
-{{- end -}}
+{{ $image := (.Page.Resources.ByType "image").GetMatch (printf "*%s" (.Get "src")) }}
+{{ $resized := $image }}
 
-{{- $set := delimit $srcset "," -}}
+{{ if gt $image.Width 900 }}
+    {{ $resized = $image.Resize "900x" }}
+{{ end }}
 
 {{ if .Get "caption" }}
 <figure>
     <picture>
-        <source srcset="{{ $set }}" type="image/webp" loading="lazy" decoding="async">
-        
-        {{ $width := $res.Width }}
-        {{ $height := $res.Height }}
+
+        {{ $width := $resized.Width }}
+        {{ $height := $resized.Height }}
         {{ if .Get "w" }}
             {{ $width = .Get "w" }}
-            {{ $ratio := div $res.Height (float $res.Width) }}
+            {{ $ratio := div $resized.Height (float $resized.Width) }}
             {{ $height = int (mul $ratio (int $width)) }}
         {{ end }}
+    
+        {{ with $image.Resize (printf "%dx%d webp" $image.Width $image.Height) }}
+            <source 
+                srcset="{{ .RelPermalink }}" 
+                width="{{ $width }}" 
+                height="{{ $height }}" 
+                loading="lazy" 
+                decoding="async"
+                type="image/webp"
+            >
+        {{ end }}
+
         <img
-            sizes="(max-width: 480px) 480px, 100vw"
-            src="{{ $res.RelPermalink }}"
+            src="{{ $resized.RelPermalink }}"
             width="{{ $width }}" 
             height="{{ $height }}" 
             alt="" 
@@ -37,6 +40,5 @@
     </picture>
 </figure>
 {{ else }}
-{{ warnf "No caption found for image %q" $res }}
+{{ warnf "No caption found for image %q" $resized }}
 {{ end }}
-
