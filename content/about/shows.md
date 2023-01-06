@@ -1,6 +1,6 @@
 ---
 title: TV Shows
-description: A description of the shows page
+description: 🎬 TV Shows I recently watched, updated daily based on Plex and TMDB APIs
 type: simple
 ---
 

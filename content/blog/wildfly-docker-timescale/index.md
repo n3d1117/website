@@ -1,6 +1,6 @@
 ---
 title: Creating a Wildfly Docker image with TimescaleDB support
-description: This post shows how to create a Wildfly docker image that supports TimescaleDB using the PostgreSQL JDBC driver, and how to combine the two using Docker Compose.
+description: This post demonstrates the creation of a Wildfly Docker image that includes support for TimescaleDB via the PostgreSQL JDBC driver, as well as the combination of the two using Docker Compose.
 date: 2021-08-04T02:28:42.000Z
 slug: wildfly-docker-timescale
 tags: [java, docker, wildfly, timescaledb, postgresql]
@@ -12,7 +12,7 @@ comments: true
 ## Introduction
 
 {{< note variant="info" >}}
-In this post I will show you how to create a Wildfly docker image with full support for the popular time-series database [TimescaleDB](https://www.timescale.com), and how to easily combine the two using Docker Compose.
+In this post, I will guide you through the process of creating a [Wildfly](https://www.wildfly.org) Docker image with complete support for the popular time-series database, [TimescaleDB](https://www.timescale.com), and how to easily combine the two using Docker Compose.
 {{< /note >}}
 
 ## Wildfly docker image

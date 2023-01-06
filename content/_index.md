@@ -1,6 +1,6 @@
 ---
 title: Home
-description: A description of the Home page
+description: Software engineer passionate about iOS
 ---
 
 # 👋 About me

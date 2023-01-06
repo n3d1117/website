@@ -1,6 +1,6 @@
 ---
-title: Rendering beautiful mathematical expressions into HTML using Katex
-description: This is a sample post for testing Katex integration in order to render beautiful mathematical expressions from Markdown into HTML.
+title: Rendering mathematical expressions into HTML using Katex
+description: This is a sample post for testing the integration of Katex in order to transform mathematical expressions from Markdown into visually appealing HTML, a useful feature for static websites.
 date: 2021-05-31T05:24:54.000Z
 slug: katex-math-html
 tags: [math, html, katex]
@@ -12,7 +12,7 @@ comments: true
 ## Introduction
 
 {{< note variant="info" >}}
-This is a sample post for testing [Katex](https://katex.org/) integration in [Hugo](https://gohugo.io) in order to render beautiful mathematical expressions from Markdown into HTML, useful for static websites.
+This is a sample post intended to test the integration of [Katex](https://katex.org/) within [Hugo](https://gohugo.io) in order to convert complex mathematical expressions from Markdown into visually appealing HTML, a useful feature for static websites.
 {{< /note >}}
 
 ## Demo

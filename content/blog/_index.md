@@ -1,4 +1,4 @@
 ---
 title: Blog
-description: A description of the blog page
+description: A collection of random stuff I find interesting
 ---

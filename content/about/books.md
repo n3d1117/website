@@ -1,6 +1,6 @@
 ---
 title: Books
-description: A description of the books page
+description: 📖 Books I recently read, updated daily based on Oku APIs
 type: simple
 ---
 

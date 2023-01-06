@@ -1,4 +1,4 @@
 ---
 title: Tags
-description: A description of the tags page
+description: A collection of tags for my blog posts
 ---

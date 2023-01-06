@@ -1,6 +1,6 @@
 ---
 title: Games
-description: A description of the games page
+description: 👾 Videogames I recently played, updated daily based on IGDB APIs
 type: simple
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: About
-description: A description of the about page
+description: 👋 About me
 type: simple
 ---
 

@@ -1,6 +1,6 @@
 ---
-title: Using Timescale's Continuous Aggregates to make database queries faster
-description: This post describes my experience with TimescaleDB's continuous aggregates feature, which ended up improving 10x the performance of some specific database queries.
+title: Using Timescale's Continuous Aggregates to speed up database queries
+description: This post details my experience with TimescaleDB's continuous aggregates feature, resulting in a 10x improvement in the performance of some specific database queries.
 date: 2021-11-28T11:24:54.000Z
 slug: continuous-aggregates-timescale
 tags: [timescaledb, postgresql, aggregation, big data]
@@ -10,7 +10,7 @@ comments: true
 ---
 
 {{< note variant="info" >}}
-This post describes my experience with TimescaleDB's [continuous aggregates](https://docs.timescale.com/timescaledb/latest/how-to-guides/continuous-aggregates/about-continuous-aggregates/) feature, which ended up improving over 10x the performance of some specific database queries. For more information, see the [official documentation](https://docs.timescale.com/timescaledb/latest/how-to-guides/continuous-aggregates/).
+This post details my experience with TimescaleDB's [continuous aggregates](https://docs.timescale.com/timescaledb/latest/how-to-guides/continuous-aggregates/about-continuous-aggregates/) feature, resulting in a 10x improvement in the performance of some specific database queries. For more information, see the [official documentation](https://docs.timescale.com/timescaledb/latest/how-to-guides/continuous-aggregates/).
 {{< /note >}}
 
 ## Introduction
