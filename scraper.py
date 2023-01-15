@@ -10,7 +10,6 @@ import base64
 from dotenv import load_dotenv
 import feedparser
 from PIL import Image
-import csv
 from datetime import datetime
 
 print('Scraping sources...')
@@ -79,7 +78,7 @@ r = requests.get(url=PLEX_URL)
 j = r.json()
 rows = j['response']['data']['rows']
 
-## Movies
+# Movies
 data['movies'] = []
 movies = [row for row in rows if row['media_type'] == 'movie' and row['user'] == PLEX_USER]
 for movie in movies[:LIMIT]:
