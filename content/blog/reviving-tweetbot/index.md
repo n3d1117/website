@@ -89,9 +89,9 @@ Here's how I got Tweetbot up and running again on my iOS device.
 
 {{< img src="proxy.png" caption="Configuring proxy on iOS" w="400" >}}
 
-* Next, we need to install mitmproxy's **Certificate Authority** to intercept HTTPS requests. From your iOS device, head over to [mitm.it](https://mitm.it) and click on `get mitmproxy-ca-cert.pem` button under the iOS section.
+* Next, we need to install mitmproxy's **Certificate Authority** to intercept HTTPS requests. From your iOS device, head over to [mitm.it](https://mitm.it) and click on `get mitmproxy-ca-cert.pem` button under the iOS section
 * You will be asked if you want to download configuration profile - press Allow button. Now go back to Settings app. You will see `Profile Downloaded` cell on the top. Pressing it will open the `Install Profile` dialog with Install button at the top - press it and verify the installation with your passcode[^1]
-* Go back to the home screen of Settings app and go `General` -> `About` -> `Certificate Trust Settings`. Make sure the switch next to `mitmproxy` text is on. At this point, your mitmproxy instance should be showing HTTP requests that iOS and various apps are making in the background[^1].
+* Go back to the home screen of Settings app and go `General` -> `About` -> `Certificate Trust Settings`. Make sure the switch next to `mitmproxy` text is on. At this point, your `mitmproxy` instance should be showing HTTP requests that iOS and various apps are making in the background[^1].
 
 {{< columns >}}
 
