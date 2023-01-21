@@ -2,7 +2,7 @@
 title: Long live Tweetbot
 description: This blog post describes how to continue using the Tweetbot iOS app after it was suspended, by swapping their Twitter API key with our own using a man-in-the-middle proxy to reroute authentication requests.
 date: 2023-01-19T05:24:54.000Z
-slug: reviving-tweetbot
+slug: long-live-tweetbot
 tags: [ios, tweetbot, twitter, mitm, proxy]
 toc: true
 math: false
