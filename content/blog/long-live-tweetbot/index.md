@@ -1,6 +1,6 @@
 ---
 title: Long live Tweetbot
-description: This blog post describes how to continue using the Tweetbot iOS app after it was suspended, by swapping their Twitter API key with our own using a man-in-the-middle proxy to reroute authentication requests.
+description: This blog post describes how to continue using the Tweetbot iOS app after it was suspended, by swapping their Twitter API key with your own using a man-in-the-middle proxy to reroute authentication requests.
 date: 2023-01-19T05:24:54.000Z
 slug: long-live-tweetbot
 tags: [ios, tweetbot, twitter, mitm, proxy]
@@ -10,7 +10,7 @@ comments: true
 ---
 
 {{< note variant="info" >}}
-This blog post describes how to continue using the [Tweetbot](https://tapbots.com/tweetbot/) iOS app after [it was suspended]((https://mashable.com/article/twitter-elon-musk-third-party-client-api-tweetbot-twitterrific/)), by swapping their Twitter API key with our own using a man-in-the-middle proxy to reroute authentication requests.
+This blog post describes how to continue using the [Tweetbot](https://tapbots.com/tweetbot/) iOS app after [it was suspended]((https://mashable.com/article/twitter-elon-musk-third-party-client-api-tweetbot-twitterrific/)), by swapping their Twitter API key with your own using a man-in-the-middle proxy to reroute authentication requests.
 {{< /note >}}
 
 ## Introduction
@@ -109,7 +109,7 @@ Here's how I got Tweetbot up and running again on my iOS device.
 Finally, open Tweetbot app on your iOS device and try to log in.
 With some luck, you should be redirected the Twitter's authorization page, showing the App you created earlier:
 
-{{< img src="twitter_auth.png" caption="Twitter showing the authorization page for our own app" w="350" >}}
+{{< img src="twitter_auth.png" caption="Twitter showing the authorization page for your own app" w="350" >}}
 
 {{< note variant="success" >}}
 That's it! 🎉 Once logged in, you should be able to use Tweetbot normally. You can stop the `mitmproxy` instance and disable proxy configuration on your iOS device.
