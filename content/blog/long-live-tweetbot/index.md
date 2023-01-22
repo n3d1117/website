@@ -1,6 +1,6 @@
 ---
 title: Long live Tweetbot
-description: This blog post describes how to continue using the Tweetbot iOS app after it was suspended, by swapping their Twitter API key with your own using a man-in-the-middle proxy to reroute authentication requests.
+description: How to continue using the Tweetbot iOS app after it was suspended, by swapping their Twitter API key with your own using a man-in-the-middle proxy to reroute authentication requests.
 date: 2023-01-19T05:24:54.000Z
 slug: long-live-tweetbot
 tags: [ios, tweetbot, twitter, mitm, proxy]
@@ -10,7 +10,7 @@ comments: true
 ---
 
 {{< note variant="info" >}}
-This blog post describes how to continue using the [Tweetbot](https://tapbots.com/tweetbot/) iOS app after [it was suspended]((https://mashable.com/article/twitter-elon-musk-third-party-client-api-tweetbot-twitterrific/)), by swapping their Twitter API key with your own using a man-in-the-middle proxy to reroute authentication requests.
+This post describes how to continue using the [Tweetbot](https://tapbots.com/tweetbot/) iOS app after [it was suspended]((https://mashable.com/article/twitter-elon-musk-third-party-client-api-tweetbot-twitterrific/)), by swapping their Twitter API key with your own using a man-in-the-middle proxy to reroute authentication requests.
 {{< /note >}}
 
 ## Introduction
