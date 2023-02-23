@@ -14,7 +14,7 @@ In this blog post, I will share my experience using Codemagic to set up continuo
 {{< /note >}}
 
 ## Introduction
-As a developer, I am always looking for ways to streamline my workflow and make my development process more efficient. One of the tools that I have found to be useful in this regard is the [Codemagic](https://codemagic.io/builds) platform. Having used [GitHub Actions](https://github.com/features/actions) in the past for my CI/CD needs, I was curious about how Codemagic compares (note: I have yet to try [Xcode Cloud](https://developer.apple.com/xcode-cloud/)), so I gave it a try.
+Having used [GitHub Actions](https://github.com/features/actions) for my CI/CD needs in the past, I was curious to see how [Codemagic](https://codemagic.io/builds) compared, so I gave it a try (note: I have yet to test [Xcode Cloud](https://developer.apple.com/xcode-cloud/)).
 
 Codemagic is designed with a user-friendly interface that makes it easy to navigate and set up your CI/CD pipeline. It supports a wide range of mobile platforms, including iOS, Android, React Native, Cordova, Ionic and Flutter. There is also a comprehensive [documentation](https://docs.codemagic.io) that guides you through the process of setting up your pipeline step by step.
 
@@ -28,7 +28,7 @@ Codemagic offers various [pricing plans](https://codemagic.io/pricing/) but I we
 Which seems like a great starter plan for personal or hobby projects.
 
 ## Setup
-After [signing up](https://codemagic.io/signup), it's time to setup your first application:
+After [signing up](https://codemagic.io/signup), follow these steps to setup your first application:
 1. Head over to the [apps](https://codemagic.io/apps) page and click on **Add application**
 2. Select your Git provider (I use GitHub) and your repository. Note that adding repos from GitHub requires authorizing Codemagic and installing the Codemagic CI/CD GitHub App to a GitHub account.[^1]
 
@@ -112,9 +112,9 @@ My builds averaged 2 minutes of compute time (note that I skipped the whole iOS 
 ### Automated GitHub releases on Git tag push
 The `codemagic.yaml` configuration is very powerful and has lots of integrations. A great use case is deploying an app to Github releases for successful builds triggered on tag creation.
 
-To setup deployments to GitHub releases you need:
+To setup deployments to GitHub releases:
 - Your app needs to be hosted on GitHub
-- Use git tags (this won't work with commits)
+- Use git tags (won't work with commits)
 - Add your GitHub [personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) to Codemagic's environment variables (see [documentation](https://docs.codemagic.io/yaml-publishing/github-releases/#configuring-codemagic))[^3]
 
     1. Open your Codemagic app settings, and go to the Environment variables tab.
@@ -200,15 +200,15 @@ However, despite my relatively simple test suite (13 unit tests), I noticed some
 It could be that the issue for these flaky tests lies in my configuration, I didn't have time to investigate further. I simply commented out the test script for now.
 
 ## Conclusion
-My experience using the Codemagic platform to set up continuous integration, testing and automated deployments for a native iOS app written in Swift was a **positive** one:
+My experience using the Codemagic platform to set up continuous integration, testing and automated deployments for a native iOS app written in Swift so far has been **positive**:
 
 * Many platforms are supported
 * Performance is great even for the free tier, especially when compared to GitHub actions
-* Build machines and tools such as Xcode are [regularly updated](https://docs.codemagic.io/specs/versions-macos/)
+* Build machines and tools like Xcode are [regularly updated](https://docs.codemagic.io/specs/versions-macos/)
 * My use case was very limited, but Codemagic offers a ton of integrations for common actions (iOS code signing, build notifications, Fastlane, Jira, artifact publishing, REST APIs and much more)
 * Good community support on their [Discussions](https://github.com/codemagic-ci-cd/codemagic-docs/discussions) page
 
-Although I could not make my tests run reliably, I still recommend giving Codemagic a try. 🥳
+Although I could not get my tests to run reliably, I still recommend giving Codemagic a try. 🥳
 
 [^1]: Codemagic docs: [Adding apps to Codemagic](https://docs.codemagic.io/getting-started/adding-apps/).
 [^2]: Codemagic docs: [Using codemagic.yaml](https://docs.codemagic.io/yaml-basic-configuration/yaml-getting-started/).
