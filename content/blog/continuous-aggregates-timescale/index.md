@@ -54,7 +54,7 @@ Here are the steps required to implement it:
 
 1. A [hypertable](https://docs.timescale.com/timescaledb/latest/how-to-guides/hypertables/) was created starting from the original table, taking care to migrate all the data (this is necessary because continuous aggregates only apply to hypertables), using the command:
 
-```sql
+```sql{linenos=false}
  SELECT create_hypertable('station_data', 'data_acquired', migrate_data => true);
 ```
 

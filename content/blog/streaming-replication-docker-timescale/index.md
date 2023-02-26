@@ -30,8 +30,8 @@ CREATE ROLE repuser WITH REPLICATION PASSWORD 'SOME_SECURE_PASSWORD' LOGIN;
 
 3. Add the following replication settings to `postgresql.conf` (which can be usually found in `$PGDATA` folder, i.e. `/var/lib/postgresql/data`):
 
-```
-listen_addresses= '*'
+```no-highlight
+listen_addresses = '*'
 wal_level = replica
 max_wal_senders = 2
 max_replication_slots = 2
@@ -40,14 +40,14 @@ synchronous_commit = off
 
 4. Add the following at the end of `$PGDATA/pg_hba.conf` to configure host-based authentication to accept connections from the replication user on the host of the replica:
 
-```
+```no-highlight{linenos=false}
 host     replication     repuser   <REPLICA_IP>/32       scram-sha-256
 ```
 
 5. Restart the primary database to apply changes
 6. Finally, create a [replication slot](https://www.postgresql.org/docs/current/warm-standby.html#STREAMING-REPLICATION-SLOTS) and give it a name:
 
-```sql
+```sql{linenos=false}
 SELECT * FROM pg_create_physical_replication_slot('replica_1_slot');
 ```
 
@@ -55,36 +55,36 @@ SELECT * FROM pg_create_physical_replication_slot('replica_1_slot');
 
 1. Stop Postgres instance:
 
-```sh
-pg_ctl -D $PGDATA -m fast -w stop
-```
+    ```sh{linenos=false}
+    pg_ctl -D $PGDATA -m fast -w stop
+    ```
 
 2. Clear `PGDATA` folder:
 
-{{< note variant="warning" >}}
+    {{< note variant="warning" >}}
 **NOTE:** if you do this step while Postgres is running, you will get into trouble.
-{{< /note >}}
+    {{< /note >}}
 
-```sh
-rm -rf $PGDATA/*
-```
+    ```sh{linenos=false}
+    rm -rf $PGDATA/*
+    ```
 
 3. Create a base backup on the replica:
 
-{{< note variant="warning" >}}
+    {{< note variant="warning" >}}
 **NOTE:** This may take a while, depending on the database size (less than 5 minutes for me).
 You will also be asked to input the password interactively, the one you set up in step 1 of [preparing the primary database](#preparing-the-primary-database) section.
-{{< /note >}}
+    {{< /note >}}
 
-```sh
-pg_basebackup -h <PRIMARY_HOST> -p <PRIMARY_PORT> -D $PGDATA -U repuser -vP -R -W
-```
+    ```sh{linenos=false}
+    pg_basebackup -h <PRIMARY_HOST> -p <PRIMARY_PORT> -D $PGDATA -U repuser -vP -R -W
+    ```
 
 4. Finally, restart Postgres instance:
 
-```sh
-pg_ctl -D $PGDATA -w start
-```
+    ```sh{linenos=false}
+    pg_ctl -D $PGDATA -w start
+    ```
 
 ## Automating it all using Docker Compose
 
