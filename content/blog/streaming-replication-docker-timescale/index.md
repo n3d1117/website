@@ -40,14 +40,14 @@ synchronous_commit = off
 
 4. Add the following at the end of `$PGDATA/pg_hba.conf` to configure host-based authentication to accept connections from the replication user on the host of the replica:
 
-```no-highlight{linenos=false}
+```no-highlight {linenos=false}
 host     replication     repuser   <REPLICA_IP>/32       scram-sha-256
 ```
 
 5. Restart the primary database to apply changes
 6. Finally, create a [replication slot](https://www.postgresql.org/docs/current/warm-standby.html#STREAMING-REPLICATION-SLOTS) and give it a name:
 
-```sql{linenos=false}
+```sql {linenos=false}
 SELECT * FROM pg_create_physical_replication_slot('replica_1_slot');
 ```
 
@@ -55,7 +55,7 @@ SELECT * FROM pg_create_physical_replication_slot('replica_1_slot');
 
 1. Stop Postgres instance:
 
-    ```sh{linenos=false}
+    ```sh {linenos=false}
     pg_ctl -D $PGDATA -m fast -w stop
     ```
 
@@ -65,7 +65,7 @@ SELECT * FROM pg_create_physical_replication_slot('replica_1_slot');
 **NOTE:** if you do this step while Postgres is running, you will get into trouble.
     {{< /note >}}
 
-    ```sh{linenos=false}
+    ```sh {linenos=false}
     rm -rf $PGDATA/*
     ```
 
@@ -76,13 +76,13 @@ SELECT * FROM pg_create_physical_replication_slot('replica_1_slot');
 You will also be asked to input the password interactively, the one you set up in step 1 of [preparing the primary database](#preparing-the-primary-database) section.
     {{< /note >}}
 
-    ```sh{linenos=false}
+    ```sh {linenos=false}
     pg_basebackup -h <PRIMARY_HOST> -p <PRIMARY_PORT> -D $PGDATA -U repuser -vP -R -W
     ```
 
 4. Finally, restart Postgres instance:
 
-    ```sh{linenos=false}
+    ```sh {linenos=false}
     pg_ctl -D $PGDATA -w start
     ```
 
