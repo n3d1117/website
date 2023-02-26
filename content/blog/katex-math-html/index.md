@@ -21,7 +21,7 @@ Expressions in `TeX` format are inserted in markdown using code blocks surrounde
 
 For example, the following:
 
-```tex
+```tex{linenos=false}
 $$Gamma = \frac{1}{\lambda_t} \cdot \sum_{i=1}^L \frac{I_i}{C_i - I_i} + \gamma \cdot \sum_{i=1}^{L}d_i \cdot C_i$$
 ```
 

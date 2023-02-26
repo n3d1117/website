@@ -154,7 +154,9 @@ disableHugoGeneratorInject = true
 
 [markup]
   [markup.highlight]
-    noClasses = false
+      lineNos = true
+      lineNumbersInTable = true
+      noClasses = false
 
 [outputs]
     page = ["HTML"]

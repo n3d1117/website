@@ -209,22 +209,26 @@ article {
     border-top: none;
   }
 
-  .markdown-body .highlight pre, .markdown-body pre {
-    background-color: var(--post-container-color) !important;
-    border-radius: 10px !important;
-    outline: none;
-    border: 1px solid var(--color-border-muted);
+  .markdown-body .highlight .chroma {
+      background-color: var(--post-container-color) !important;
   }
 
-  @media (max-width: 600px) {
-    .markdown-body .highlight pre, .markdown-body pre {
-      margin-left: -16px;
-      margin-right: -16px;
-      border-radius: 0px !important;
-      border-left: none !important;
-      border-right: none !important;
-      padding: 16px;
-    }
+  .markdown-body .highlight > .chroma:first-child {
+      border-radius: 10px !important;
+      border: 1px solid var(--color-border-muted);
+  }
+
+  .markdown-body .highlight pre, .markdown-body pre {
+      border-radius: 0 !important;
+      padding: 0 !important;
+      outline: none;
+  }
+
+  .chroma .lntable td:nth-child(2) > pre {
+      margin-right: 20px !important;
+  }
+  .markdown-body .highlight > pre:first-child, .markdown-body > pre:first-child {
+      padding: 12px !important;
   }
 }
 

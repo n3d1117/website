@@ -73,12 +73,12 @@ Here's how I got Tweetbot working again on my iOS device.
 * Edit `run.sh.template` by adding your app's API key and secret, and rename the file to `run.sh`
 * Set up a local proxy to redirect Tweetbot's authentication servers to your own local instance:
 
-    ```bash
+    ```bash{linenos=false}
     mitmweb --map-remote "@https://push.tapbots.com/@http://localhost:3000/"
     ```
 * Run the local server with:
 
-    ```bash
+    ```bash{linenos=false}
     npm install && ./run.sh
     ```
 

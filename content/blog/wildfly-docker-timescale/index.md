@@ -173,7 +173,7 @@ public class CustomPostgreSQLDialect extends PostgreSQL95Dialect {
 
 This is required since Timescale's [create_hypertable](https://docs.timescale.com/api/latest/hypertable/create_hypertable/) return value is not natively supported by Hibernate. If you skip this step, you'll most likely end up with an error such as:
 
-```no-highlight
+```no-highlight{linenos=false}
 javax.persistence.PersistenceException: org.hibernate.MappingException: No Dialect mapping for JDBC type: 1111
 ```
 
@@ -205,7 +205,7 @@ LOGGER.info(String.format("Result: %s", result));
 
 If all went well, you should see something like this in the logs:
 
-```no-highlight
+```no-highlight{linenos=false}
 Result: (1,public,YOUR_TABLE_HERE,t)
 ```
 
