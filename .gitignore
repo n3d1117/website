@@ -10,3 +10,4 @@ resources/
 .hugo_build.lock
 /static/scraper.json
 /static/data.json
+/.fleet
