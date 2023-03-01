@@ -9,9 +9,11 @@ math: false
 comments: true
 ---
 
-{{< note variant="info" >}}
-This post describes how to continue using the [Tweetbot](https://tapbots.com/tweetbot/) iOS app after [it was suspended](https://mashable.com/article/twitter-elon-musk-third-party-client-api-tweetbot-twitterrific/) by replacing its Twitter API key with your own, using a man-in-the-middle proxy to reroute authentication requests.
+{{< note variant="warning" >}}
+**EDIT as of Feb 28th, 2023:** Tapbots released a final update to Tweetbot (`v7.2.2`) which removes the entire app functionality, and encourages users to transfer their Tweetbot subscription into [Ivory](https://tapbots.com/ivory/). This article however is still relevant if you keep using `v7.2.1` of the app. If you updated by accident, you can downgrade using [this guide](https://github.com/qnblackcat/How-to-Downgrade-apps-on-AppStore-with-iTunes-and-Charles-Proxy/).
 {{< /note >}}
+
+This post describes how to continue using the [Tweetbot](https://tapbots.com/tweetbot/) iOS app after [it was suspended](https://mashable.com/article/twitter-elon-musk-third-party-client-api-tweetbot-twitterrific/) by replacing its Twitter API key with your own, using a man-in-the-middle proxy to reroute authentication requests.
 
 ## Introduction
 
