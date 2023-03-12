@@ -2,7 +2,7 @@
 title: Enabling TimescaleDB Streaming Replication for PostgreSQL 13 with Docker
 description: This post illustrates the process of setting up streaming replication for a PostgreSQL 13 database with the TimescaleDB extension using Docker, in order to create a real-time 1:1 replica of the primary database.
 date: 2021-10-22T02:28:42.000Z
-slug: wildfly-docker-timescale
+slug: streaming-replication-docker-timescale
 tags: [replication, docker, timescaledb, postgresql, big data]
 toc: true
 math: false
