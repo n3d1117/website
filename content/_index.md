@@ -12,9 +12,6 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 {{< subhead title="☕️ Side projects" icon="github" >}}
 {{< github-projects count="6" >}}
 
-{{< subhead title="👨‍🎓 University projects" icon="github" >}}
-{{< github-projects count="6" uni="true" >}}
-
 ---
 
 {{< subhead title="📥 Latest blog posts" >}}
