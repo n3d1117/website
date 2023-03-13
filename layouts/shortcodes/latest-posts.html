@@ -6,7 +6,7 @@
     <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4 mb-3">
         <div class="d-flex flex-column width-full text-left border rounded-3 p-3 gh-repo">
             <div class="metadata text-small pr-2 color-fg-muted text-semibold d-flex flex-items-center text-uppercase">
-                <span>{{ partial "icons/calendar" }}</span><span>{{ .Date.Format "Jan 2" }}</span>
+                <span>{{ partial "icons/calendar" }}</span><span>{{ .Date.Format "Jan 2, 2006" }}</span>
                 <span class="pl-2">{{ partial "icons/stopwatch" }}</span><span>{{.ReadingTime}} min read</span>
             </div>
             <a class="lh-sm-condensed mt-1 text-bold flex-auto min-width-0" href="{{ .RelPermalink }}">{{ .Title }}</a>
