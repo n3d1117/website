@@ -131,4 +131,8 @@ The loop appends the current prompt to the history list and removes any elements
 The `temperature` argument is a number between 0 and 2, which defaults to 1. Higher values will make the output more random, while lower values will make it more focused and deterministic. Here We set it to 1.3 to get more interesting facts.
 
 ## Conclusion
-In this blog post, we explored how to combine Mastodon and OpenAI's GPT-3 to automatically post interesting facts on Mastodon. I hope you enjoyed it! You can find the full source code on [GitHub](https://github.com/n3d1117/mastofact). It's currently running at [@mastofact](https://mastodon.social/@mastofact)!
+In this blog post, we explored how to combine Mastodon and OpenAI's GPT-3 to automatically post interesting facts on Mastodon.
+
+{{< img src="demo.png" caption="Output demo (source: [@mastofact](https://mastodon.social/@mastofact))" w="500" >}}
+
+I hope you enjoyed it! You can find the full source code on [GitHub](https://github.com/n3d1117/mastofact). It's currently running at [@mastofact](https://mastodon.social/@mastofact)!
