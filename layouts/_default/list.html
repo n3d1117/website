@@ -42,7 +42,7 @@
               {{ with .Params.tags }}
                 <ul class="list-style-none tag-list mb-1 pl-1 hide-sm">
                   {{ range . }}
-                    {{ $href := print (relURL "tags/") (urlize .) }}
+                    {{ $href := print (relURL "tags/") (urlize .) "/" }}
                     <li class="small d-inline-block color-bg-accent color-fg-default px-0 py-0 f5 mr-1"><a href="{{ $href }}">{{ . }}</a></li>
                   {{ end }}
                 </ul>
