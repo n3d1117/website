@@ -101,10 +101,10 @@ disableHugoGeneratorInject = true
     weight = 1
     pre = "github"
   [[menu.social]]
-    name = "Telegram"
-    url = "https://t.me/ne_do/"
+    name = "Mastodon"
+    url = "https://mastodon.social/@nedo/"
     weight = 2
-    pre = "telegram"
+    pre = "mastodon"
   [[menu.social]]
     name = "Email"
     url = "mailto:contact@edoardo.fyi"
