@@ -9,10 +9,10 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 ---
 
-{{< subhead title="☕️ Side projects" icon="github" >}}
+{{< subhead title="☕️ Side projects" icon="github" subtitle="Visit my [GitHub](https://github.com/n3d1117/) profile to explore more projects!" >}}
 {{< github-projects count="6" >}}
 
 ---
 
-{{< subhead title="📥 Latest blog posts" >}}
+{{< subhead title="📥 Latest blog posts" browse_all_posts="true" >}}
 {{< latest-posts count="3" >}}

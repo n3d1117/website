@@ -37,6 +37,9 @@
             {{ partial "icons/github" }}
         </a>
     {{ end }}
+    {{ if .Get "browse_all_posts" }}
+        <a class="text-small mt-2" href="/blog/">See all →</a>
+    {{ end }}
 
 </div>
 {{ if .Get "subtitle" }}

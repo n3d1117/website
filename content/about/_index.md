@@ -11,7 +11,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 ---
 
-{{< subhead title="💼 Experience" >}}
+{{< subhead title="💼 Work Experience" >}}
 {{< work-timeline >}}
 
 ---
