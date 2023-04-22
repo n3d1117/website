@@ -321,8 +321,9 @@ headers = {
     'Authorization': 'Bearer ' + access_token,
     'Accept': 'application/json',
 }
+# if same year, most recent first
 ids = ['154986', '43335', '732', '27081', '96209', '114287', '134101', '114285', '1020', '7331', '8837', 
-       '4647', '4649', '4648', '10662', '96', '3136', '19560', '6036', '157446', '205780', '112875']
+       '4647', '4649', '4648', '10662', '96', '3136', '19560', '6036', '157446', '112875', '205780']
 for id in ids:
     d = 'fields first_release_date, cover.url, name, url; where id = ' + id + ';'
     response = requests.post('https://api.igdb.com/v4/games', headers=headers, data=d).json()
