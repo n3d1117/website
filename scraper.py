@@ -54,13 +54,7 @@ def save_images(slug, ext, url, square=False):
             with open('static/img/' + slug + '.' + ext, 'r+b') as f:
                 with Image.open(f) as image:
                     square_image(image, 320).save('static/img/' + slug + '.' + ext, image.format)
-        ret = os.system('cd static/img && cwebp ' + slug + '.' + ext + ' -o ' + slug + '.webp')
-        if ret != 0:
-            # Handle libjpeg error: Unsupported color conversion request
-            os.system(f'cd static/img && convert {slug}.{ext} {slug}.png && cwebp {slug}.png -o {slug}.webp') #  && rm {slug}.png
-            os.system('pwd')
-            os.system('ls')
-            os.system('ls -l static/img')
+        os.system('cd static/img && cwebp ' + slug + '.' + ext + ' -o ' + slug + '.webp')
 
 # https://stackoverflow.com/a/65977483/6022481
 def square_image(image: Image, length: int) -> Image:
@@ -289,7 +283,7 @@ for item in j['items']:
         'url': item['external_urls']['spotify'],
         'followers': str(item['followers']['total']),
         'img': slug + '.jpeg',
-        'img_webp': slug + '.webp'
+        'img_webp': slug + '.webp' if exists('static/img/' + slug + '.webp') else slug + '.jpeg'
     })
 
 
