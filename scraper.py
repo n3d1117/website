@@ -57,7 +57,10 @@ def save_images(slug, ext, url, square=False):
         ret = os.system('cd static/img && cwebp ' + slug + '.' + ext + ' -o ' + slug + '.webp')
         if ret != 0:
             # Handle libjpeg error: Unsupported color conversion request
-            os.system(f'cd static/img && convert {slug}.{ext} {slug}.png && cwebp {slug}.png -o {slug}.webp && rm {slug}.png')
+            os.system(f'cd static/img && convert {slug}.{ext} {slug}.png && cwebp {slug}.png -o {slug}.webp') #  && rm {slug}.png
+            os.system('pwd')
+            os.system('ls')
+            os.system('ls -l static/img')
 
 # https://stackoverflow.com/a/65977483/6022481
 def square_image(image: Image, length: int) -> Image:
