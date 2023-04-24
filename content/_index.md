@@ -4,12 +4,17 @@ description: Software engineer passionate about iOS
 ---
 
 # 👋 About me
+Hey there! I'm **Edoardo**, a computer science engineer passionate about iOS development. 
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. This page is very much a work-in-progress. I speak 🇮🇹 **Italian:** (native), 🇬🇧 **English:** C1 level (advanced) - [Erasmus certificate](aaa), [CAE certificate](aaa) and 🇪🇸 **Spanish:** A1 level.
+I hold a MSc in Computer Science and Engineering, and I currently work at [Magenta](https://magentalab.it) --- mainly building the iOS app for [greenApes](https://www.greenapes.com/en/), a social network focused on sustainability and positive environment impact. See the [about page](/about) for more info.
+
+I also enjoy reverse engineering, automation and open source software. Sometimes I share my thoughts and findings in [blog posts](/blog). Previously, I’ve built some [tweaks](https://github.com/n3d1117/n3d1117.github.io) for jailbroken iOS devices --- such as [Runaway](https://github.com/n3d1117/n3d1117.github.io), a tweak to show network speed in the status bar.
+
+You can find me on [GitHub](https://github.com/n3d1117/) and [Mastodon](https://mastodon.social/@nedo/). If you want to get in touch, write an email to [contact@edoardo.fyi](mailto:contact@edoardo.fyi)
 
 ---
 
-{{< subhead title="☕️ Side projects" icon="github" subtitle="Visit my [GitHub](https://github.com/n3d1117/) profile to explore more projects!" >}}
+{{< subhead title="☕️ Personal projects" icon="github" subtitle="Visit my [GitHub profile](https://github.com/n3d1117/) to explore more!" >}}
 {{< github-projects count="6" >}}
 
 ---
