@@ -6,7 +6,7 @@ type: simple
 
 {{< about-menu >}}
 
-{{< subhead title="👋 About" >}}
+{{< subhead title="👋 About me" >}}
 Hey there! I'm **Edoardo**, a computer science engineer passionate about iOS development.
 
 Previously, I’ve built some [tweaks](https://github.com/n3d1117/n3d1117.github.io) for jailbroken iOS devices --- such as [Runaway](https://www.idownloadblog.com/2020/02/23/runaway/), a tweak to show network speed in the status bar.
@@ -35,6 +35,6 @@ In this section you'll find some info about me, and a few things I like to keep 
 
 ---
 
-{{< subhead title="ℹ️ Website info" >}}
+{{< subhead title="ℹ️ About this site" >}}
 - Built with [Hugo](https://gohugo.io/) using [Primer](https://primer.style/) as design system 
 - Currently hosted on [Cloudflare Pages](https://pages.cloudflare.com/). Source code is [available on GitHub](https://github.com/n3d1117/website)!
