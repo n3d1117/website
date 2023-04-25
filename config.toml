@@ -67,6 +67,16 @@ disableHugoGeneratorInject = true
 """
     where = "Liceo Scientifico [_Guido Castelnuovo_](https://www.liceocastelnuovo.edu.it), Florence, Italy 🇮🇹"
 
+[[params.conferences]]
+    title = "🔜 [#Pragma Conference 2023](https://pragmaconference.com/)"
+    when = "October 2023"
+    where = "Bologna, Italy"
+
+[[params.conferences]]
+    title = "[#Pragma Conference 2019](https://2019.pragmaconference.com/)"
+    when = "October 2019"
+    where = "Bologna, Italy"
+
 [sitemap]
     changefreq = "monthly"
     priority = 0.5
