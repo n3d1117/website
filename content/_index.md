@@ -1,6 +1,6 @@
 ---
 title: Home
-description: Software engineer passionate about iOS
+description: I'm Edoardo, a software engineer passionate about iOS, reverse engineering and open source software.
 ---
 
 # 👋 About me
