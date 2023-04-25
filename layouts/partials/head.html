@@ -1,5 +1,4 @@
-{{ $title := print .Title " · " .Site.Title }}
-{{ if .IsHome }}{{ $title = .Site.Title }}{{ end }}
+{{ $title = .Site.Title }}
 <title>{{ $title }}</title>
 
 <meta charset="utf-8" />
@@ -37,3 +36,4 @@
 {{ end }}
 
 <link rel="alternate" type="application/rss+xml" href="https://edoardo.fyi/blog/index.xml" title="Blog">
+<link rel="me" href="https://mastodon.social/@nedo">
