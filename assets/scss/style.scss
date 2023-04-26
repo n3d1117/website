@@ -209,10 +209,6 @@ article {
     border-top: none;
   }
 
-  .markdown-body .highlight .chroma {
-      background-color: var(--post-container-color) !important;
-  }
-
   .markdown-body .highlight > .chroma:first-child {
       border-radius: 10px !important;
       border: 1px solid var(--color-border-muted);
@@ -224,12 +220,9 @@ article {
       padding: 0 !important;
       outline: none;
   }
-
-  .chroma .lntable td:nth-child(2) > pre {
-      margin-right: 20px !important;
-  }
   .markdown-body .highlight > pre:first-child, .markdown-body > pre:first-child {
-      padding: 12px !important;
+    padding-top: 1em!important;
+    padding-bottom: 1em!important;
   }
 
   .markdown-body pre {

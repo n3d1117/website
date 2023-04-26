@@ -1,6 +1,5 @@
 ---
 title: Music
-description: 🎧 Music I'm listening to, updated daily based on Spotify APIs
 type: simple
 ---
 

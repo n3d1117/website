@@ -1,6 +1,5 @@
 ---
 title: Movies
-description: 🍿 Movies I recently watched, updated daily based on Plex and TMDB APIs
 type: simple
 ---
 

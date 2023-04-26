@@ -16,6 +16,7 @@ disableHugoGeneratorInject = true
   dateFormat = "Jan 2, 2006"
   name = "Edoardo D'Angelis"
   bio = "Software Engineer"
+  description = "I'm Edoardo, a software engineer passionate about iOS, reverse engineering and open source software."
   loc = "Florence, Italy"
   image = "/me.jpeg"
   images = ["me.jpeg"]
@@ -164,8 +165,6 @@ disableHugoGeneratorInject = true
 
 [markup]
   [markup.highlight]
-      lineNos = true
-      lineNumbersInTable = true
       noClasses = false
 
 [outputs]

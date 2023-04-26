@@ -1,6 +1,5 @@
 ---
 title: Home
-description: I'm Edoardo, a software engineer passionate about iOS, reverse engineering and open source software.
 ---
 
 # 👋 About me
@@ -19,7 +18,3 @@ You can find me on [GitHub](https://github.com/n3d1117/) and [Mastodon](https://
 
 {{< subhead title="📥 Latest blog posts" browse_all_posts="true" >}}
 {{< latest-posts count="3" >}}
-
----
-
-{{< last-updated >}}
