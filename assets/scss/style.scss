@@ -11,6 +11,10 @@
   --post-container-color: var(--color-canvas-default);
   --color-primer-border-active: var(--color-accent-fg) !important;
   --color-accent-subtle: var(--color-filter-item-hover) !important;
+  --color-attention-subtle: #fff8c5 !important;
+  --color-attention-muted: rgba(212,167,44,0.4) !important;
+  --color-success-subtle: #dafbe1 !important;
+  --color-success-muted: rgba(74,194,107,0.4) !important;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -26,6 +30,10 @@
     --color-bg-subtle: var(--color-canvas-subtle) !important;
     --color-border-muted: #272d35 !important;
     --color-accent-subtle: rgba(56,139,253,0.15) !important;
+    --color-attention-subtle: rgba(187,128,9,0.15) !important;
+    --color-attention-muted: rgba(187,128,9,0.4) !important;
+    --color-success-subtle: rgba(46,160,67,0.15) !important;
+    --color-success-muted: rgba(46,160,67,0.4) !important;
   }
 }
 
