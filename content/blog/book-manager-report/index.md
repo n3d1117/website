@@ -385,7 +385,8 @@ However, those _hybrid_ tests that were considered integration tests (for the re
 
 Mutation testing is disabled by default, and can be enabled by adding the `mutation-testing` profile to the Maven `verify` command:
 
-```bash {linenos=false}
+```bash
+// torchlight! {"lineNumbers": false}
 mvn clean verify -P mutation-testing
 ```
 
@@ -400,7 +401,8 @@ This setup was accomplished by placing a slightly different `log4j.xml` configur
 
 To enable [Coveralls](https://coveralls.io) integration, the user must first enable the `jacoco-report` profile to generate the JaCoCo report, and then add the `coveralls:report` goal:
 
-```bash {linenos=false}
+```bash
+// torchlight! {"lineNumbers": false}
 mvn clean verify -P jacoco-report coveralls:report -D repoToken=YOUR_COVERALLS_TOKEN
 ```
 
@@ -589,7 +591,8 @@ To run the app, the user can either manually build the fat Jar file using Maven 
 
 After setting up the database instance (as seen in [Setting up a MongoDB Single Node Replica Set](#setting-up-a-mongodb-single-node-replica-set)), the app can be started with the following command:
 
-```bash {linenos=false}
+```bash
+// torchlight! {"lineNumbers": false}
 java -jar target/book-manager-1.0-SNAPSHOT-jar-with-dependencies.jar [options]
 ```
 

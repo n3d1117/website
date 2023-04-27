@@ -61,7 +61,7 @@ We start by reading the environment variables from the `.env` file created befor
 ```python
 from dotenv import load_dotenv
 
-load_dotenv()# [tl! focus]
+load_dotenv() # [tl! focus]
 ```
 
 First, we import the Mastodon library, and setup the Mastodon instance with the access token:
@@ -70,8 +70,8 @@ First, we import the Mastodon library, and setup the Mastodon instance with the 
 import os
 from mastodon import Mastodon
 
-# Setup Mastodon
-mastodon = Mastodon(# [tl! focus:start] 
+# Setup Mastodon [tl! focus:start] 
+mastodon = Mastodon(
     access_token=os.environ['MASTODON_BOT_TOKEN'],
     api_base_url=os.environ['MASTODON_INSTANCE']
 )# [tl! focus:end] 
