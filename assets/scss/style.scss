@@ -8,8 +8,9 @@
   --color-filter-item-hover: rgb(203, 228, 248) !important;
   --color-bg-subtle: var(--color-canvas-subtle) !important;
   --tag-bg-hover-color: rgb(185, 218, 248);
-  --post-container-color:  #24292e !important;
-  --post-container-border-color: transparent !important;
+  --post-container-color: var(--color-canvas-default);
+  --code-container-color:  #24292e !important;
+  --code-container-border-color: transparent !important;
   --color-primer-border-active: var(--color-accent-fg) !important;
   --color-accent-subtle: var(--color-filter-item-hover) !important;
   --color-attention-subtle: #fff8c5 !important;
@@ -21,8 +22,9 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --tag-bg-hover-color: rgba(56,139,253,0.2);
-    --post-container-color: #1A1D21 !important;
-    --post-container-border-color: var(--color-border-muted) !important;
+    --post-container-color: var(--color-canvas-default) !important;
+    --code-container-color: #1A1D21 !important;
+    --code-container-border-color: var(--color-border-muted) !important;
     --color-canvas-default: #1A1D21 !important;
     --color-bg-default: var(--color-canvas-default) !important;
     --color-fg-default: #c9d1d9 !important;
@@ -220,12 +222,12 @@ article {
   }
 
   .markdown-body .highlight .chroma {
-    background-color: var(--post-container-color) !important;
+    background-color: var(--code-container-color) !important;
   }
 
   .markdown-body .highlight > .chroma:first-child {
       border-radius: 12px !important;
-      border: 1px solid var(--post-container-border-color);
+      border: 1px solid var(--code-container-border-color);
       margin-bottom: 1em !important;
       padding: 0;
   }
