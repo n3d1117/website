@@ -1,12 +1,15 @@
 <div class="d-flex flex-wrap gutter-condensed">
+    {{ $movies := slice }}
+    {{ with site.Data.scraper.movies }}{{ $movies = . }}{{ end }}
+
     {{ if eq (.Get "favorite") "true" }}
-        {{ range where site.Data.scraper.movies "is_favorite" true }}
+        {{ range where $movies "is_favorite" true }}
             <div class="col-sm-3 col-md-3 col-lg-2 col-xl-2 col-4">
                 {{ partial "movie" (dict "context" . "lazy" "true") }}
             </div>
         {{ end }}
     {{ else }}
-        {{ $movies := (where site.Data.scraper.movies "is_favorite" false) }}
+        {{ $movies := (where $movies "is_favorite" false) }}
         {{ range sort $movies "last_watch" "desc" | first (.Get "count") }}
             <div class="col-sm-3 col-md-3 col-lg-2 col-xl-2 col-4">
                 {{ partial "movie" (dict "context" . "lazy" "false") }}

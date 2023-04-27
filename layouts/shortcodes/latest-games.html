@@ -1,5 +1,7 @@
 <div class="d-flex flex-wrap gutter-condensed">
-    {{ range sort site.Data.scraper.videogames "year" "desc" | first (.Get "count") }}
+    {{ $games := slice }}
+    {{ with site.Data.scraper.videogames }}{{ $games = . }}{{ end }}
+    {{ range sort $games "year" "desc" | first (.Get "count") }}
         <div class="col-sm-3 col-md-3 col-lg-2 col-xl-2 col-4">
             {{ partial "game" . }}
         </div>

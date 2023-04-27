@@ -1,18 +1,11 @@
 <div class="d-sm-flex flex-wrap gutter-condensed mb-4">
+    {{ $projects := slice }}
+    {{ with site.Data.scraper.github }}{{ $projects = . }}{{ end }}
     {{ $count := .Get "count" }}
-    {{ $uni := .Get "uni" }}
-    {{ if eq $uni "true" }}
-        {{ $uniProjects := slice "LibrarySeatReservation" "NERComparison" "TrafficFlowManager" "maprecipes" "dl-buddy" "book-manager" }}
-        {{ range where site.Data.scraper.github "name" "in" $uniProjects | first $count }}
-        <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4 mb-3">
-            {{ partial "github-repo" . }}
-        </div>
-        {{ end }}
-    {{ else }}
-        {{ range site.Data.scraper.github | first $count }}
-        <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4 mb-3">
-            {{ partial "github-repo" . }}
-        </div>
-        {{ end }}
+
+    {{ range $projects | first $count }}
+    <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4 mb-3">
+        {{ partial "github-repo" . }}
+    </div>
     {{ end }}
 </div>
