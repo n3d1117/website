@@ -14,6 +14,11 @@ In this section you'll find some info about me, and a few things I like to keep 
 
 ---
 
+{{< subhead title="🏢 Conferences I've attended" >}}
+{{< conferences-timeline >}}
+
+---
+
 {{< subhead title="💼 Work experience" >}}
 {{< work-timeline >}}
 
@@ -21,12 +26,6 @@ In this section you'll find some info about me, and a few things I like to keep 
 
 {{< subhead title="🎓 Education" >}}
 {{< education-timeline >}}
-
----
-
-
-{{< subhead title="🏢 Conferences I've attended" >}}
-{{< conferences-timeline >}}
 
 ---
 
