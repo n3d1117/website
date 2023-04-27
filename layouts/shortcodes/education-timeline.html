@@ -1,4 +1,5 @@
-{{ $context := . }} {{ range .Site.Params.education }}
+{{ $context := . }}
+{{ range .Site.Params.education }}
 <div class="gen-timeline TimelineItem pt-0">
   <div class="TimelineItem-badge">{{ partial "icons/edu" }}</div>
   <div class="TimelineItem-body">

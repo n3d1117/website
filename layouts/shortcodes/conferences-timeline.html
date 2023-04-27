@@ -5,11 +5,14 @@
   <div class="TimelineItem-body">
     <p class="date-range mb-1">{{.when}}</p>
     <span class="d-inline-flex flex-wrap">
-      <p class="title text-semibold color-fg-default mr-2 mb-1">
-        {{.title | $context.Page.RenderString}}
+      <p class="title text-semibold color-fg-default mr-2 mb-2">
+        {{.title}}
       </p>
       {{ if isset . "where" }}
       <p class="where mb-2">{{ .where | $context.Page.RenderString }}</p>
+      {{ end }}
+      {{ if isset . "link" }}
+      <a class="where ml-2 mb-2" style="text-decoration: none;" href="{{.link}}" target="_blank" rel="noopener nofollow">🔗</a>
       {{ end }}
     </span>
   </div>
