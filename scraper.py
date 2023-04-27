@@ -271,6 +271,9 @@ SPOTIFY_BASE_URL='https://api.spotify.com/v1/me/top/artists'
 auth_header = base64.urlsafe_b64encode((SPOTIFY_CLIENT_ID + ':' + SPOTIFY_CLIENT_SECRET).encode('ascii'))
 headers = {'Content-Type': 'application/x-www-form-urlencoded', 'Authorization': 'Basic {}'.format(auth_header.decode('ascii'))}
 res = requests.post(url=SPOTIFY_TOKEN_URL, data={'grant_type': 'refresh_token', 'refresh_token': SPOTIFY_REFRESH_TOKEN}, headers=headers).json()
+if 'access_token' not in res:
+    print(f'Error refreshing Spotify token: {res}')
+    exit(1)
 ACCESS_TOKEN = res['access_token']
 URL = SPOTIFY_BASE_URL + '?{}'.format(parse.urlencode({'time_range': 'short_term', 'limit': LIMIT}))
 spotify_req = requests.get(url=URL, headers={'Authorization': 'Bearer {}'.format(ACCESS_TOKEN)})

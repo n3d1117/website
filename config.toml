@@ -1,4 +1,5 @@
 baseURL = "https://edoardo.fyi/"
+title = "Edoardo D'Angelis"
 enableRobotsTXT = true
 paginate = 15
 paginatePath = ''
