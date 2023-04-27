@@ -13,3 +13,6 @@ hugo -b https://edoardo.fyi/ --minify --gc
 
 # Run torchlight
 npx torchlight
+
+# Cleanup files
+rm public/scraper.json
