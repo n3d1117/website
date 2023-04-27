@@ -8,6 +8,12 @@ export PATH=$PATH:"$(pwd)"/libwebp-1.3.0-linux-x86-64/bin
 # Scrape content
 python scraper.py
 
+# Check if scraping was successful
+if [ $? -ne 0 ]; then
+    echo "Scraping failed"
+    exit 1
+fi
+
 # Build site
 hugo -b https://edoardo.fyi/ --minify --gc
 
