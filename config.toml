@@ -49,7 +49,6 @@ disableHugoGeneratorInject = true
     additionalText = """
 - **Final grade:** `110/110` with honours
 - **Thesis:** Design and development of components for the [AirQino](https://www.airqino.it/en/) platform dedicated to air quality monitoring 
-- **Relevant courses:** Software Architectures and Methodologies, Big Data Architectures, Advanced Programming Techniques, Parallel Computing, Human Computer Interaction
 """
   [[params.education]]
     from = "September 2015"
@@ -57,7 +56,6 @@ disableHugoGeneratorInject = true
     title = "BSc in Computer Science & Engineering"
     additionalText = """
 - **Thesis:** _Semantic expansion of bibliographic records_: using ML-based entity extraction tools (such as [spaCy](https://spacy.io)) and [SPARQL](https://www.w3.org/TR/rdf-sparql-query/) queries to generate annotations based on geographic data.
-- **Relevant courses:** Algorithms and Data Structures, Operating Systems, Artificial Intelligence, Databases, Software Engineering
 """
     where = "[University of Florence](https://unifi.it), Italy 🇮🇹"
   [[params.education]]

@@ -1,11 +1,17 @@
 {{ $context := . }}
 {{ range .Site.Params.conferences }}
-    <div class="gen-timeline TimelineItem pt-0">
-        <div class="TimelineItem-badge">
-            {{ partial "icons/organization" }}
-        </div>
-        <div class="TimelineItem-body">
-            <p>{{.title | $context.Page.RenderString}} · {{.when}} - {{.where}}</p>
-        </div>
-    </div>
+<div class="gen-timeline TimelineItem pt-0">
+  <div class="TimelineItem-badge">{{ partial "icons/organization" }}</div>
+  <div class="TimelineItem-body">
+    <p class="date-range mb-1">{{.when}}</p>
+    <span class="d-inline-flex flex-wrap">
+      <p class="title text-semibold color-fg-default mr-2 mb-1">
+        {{.title | $context.Page.RenderString}}
+      </p>
+      {{ if isset . "where" }}
+      <p class="where mb-2">{{ .where | $context.Page.RenderString }}</p>
+      {{ end }}
+    </span>
+  </div>
+</div>
 {{ end }}
