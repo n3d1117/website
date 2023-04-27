@@ -232,13 +232,15 @@ CMD ["--replSet", "rs"]
 
 This custom `mongo` image can be built with the following command, from the project folder:
 
-```bash {linenos=false}
+```bash
+// torchlight! {"lineNumbers": false}
 docker build -t book-manager-db .
 ```
 
 And can then be run on port `27107` with:
 
-```bash {linenos=false}
+```bash
+// torchlight! {"lineNumbers": false}
 docker run -p 27017:27017 --rm book-manager-db
 ```
 
@@ -274,7 +276,8 @@ MongoCollection<Author> authorCollection = client.getDatabase(DB_NAME)
 
 This makes it a lot easier to insert objects into a collection:
 
-```java {linenos=false}
+```java
+// torchlight! {"lineNumbers": false}
 authorCollection.insertOne(new Author("1", "George Orwell"));
 ```
 
@@ -365,7 +368,8 @@ By using TDD, code coverage requirements of 100% (using [JaCoCo](https://www.ecl
 
 100% code coverage checks are disabled by default when testing the project, and can be enabled by adding the `jacoco-check` profile to the Maven `verify` command:
 
-```bash {linenos=false}
+```bash
+// torchlight! {"lineNumbers": false}
 mvn clean verify -P jacoco-check
 ```
 

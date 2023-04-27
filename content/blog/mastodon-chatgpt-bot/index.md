@@ -61,7 +61,7 @@ We start by reading the environment variables from the `.env` file created befor
 ```python
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv()# [tl! focus]
 ```
 
 First, we import the Mastodon library, and setup the Mastodon instance with the access token:
@@ -71,10 +71,10 @@ import os
 from mastodon import Mastodon
 
 # Setup Mastodon
-mastodon = Mastodon(
+mastodon = Mastodon(# [tl! focus:start] 
     access_token=os.environ['MASTODON_BOT_TOKEN'],
     api_base_url=os.environ['MASTODON_INSTANCE']
-)
+)# [tl! focus:end] 
 ```
 
 Then we import the OpenAI library, and setup the OpenAI instance with the API key. We provide an initial prompt for our ChatGPT model and instruct it to reply with a random interesting fact:
@@ -82,7 +82,7 @@ Then we import the OpenAI library, and setup the OpenAI instance with the API ke
 ```python
 import openai
 
-# Setup OpenAI
+# Setup OpenAI [tl! focus:start] 
 openai.api_key = os.environ['OPENAI_API_KEY']
 prompt = "Tell me a random fact, be it fun, lesser-known or just interesting. Before answering, always " \
             "check your previous answers to make sure you haven't answered with the same fact before, " \
@@ -91,7 +91,7 @@ history = [{
     "role": "system",
     "content": "You are a helpful assistant. When asked about a random fun, lesser-known or interesting fact, "
                 "you only reply with the fact and nothing else."
-}]
+}]# [tl! focus:end] 
 ```
 
 Finally, we create a loop that will run forever, and post a new fact every hour:
@@ -99,7 +99,7 @@ Finally, we create a loop that will run forever, and post a new fact every hour:
 ```python
 import time
 
-while True:
+while True:# [tl! focus:start] 
     try:
         history.append({"role": "user", "content": prompt})
 
@@ -121,7 +121,7 @@ while True:
         logging.error(e)
 
     # Wait for the specified interval before posting again
-    time.sleep(float(os.environ.get('POST_INTERVAL_SECONDS', 3600)))
+    time.sleep(float(os.environ.get('POST_INTERVAL_SECONDS', 3600)))# [tl! focus:end] 
 ```
 
 The while loop runs indefinitely, posting a new status to Mastodon every `POST_INTERVAL_SECONDS` seconds. This value defaults to 3600 seconds (1 hour) if it is not set.

@@ -30,7 +30,7 @@ public struct ExpandableText: View {
         self.text = text.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
-    // body goes here
+    // Body goes here
 }
 ```
 
@@ -50,7 +50,7 @@ public var body: some View {
 
 Note that if the text fits within the fixed line limit, we don't need to make it expand. To check this, we introduce a `@State` variable called `isTruncated`. This variable will be true if the text is actually truncated when forced to fit in 3 lines, false otherwise.
 
-To check if text is truncated in SwiftUI, we follow the technique used in [this great blog post](https://www.fivestars.blog/articles/trucated-text/) from Federico Zanetello:
+To check if text is truncated in SwiftUI, we follow the technique used in [this great blog post from Federico Zanetello](https://www.fivestars.blog/articles/trucated-text/):
 
 ```swift
 @State private var isTruncated: Bool = false
@@ -94,7 +94,7 @@ extension View {
         background(
             GeometryReader { geometryProxy in
                 Color.clear
-                .preference(key: SizePreferenceKey.self, value: geometryProxy.size)
+                    .preference(key: SizePreferenceKey.self, value: geometryProxy.size)
             }
         )
         .onPreferenceChange(SizePreferenceKey.self, perform: onChange)
@@ -108,7 +108,7 @@ If the text is truncated, we want to remove any 2+ newlines from the text. This 
 ```swift
 var body: some View {
     Text(.init(!isExpanded && isTruncated ? textTrimmingDoubleNewlines : text))
-    /*...*/
+        /* ... */
 }
 
 private var textTrimmingDoubleNewlines: String {
@@ -126,7 +126,7 @@ At the end of the text, we add a `more` button that expands the text when tapped
 public var body: some View {
     Text(/* ... */)
         /* ... */
-        .overlay(alignment: .trailingLastTextBaseline) {
+        .overlay(alignment: .trailingLastTextBaseline) { // [tl! focus:8]
             if !isExpanded, isTruncated {
                 Button {
                     withAnimation { isExpanded.toggle() }
@@ -146,8 +146,8 @@ To make the text fade out when it's truncated, we use a `LinearGradient` mask. W
 
 public var body: some View {
     Text(/* ... */)
-    /* ... */
-        .applyingTruncationMask(size: moreTextSize, enabled: !isExpanded && isTruncated)
+        /* ... */
+        .applyingTruncationMask(size: moreTextSize, enabled: !isExpanded && isTruncated) // [tl! focus:5]
         .background(
             Text(moreButtonText)
                 .hidden()

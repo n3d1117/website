@@ -32,6 +32,7 @@ Note that we are conforming our `Entry` struct to the `Identifiable` protocol by
 Next, we will create an array of `Entry` objects that will be used to populate our chart. We will use the following sample data:
 
 ```swift
+// torchlight! {"lineNumbers": false}
 let data: [Entry] = [
     .init(period: "Today", amount: 5),
     .init(period: "This Week", amount: 50),
@@ -80,7 +81,7 @@ Let's start by adding a trailing annotation to each bar. We will use the `annota
 ```swift
 Chart(data) { item in
     BarMark(/* ... */)
-    .annotation(position: .trailing) {
+    .annotation(position: .trailing) { // [tl! focus:4]
         Text(item.amount.formatted())
             .foregroundColor(.secondary)
             .font(.caption)
@@ -95,10 +96,10 @@ Chart(data) { item in
     /* ... */
 }
 .fixedSize(horizontal: false, vertical: true)
-.chartYAxis {
+.chartYAxis {  // [tl! focus:5]
     AxisMarks(preset: .extended, position: .leading) { _ in
         AxisValueLabel(horizontalSpacing: 15)
-            .font(.footnote)
+            .font(.footnote) // [tl! focus] 
     }
 }
 ```
@@ -108,7 +109,7 @@ Finally, we can adjust the thickness of the bars by providing a `width` value to
 ```swift
 BarMark(
     /* ... */
-    width: .fixed(8)
+    width: .fixed(8) // [tl! highlight]
 )
 ```
 

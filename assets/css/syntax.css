@@ -1,8 +1,18 @@
 /*! purgecss start ignore */
+.torchlight .line {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  transform: translateY(0);
+}
 
-.line {
-  padding-left: 1em;
-  padding-right: 1em;
+.torchlight .line span:last-child {
+  margin-right: 1em;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  .torchlight .line {
+    transform: translateY(0);
+  }
 }
 
 /*

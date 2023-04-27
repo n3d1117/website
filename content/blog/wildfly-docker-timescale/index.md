@@ -163,7 +163,7 @@ First, create a class named `CustomPostgreSQLDialect` that extends `PostgreSQL95
 import org.hibernate.dialect.PostgreSQL95Dialect;
 import java.sql.Types;
 
-public class CustomPostgreSQLDialect extends PostgreSQL95Dialect {
+public class CustomPostgreSQLDialect extends PostgreSQL95Dialect { // [tl! focus:5]
     public CustomPostgreSQLDialect() {
         super();
         registerHibernateType(Types.OTHER, String.class.getName());
@@ -173,7 +173,8 @@ public class CustomPostgreSQLDialect extends PostgreSQL95Dialect {
 
 This is required since Timescale's [create_hypertable](https://docs.timescale.com/api/latest/hypertable/create_hypertable/) return value is not natively supported by Hibernate. If you skip this step, you'll most likely end up with an error such as:
 
-```no-highlight {linenos=false}
+```no-highlight
+// torchlight! {"lineNumbers": false}
 javax.persistence.PersistenceException: org.hibernate.MappingException: No Dialect mapping for JDBC type: 1111
 ```
 
@@ -183,7 +184,7 @@ Then, specify `CustomPostgreSQLDialect` as the Hibernate dialect in your project
 <persistence-unit name="...">
     <properties>
         ...
-        <property name="hibernate.dialect" value="CustomPostgreSQLDialect"/>
+        <property name="hibernate.dialect" value="CustomPostgreSQLDialect"/> <!-- [tl! highlight] -->
         ...
     </properties>
 </persistence-unit>
@@ -205,7 +206,8 @@ LOGGER.info(String.format("Result: %s", result));
 
 If all went well, you should see something like this in the logs:
 
-```no-highlight {linenos=false}
+```no-highlight
+// torchlight! {"lineNumbers": false}
 Result: (1,public,YOUR_TABLE_HERE,t)
 ```
 
