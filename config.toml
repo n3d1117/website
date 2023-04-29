@@ -55,7 +55,7 @@ disableHugoGeneratorInject = true
     to = "April 2019"
     title = "BSc in Computer Science & Engineering"
     additionalText = """
-- **Thesis:** _Semantic expansion of bibliographic records_: using ML-based entity extraction tools (such as [spaCy](https://spacy.io)) and [SPARQL](https://www.w3.org/TR/rdf-sparql-query/) queries to generate annotations based on geographic data.
+- **Thesis:** _Semantic expansion of bibliographic records_: using ML-based entity extraction tools (such as [spaCy](https://spacy.io)) and [SPARQL](https://www.w3.org/TR/rdf-sparql-query/) queries to generate annotations based on geographic data
 """
     where = "[University of Florence](https://unifi.it), Italy 🇮🇹"
   [[params.education]]
