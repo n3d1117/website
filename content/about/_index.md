@@ -33,7 +33,7 @@ In this section you'll find some info about me, and a few things I like to keep 
 - Built with [Hugo](https://gohugo.io/) using [Primer](https://primer.style/) as design system
 - Using [Giscus](https://github.com/giscus/giscus) as a comment system powered by GitHub Discussions
 - Using [Torchlight](https://torchlight.dev) for syntax highlighting in code blocks
-- Currently hosted on [Cloudflare Pages](https://pages.cloudflare.com/). Source code is [available on GitHub](https://github.com/n3d1117/website)!
+- Currently hosted on [Cloudflare Pages](https://pages.cloudflare.com/)
 
 ---
 
