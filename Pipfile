@@ -8,6 +8,8 @@ requests = "*"
 python-dotenv = "*"
 feedparser = "*"
 pillow = "*"
+supabase = "*"
+unidecode = "*"
 
 [dev-packages]
 
