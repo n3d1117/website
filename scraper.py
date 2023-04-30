@@ -38,7 +38,8 @@ def main():
             executor.submit(scrape_github, data, content_limit),
             executor.submit(scrape_videogames, data, bucket, bucket_list)
         ]
-        concurrent.futures.wait(futures)
+        for future in concurrent.futures.as_completed(futures):
+            future.result()
 
     # Write data
     with open('data/scraper.json', 'w') as f:
