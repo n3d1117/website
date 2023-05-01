@@ -302,11 +302,22 @@ def scrape_spotify(data, content_limit, bucket, bucket_list):
 
 
 def scrape_github(data, content_limit):
-    github_url = 'https://api.github.com/users/{}/repos?per_page=100'.format('n3d1117')
+    github_url = 'https://api.github.com/users/{}/repos?per_page=500'.format('n3d1117')
+    include = ['chatgpt-telegram-bot', 'appdb', 'stats-ios', 'cook']
     exclude = ['CrackBot']
     j = requests.get(github_url).json()
+    for i in include:
+        project = [p for p in j if p['name'] == i][0]
+        data['github'].append({
+            'name': project['name'],
+            'html_url': project['html_url'],
+            'description': project['description'],
+            'language': project['language'],
+            'stargazers_count': project['stargazers_count'],
+            'forks_count': project['forks_count'],
+        })
     d = sorted(j, key=lambda item: item['stargazers_count'], reverse=True)
-    for project in [p for p in d if p['name'] not in exclude][:content_limit]:
+    for project in [p for p in d if p['name'] not in exclude and p['name'] not in include][:content_limit]:
         data['github'].append({
             'name': project['name'],
             'html_url': project['html_url'],
