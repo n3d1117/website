@@ -49,7 +49,6 @@ module.exports = {
  
         // Globs to include when looking for files to highlight.
         includeGlobs: [
-            '**/*.htm',
             '**/*.html'
         ],
  
@@ -57,8 +56,7 @@ module.exports = {
         // path will be searched and if any of these strings
         // appear, the file will be ignored.
         excludePatterns: [
-            '/node_modules/',
-            '/vendor/'
+            '/node_modules/'
         ]
     }
 }
