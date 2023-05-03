@@ -88,6 +88,8 @@ def scrape_movies(data, content_limit, img_width, bucket, bucket_list):
                     'cinema': False,
                     'is_favorite': False
                 })
+        else:
+            print(f'Error fetching metadata: {j}')
 
 
 def scrape_cinema_movies(data, bucket, bucket_list):
