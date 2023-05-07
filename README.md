@@ -7,7 +7,6 @@
 ## Build
 ```bash
 npm install
-pipenv install
-pipenv shell
+pip install -r requirements.txt
 sh build.sh
 ```
