@@ -6,8 +6,8 @@
 
 ## Build
 ```bash
-pipenv shell
-pipenv install
 npm install
+pipenv install
+pipenv shell
 sh build.sh
 ```
