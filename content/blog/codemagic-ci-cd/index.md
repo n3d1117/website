@@ -199,6 +199,10 @@ However, despite my relatively simple test suite (13 unit tests), I noticed some
 
 It could be that the issue for these flaky tests lies in my configuration, I didn't have time to investigate further. I simply commented out the test script for now.
 
+{{< note variant="warning" >}}
+**EDIT as of May 13th, 2023:** not sure if something has changed, but I tried it again and the tests now seem to run reliably and pass every time (5 times out of 5 so far, with the test step always lasting around 4 minutes). Kudos to the Codemagic team for fixing this issue! 🎉
+{{< /note >}}
+
 ## Conclusion
 My experience using the Codemagic platform to set up continuous integration, testing and automated deployments for a native iOS app written in Swift so far has been **positive**:
 
