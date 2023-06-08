@@ -10,6 +10,10 @@ comments: true
 ---
 
 {{< note variant="warning" >}}
+**2ND EDIT as of Jun 9th, 2023:** Sadly, Twitter no longer offers free elevated access for personal projects, so this guide is no longer valid. Time to move on to [Ivory](https://tapbots.com/ivory/)! I'll leave this post up for historical purposes.
+{{< /note >}}
+
+{{< note variant="warning" >}}
 **EDIT as of Feb 28th, 2023:** Tapbots released a final update to Tweetbot (`v7.2.2`) which removes the entire app functionality, and encourages users to transfer their Tweetbot subscription into [Ivory](https://tapbots.com/ivory/). This article however is still relevant if you keep using `v7.2.1` of the app. If you updated by accident, you can downgrade using [this guide](https://github.com/qnblackcat/How-to-Downgrade-apps-on-AppStore-with-iTunes-and-Charles-Proxy/).
 {{< /note >}}
 
