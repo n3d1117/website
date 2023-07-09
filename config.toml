@@ -100,11 +100,11 @@ disableHugoGeneratorInject = true
     url = "/blog/"
     weight = 2
     pre = "hashtag"
-  [[menu.main]]
-    name = "About"
-    url = "/about/"
-    weight = 4
-    pre = "about"
+#  [[menu.main]]
+#    name = "About"
+#    url = "/about/"
+#    weight = 4
+#    pre = "about"
   
   [[menu.social]]
     name = "GitHub"
