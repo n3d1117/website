@@ -2,7 +2,7 @@
 title: Home
 ---
 
-# 👋 About me
+# [👋](about) About me
 Hey there! I'm **Edoardo**, a computer science engineer passionate about iOS development.
 
 In 2022, I graduated from the University of Florence in Italy with a master's degree in Computer Science & Engineering.

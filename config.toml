@@ -1,20 +1,20 @@
 baseURL = "https://edoardo.fyi/"
-title = "Edoardo D'Angelis"
+title = "Edoardo"
 enableRobotsTXT = true
 paginate = 15
 paginatePath = ''
-copyright = "© Edoardo D'Angelis — All rights reserved"
+copyright = "© Edoardo — All rights reserved"
 languageCode = "en-us"
 disableHugoGeneratorInject = true
 
 [author]
-  name = "Edoardo D'Angelis"
+  name = "Edoardo"
   email = "contact@edoardo.fyi"
 
 [params]
   dateFormat = "Jan 2, 2006"
-  title = "Edoardo D'Angelis"
-  name = "Edoardo D'Angelis"
+  title = "Edoardo"
+  name = "Edoardo"
   bio = "Software Engineer"
   description = "I'm Edoardo, a software engineer passionate about iOS, reverse engineering and open source software."
   loc = "Florence, Italy"
