@@ -122,11 +122,6 @@ disableHugoGeneratorInject = true
     weight = 3
     pre = "mail"
   [[menu.social]]
-    name = "Donate"
-    url = "https://www.buymeacoffee.com/ne_do"
-    weight = 4
-    pre = "heart"
-  [[menu.social]]
     name = "RSS"
     url = "feed://edoardo.fyi/blog/index.xml"
     weight = 5
