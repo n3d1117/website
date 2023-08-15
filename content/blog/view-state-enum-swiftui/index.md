@@ -1,5 +1,5 @@
 ---
-title: Modeling view state in SwiftUI using a generic enum
+title: Modeling view state in SwiftUI
 description: How to reduce boilerplate code when modeling view state in SwiftUI views by using a generic enum to handle common scenarios such as loading, success, and error states.
 date: 2023-08-15T05:24:54.000Z
 slug: view-state-enum-swiftui
@@ -10,7 +10,7 @@ comments: true
 ---
 
 ## Introduction
-In this post, we will explore how to reduce boilerplate code when modeling view state in SwiftUI views by using a generic enum to handle common scenarios such as loading, success, and error states.
+In this post, we will explore a way to reduce boilerplate code when modeling view state in SwiftUI views by using a generic enum to handle common scenarios such as loading, success, and error states.
 
 ## Introducing the ViewState enum
 Let's start by creating the generic view state enum. We'll call it `ViewState` and it will have three cases: `success`, `failed`, and `loading`. The `success` case will have an associated value of type `T` which will be the type of the data we want to display in the view. The `failed` case will have an associated value of type `Error` which will be the error we want to display in the view. The `loading` case will not have an associated value.
@@ -89,7 +89,7 @@ extension NewsView {
         func loadNews() async {
             do {
                 let response: [NewsEntry] = try await apiService.fetchNews()
-                state = .success(response.data)
+                state = .success(response)
             } catch {
                 state = .failed(error)
             }
@@ -98,7 +98,7 @@ extension NewsView {
 }
 ```
 
-It has a `state` property of type `ViewState<[NewsEntry]>` which is the type of the state we want to display in the view, and defaults to `.loading` so that the progress view is shown immediately. It also has a `loadNews` method which loads the news entries from an external service and updates the state accordingly.
+It has a `state` property of type `ViewState<[NewsEntry]>` which is the type of the state we want to display in the view (a list of news entries), and defaults to `.loading` so that the progress view is shown immediately. It also has a `loadNews` method which loads the news entries from an external service and updates the state accordingly.
 
 The news are loaded using the `apiService` dependency, which is injected using the `@Dependency` property wrapper. This is just an example inspired by the [Factory](https://github.com/hmlongco/Factory) library I recently explored (actual dependency injection techniques are out of scope for this post).
 
@@ -113,11 +113,11 @@ ZStack {
         /* ... */
     }
 }
-.animation(.default, value: viewModel.state) // [tl! highlight]
+.animation(.default, value: viewModel.state) // [tl! focus]
 ```
 
 ### Previews
-One big advantage of using a generic enum to model view state is that we can easily create previews for all the different states. For example, we can create a preview for all the possible states by mocking the service that loads the news entries:
+One big advantage of using a generic enum to model view state is that we can easily create previews for all the different states by mocking the service (again, this is just an example inspired by [Factory](https://github.com/hmlongco/Factory)):
 
 ```swift
 struct NewsView_Previews: PreviewProvider {
@@ -196,8 +196,8 @@ In the same way, we can easily test that the view model sets the correct state w
 ```
 
 ### Notes
-- This is not a silver bullet and may not be suitable for all use cases, but I found it quite useful in some of my projects for simple views that need to display data from an external service.
+- This is not a silver bullet and may not be suitable for all use cases, but I found it quite useful in some of my projects for simple views that just need to display data from an external service.
 - One thing that it's missing is handling of empty state (i.e. when the state is `.success` but the data is empty). This could be a great use case for the newly introduced [ContentUnavailableView](https://developer.apple.com/documentation/swiftui/contentunavailableview)!
 
 ## Conclusion
-I hope you enjoyed this post and that you found it useful. If you have any questions or feedback, please let me know by leaving a comment below. Thanks for reading!
+I hope you enjoyed this post and that you found it useful. If you have any questions or feedback, please let me know by leaving a comment below. Thanks for reading! 😊
