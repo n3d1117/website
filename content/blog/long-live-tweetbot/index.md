@@ -10,7 +10,7 @@ comments: true
 ---
 
 {{< note variant="warning" >}}
-**2ND EDIT as of Jun 9th, 2023:** Sadly, Twitter no longer offers free elevated access for personal projects, so this guide is no longer valid. Time to move on to [Ivory](https://tapbots.com/ivory/)! I'll leave this post up for historical purposes.
+**2ND EDIT as of Jun 9th, 2023:** Sadly, Twitter no longer offers free elevated access for personal projects, so this guide is no longer valid. Time to move to [Ivory](https://tapbots.com/ivory/)! I'll leave this post up for historical purposes.
 {{< /note >}}
 
 {{< note variant="warning" >}}
