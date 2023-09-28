@@ -371,7 +371,7 @@ def get_supabase_bucket():
     key: str = os.environ.get("SUPABASE_KEY")
     bucket_name: str = os.environ.get("SUPABASE_BUCKET_NAME")
     supabase: Client = create_client(url, key)
-    bucket = supabase.storage().from_(bucket_name)
+    bucket = supabase.storage.from_(bucket_name)
     return bucket
 
 
