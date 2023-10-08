@@ -68,7 +68,7 @@ disableHugoGeneratorInject = true
 
 [[params.conferences]]
     title = "#Pragma Conference 2023"
-    when = "🔜 October 2023"
+    when = "October 2023"
     where = "Bologna, Italy"
     link = "https://pragmaconference.com/"
 
