@@ -7,7 +7,9 @@ Hey there! I'm **Edoardo**, a computer science engineer passionate about iOS dev
 
 In 2022, I graduated from the University of Florence in Italy with a master's degree in Computer Science & Engineering.
 
-I'm currently building the iOS app for [greenApes](https://www.greenapes.com/en/), a social network focused on sustainability and positive environment impact. I also enjoy reverse engineering, automation and open source software. Sometimes I share findings in my [blog](/blog).
+I'm currently working as iOS developer at [Shape Games](https://www.shapegames.com). Previously, I helped building the iOS app for [greenApes](https://www.greenapes.com/en/), a social network focused on sustainability and positive environment impact.
+
+I also enjoy reverse engineering, automation and open source software. Sometimes I share findings in my [blog](/blog).
 
 You can find me on [GitHub](https://github.com/n3d1117/) and [Mastodon](https://mastodon.social/@nedo/). If you want to get in touch, feel free to [write me an email](mailto:contact@edoardo.fyi)!
 

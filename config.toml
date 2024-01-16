@@ -17,13 +17,21 @@ disableHugoGeneratorInject = true
   name = "Edoardo D'Angelis"
   bio = "Software Engineer"
   description = "I'm Edoardo, a software engineer passionate about iOS, reverse engineering and open source software."
-  loc = "Florence, Italy"
+  loc = "Copenhagen, Denmark"
   image = "/me.jpeg"
   images = ["me.jpeg"]
 
   [[params.work]]
-    from = "February 2022"
+    from = "January 2024"
     to = "present"
+    title = "iOS Engineer @ [Shape Games](https://www.shapegames.com)"
+    additionalText = """
+- Working on highly modular iOS apps using Swift packages
+"""
+
+  [[params.work]]
+    from = "February 2022"
+    to = "December 2023"
     title = "Software Engineer @ [Magenta](https://magentalab.it)"
     additionalText = """
 - Building the [GreenApes](https://www.greenapes.com)  iOS App using [Swift](https://www.swift.org), [SwiftUI](https://developer.apple.com/xcode/swiftui/) and [Combine](https://developer.apple.com/documentation/combine)
@@ -48,7 +56,7 @@ disableHugoGeneratorInject = true
     where = "[University of Florence](https://unifi.it), Italy 🇮🇹"
     additionalText = """
 - **Final grade:** `110/110` with honours
-- **Thesis:** Design and development of components for the [AirQino](https://www.airqino.it/en/) platform dedicated to air quality monitoring 
+- **Thesis:** Design and development of components for the [AirQino](https://www.airqino.it/en/) platform dedicated to air quality monitoring
 """
   [[params.education]]
     from = "September 2015"
@@ -105,7 +113,7 @@ disableHugoGeneratorInject = true
 #    url = "/about/"
 #    weight = 4
 #    pre = "about"
-  
+
   [[menu.social]]
     name = "GitHub"
     url = "https://github.com/n3d1117/"
