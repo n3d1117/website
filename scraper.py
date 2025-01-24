@@ -293,7 +293,8 @@ def scrape_spotify(data, content_limit, bucket, bucket_list):
     j = spotify_req.json()
     for item in j['items']:
         slug = slugify(item['name'])
-        save_images(bucket, bucket_list, 'artist', slug, 'jpeg', item['images'][1]['url'], square=True)
+        image_url = item['images'][1]['url'] if len(item['images']) > 1 else 'https://upload.wikimedia.org/wikipedia/commons/5/50/Black_Wallpaper.jpg'
+        save_images(bucket, bucket_list, 'artist', slug, 'jpeg', image_url, square=True)
         data['spotify'].append({
             'name': item['name'],
             'url': item['external_urls']['spotify'],
