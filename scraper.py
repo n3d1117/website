@@ -90,6 +90,7 @@ def scrape_movies(data, content_limit, img_width, bucket, bucket_list):
                 })
         else:
             print(f'Error fetching metadata: {j}')
+            exit(1)
 
 
 def scrape_cinema_movies(data, bucket, bucket_list):
