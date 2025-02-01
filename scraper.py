@@ -31,8 +31,8 @@ def main():
 
     with ThreadPoolExecutor(max_workers=6) as executor:
         futures = [
-            executor.submit(scrape_all_movies, data, content_limit, img_width, bucket, bucket_list),
-            executor.submit(scrape_all_tv_shows, data, content_limit, img_width, bucket, bucket_list),
+            executor.submit(scrape_all_movies, data, 999, img_width, bucket, bucket_list),
+            executor.submit(scrape_all_tv_shows, data, 999, img_width, bucket, bucket_list),
             executor.submit(scrape_books, data, content_limit, bucket, bucket_list),
             executor.submit(scrape_spotify, data, content_limit, bucket, bucket_list),
             executor.submit(scrape_github, data, content_limit),
@@ -95,7 +95,7 @@ def scrape_movies(data, content_limit, img_width, bucket, bucket_list):
 
 def scrape_cinema_movies(data, bucket, bucket_list):
     d = feedparser.parse('https://letterboxd.com/n3d1117/rss/')
-    for lbx_list in ['🍿 Cinema', '🍿 Cinema 2']:  # due to rss limit. waiting for letterboxd apis to be available...
+    for lbx_list in ['🍿 Cinema', '🍿 Cinema 2', '🍿 Cinema 3']:  # due to rss limit. waiting for letterboxd apis to be available...
         lbxd_cinema_lists = [item for item in d['entries'] if item['title'] == lbx_list]
         if len(lbxd_cinema_lists) > 0:
             lbxd_cinema_list = lbxd_cinema_lists[0]
