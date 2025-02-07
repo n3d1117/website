@@ -133,20 +133,19 @@ def scrape_fav_movies(data, bucket, bucket_list):
     top_movies = requests.get(url="https://api.themoviedb.org/3/list/7112446?api_key=" + tmdb_api_key)
     top_movies_json = top_movies.json()
     for movie in top_movies_json['items']:
-        if not any(m['guid'] == str(movie['id']) for m in data['movies']):
-            slug = slugify(movie['title'])
-            img_url = 'https://image.tmdb.org/t/p/w300' + movie['poster_path']
-            save_images(bucket, bucket_list, 'movie', slug, 'jpg', img_url)
-            data['movies'].append({
-                'title': movie['title'],
-                'guid': str(movie['id']),
-                'year': int(movie['release_date'].split('-')[0]),
-                'img': f'movie_{slug}.jpg',
-                'img_webp': f'movie_{slug}.webp' if exists(f'static/img/movie_{slug}.webp') else f'movie_{slug}.jpg',
-                'last_watch': int(datetime.strptime(movie['release_date'], "%Y-%m-%d").timestamp()),
-                'cinema': False,
-                'is_favorite': True
-            })
+        slug = slugify(movie['title'])
+        img_url = 'https://image.tmdb.org/t/p/w300' + movie['poster_path']
+        save_images(bucket, bucket_list, 'movie', slug, 'jpg', img_url)
+        data['movies'].append({
+            'title': movie['title'],
+            'guid': str(movie['id']),
+            'year': int(movie['release_date'].split('-')[0]),
+            'img': f'movie_{slug}.jpg',
+            'img_webp': f'movie_{slug}.webp' if exists(f'static/img/movie_{slug}.webp') else f'movie_{slug}.jpg',
+            'last_watch': int(datetime.strptime(movie['release_date'], "%Y-%m-%d").timestamp()),
+            'cinema': False,
+            'is_favorite': True
+        })
 
 
 def scrape_tv_shows(data, content_limit, img_width, bucket, bucket_list):
