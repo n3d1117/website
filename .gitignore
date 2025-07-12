@@ -11,3 +11,4 @@ resources/
 /static/scraper.json
 /static/data.json
 /.fleet
+/.idea

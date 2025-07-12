@@ -1,0 +1,56 @@
+{{ $video := (.Page.Resources.ByType "video").GetMatch (printf "*%s" (.Get "src")) }}
+{{ if not $video }}
+    {{ $video = .Page.Resources.GetMatch (.Get "src") }}
+{{ end }}
+
+{{ if $video }}
+    {{ $width := .Get "width" | default "400" }}
+    {{ $height := .Get "height" | default "" }}
+    {{ $autoplay := .Get "autoplay" | default false }}
+    {{ $loop := .Get "loop" | default false }}
+    {{ $muted := .Get "muted" | default false }}
+    {{ $controls := .Get "controls" | default true }}
+    {{ $preload := .Get "preload" | default "none" }}
+    {{ $class := .Get "class" | default "" }}
+    
+    {{ if .Get "caption" }}
+    <figure{{ if eq $class "center" }} style="text-align: center;"{{ end }}>
+        <video 
+            width="{{ $width }}"
+            {{ if $height }}height="{{ $height }}"{{ end }}
+            {{ if $controls }}controls{{ end }}
+            {{ if $autoplay }}autoplay{{ end }}
+            {{ if $loop }}loop{{ end }}
+            {{ if $muted }}muted{{ end }}
+            preload="{{ $preload }}"
+            {{ if .Get "poster" }}poster="{{ .Get "poster" }}"{{ end }}
+            {{ if ne $class "center" }}{{ if $class }}class="{{ $class }}"{{ end }}{{ end }}
+            {{ if eq $class "center" }}style="display: block; margin: 0 auto;"{{ end }}
+        >
+            <source src="{{ $video.RelPermalink }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <figcaption>{{ .Get "caption" }}</figcaption>
+    </figure>
+    {{ else }}
+    <div{{ if eq $class "center" }} style="text-align: center;"{{ end }}>
+        <video 
+            width="{{ $width }}"
+            {{ if $height }}height="{{ $height }}"{{ end }}
+            {{ if $controls }}controls{{ end }}
+            {{ if $autoplay }}autoplay{{ end }}
+            {{ if $loop }}loop{{ end }}
+            {{ if $muted }}muted{{ end }}
+            preload="{{ $preload }}"
+            {{ if .Get "poster" }}poster="{{ .Get "poster" }}"{{ end }}
+            {{ if ne $class "center" }}{{ if $class }}class="{{ $class }}"{{ end }}{{ end }}
+            {{ if eq $class "center" }}style="display: block; margin: 0 auto;"{{ end }}
+        >
+            <source src="{{ $video.RelPermalink }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+    {{ end }}
+{{ else }}
+    <p><em>Video file "{{ .Get "src" }}" not found.</em></p>
+{{ end }}
