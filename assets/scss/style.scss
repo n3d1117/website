@@ -223,17 +223,14 @@ article {
 
   .markdown-body .highlight .chroma {
     background-color: var(--code-container-color) !important;
-  }
-
-  .markdown-body .highlight > .chroma:first-child {
-      border-radius: 12px !important;
-      border: 1px solid var(--code-container-border-color);
-      margin-bottom: 1em !important;
-      padding: 0;
+    border-radius: 12px !important;
+    border: 1px solid var(--code-container-border-color);
+    margin-bottom: 1em !important;
+    padding: 0;
   }
 
   .markdown-body .highlight pre, .markdown-body pre {
-      border-radius: 0 !important;
+      border-radius: inherit !important;
       padding-top: 1rem !important;
       padding-bottom: 1rem !important;
       outline: none !important;
@@ -462,7 +459,7 @@ figure {
 .inline-note {
 
   @media (max-width: 600px) {
-    .highlight pre.chroma {
+    .highlight .chroma {
       margin-left: initial !important;
       margin-right: initial !important;
       border-radius: 10px !important;
