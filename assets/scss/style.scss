@@ -229,6 +229,15 @@ article {
     padding: 0;
   }
 
+  .markdown-body .highlight .chroma .line * {
+    display: inline !important;
+  }
+
+  .markdown-body .highlight .chroma .line .line-number {
+    display: inline-block !important;
+    user-select: none;
+  }
+
   .markdown-body .highlight pre, .markdown-body pre {
       border-radius: inherit !important;
       padding-top: 1rem !important;
