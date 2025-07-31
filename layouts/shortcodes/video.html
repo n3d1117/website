@@ -27,7 +27,7 @@
             {{ if ne $class "center" }}{{ if $class }}class="{{ $class }}"{{ end }}{{ end }}
             {{ if eq $class "center" }}style="display: block; margin: 0 auto;"{{ end }}
         >
-            <source src="{{ $video.RelPermalink }}" type="video/mp4">
+            <source src="{{ $video.RelPermalink }}#t=0.1" type="video/mp4">
             Your browser does not support the video tag.
         </video>
         <figcaption>{{ .Get "caption" }}</figcaption>
