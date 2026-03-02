@@ -6,6 +6,7 @@ from concurrent.futures import ThreadPoolExecutor
 import requests
 import os
 import re
+import time
 from os.path import exists
 from urllib import parse
 import base64
@@ -381,6 +382,26 @@ def create_img_folder():
         os.makedirs('static/img')
 
 
+def download_file(url, path, retries=3, timeout=30):
+    tmp_path = f'{path}.part'
+
+    for attempt in range(1, retries + 1):
+        try:
+            response = requests.get(url, timeout=timeout)
+            response.raise_for_status()
+            with open(tmp_path, 'wb') as f:
+                f.write(response.content)
+            os.replace(tmp_path, path)
+            return
+        except requests.exceptions.RequestException as exc:
+            if exists(tmp_path):
+                os.remove(tmp_path)
+            if attempt == retries:
+                raise RuntimeError(f'Failed to download {url} after {retries} attempts') from exc
+            print(f'Download failed for {url} (attempt {attempt}/{retries}): {exc}. Retrying...')
+            time.sleep(attempt)
+
+
 def save_images(bucket, bucket_list, media_type, slug, ext, url, square=False):
     img_folder = 'static/img'
     orig_filename = f'{media_type}_{slug}.{ext}'
@@ -399,9 +420,7 @@ def save_images(bucket, bucket_list, media_type, slug, ext, url, square=False):
 
     if not exists(orig_path):
         print(f'Saving {orig_filename} locally...')
-        img_data = requests.get(url).content
-        with open(orig_path, 'wb') as f:
-            f.write(img_data)
+        download_file(url, orig_path)
         if square:
             with open(orig_path, 'r+b') as f:
                 with Image.open(f) as image:
