@@ -6,7 +6,10 @@ from concurrent.futures import ThreadPoolExecutor
 import requests
 import os
 import re
+import subprocess
+import threading
 import time
+import traceback
 from os.path import exists
 from urllib import parse
 import base64
@@ -16,37 +19,46 @@ from PIL import Image
 from datetime import datetime
 
 from storage3.utils import StorageException
-from supabase import create_client, Client
+from supabase import create_client, Client, ClientOptions
 from unidecode import unidecode
+
+HTTP_TIMEOUT = 30
+STORAGE_TIMEOUT = 120
+UPLOAD_RETRIES = 3
+UPLOAD_CONCURRENCY = 3
+UPLOAD_SEMAPHORE = threading.BoundedSemaphore(UPLOAD_CONCURRENCY)
+BUCKET_FILES_LOCK = threading.Lock()
 
 
 def main():
     data = {'movies': [], 'shows': [], 'books': [], 'spotify': [], 'github': [], 'videogames': []}
     content_limit = 50
     img_width = 350
-    bucket = get_supabase_bucket()
-    bucket_list = [f['name'] for f in bucket.list(options={'limit': 999999})]
-    create_img_folder()
+    try:
+        bucket = get_supabase_bucket()
+        bucket_list = {f['name'] for f in bucket.list(options={'limit': 999999})}
+        create_img_folder()
 
-    print('Scraping sources...')
+        print('Scraping sources...')
 
-    with ThreadPoolExecutor(max_workers=6) as executor:
-        futures = [
-            executor.submit(scrape_all_movies, data, 999, img_width, bucket, bucket_list),
-            executor.submit(scrape_all_tv_shows, data, 999, img_width, bucket, bucket_list),
-            executor.submit(scrape_books, data, content_limit, bucket, bucket_list),
-            executor.submit(scrape_spotify, data, content_limit, bucket, bucket_list),
-            executor.submit(scrape_github, data, content_limit),
-            executor.submit(scrape_videogames, data, bucket, bucket_list)
-        ]
-        for future in concurrent.futures.as_completed(futures):
-            future.result()
+        with ThreadPoolExecutor(max_workers=6) as executor:
+            futures = [
+                executor.submit(scrape_all_movies, data, 999, img_width, bucket, bucket_list),
+                executor.submit(scrape_all_tv_shows, data, 999, img_width, bucket, bucket_list),
+                executor.submit(scrape_books, data, content_limit, bucket, bucket_list),
+                executor.submit(scrape_spotify, data, content_limit, bucket, bucket_list),
+                executor.submit(scrape_github, data, content_limit),
+                executor.submit(scrape_videogames, data, bucket, bucket_list)
+            ]
+            for future in concurrent.futures.as_completed(futures):
+                try:
+                    future.result()
+                except Exception as exc:
+                    log_warning(f'Source task failed: {exc}')
+    except Exception as exc:
+        log_warning(f'Scraper setup failed: {exc}')
 
-    # Write data
-    with open('data/scraper.json', 'w') as f:
-        json.dump(data, f)
-    with open('static/data.json', 'w', encoding='utf8') as f:
-        json.dump(data, f)
+    write_data(data)
 
 
 def scrape_all_movies(data, content_limit, img_width, bucket, bucket_list):
@@ -90,8 +102,7 @@ def scrape_movies(data, content_limit, img_width, bucket, bucket_list):
                     'is_favorite': False
                 })
         else:
-            print(f'Error fetching metadata: {j}')
-            exit(1)
+            log_warning(f'Error fetching metadata: {j}')
 
 
 def scrape_cinema_movies(data, bucket, bucket_list):
@@ -286,8 +297,8 @@ def scrape_spotify(data, content_limit, bucket, bucket_list):
                         data={'grant_type': 'refresh_token', 'refresh_token': spotify_refresh_token},
                         headers=headers).json()
     if 'access_token' not in res:
-        print(f'Error refreshing Spotify token: {res}')
-        exit(1)
+        log_warning(f'Error refreshing Spotify token: {res}')
+        return
     access_token = res['access_token']
     url = spotify_base_url + '?{}'.format(parse.urlencode({'time_range': 'short_term', 'limit': content_limit}))
     spotify_req = requests.get(url=url, headers={'Authorization': 'Bearer {}'.format(access_token)})
@@ -372,7 +383,7 @@ def get_supabase_bucket():
     url: str = os.environ.get("SUPABASE_URL")
     key: str = os.environ.get("SUPABASE_KEY")
     bucket_name: str = os.environ.get("SUPABASE_BUCKET_NAME")
-    supabase: Client = create_client(url, key)
+    supabase: Client = create_client(url, key, options=ClientOptions(storage_client_timeout=STORAGE_TIMEOUT))
     bucket = supabase.storage.from_(bucket_name)
     return bucket
 
@@ -382,7 +393,17 @@ def create_img_folder():
         os.makedirs('static/img')
 
 
-def download_file(url, path, retries=3, timeout=30):
+def write_data(data):
+    try:
+        with open('data/scraper.json', 'w') as f:
+            json.dump(data, f)
+        with open('static/data.json', 'w', encoding='utf8') as f:
+            json.dump(data, f)
+    except Exception as exc:
+        log_warning(f'Failed to write scraper output: {exc}')
+
+
+def download_file(url, path, retries=3, timeout=HTTP_TIMEOUT):
     tmp_path = f'{path}.part'
 
     for attempt in range(1, retries + 1):
@@ -402,6 +423,36 @@ def download_file(url, path, retries=3, timeout=30):
             time.sleep(attempt)
 
 
+def upload_file(bucket, filename, path, bucket_list, retries=UPLOAD_RETRIES):
+    file_options = {'content-type': get_content_type(path), 'upsert': 'false'}
+
+    for attempt in range(1, retries + 1):
+        try:
+            with UPLOAD_SEMAPHORE:
+                bucket.upload(filename, os.path.abspath(path), file_options=file_options)
+            remember_bucket_file(bucket_list, filename)
+            return
+        except StorageException as exc:
+            if is_duplicate_storage_error(exc):
+                remember_bucket_file(bucket_list, filename)
+                return
+            if bucket_file_exists(bucket, filename):
+                remember_bucket_file(bucket_list, filename)
+                return
+            if attempt == retries:
+                raise RuntimeError(f'Failed to upload {filename} after {retries} attempts') from exc
+            print(f'Upload failed for {filename} (attempt {attempt}/{retries}): {exc}. Retrying...')
+            time.sleep(attempt)
+        except Exception as exc:
+            if bucket_file_exists(bucket, filename):
+                remember_bucket_file(bucket_list, filename)
+                return
+            if attempt == retries:
+                raise RuntimeError(f'Failed to upload {filename} after {retries} attempts') from exc
+            print(f'Upload failed for {filename} (attempt {attempt}/{retries}): {exc}. Retrying...')
+            time.sleep(attempt)
+
+
 def save_images(bucket, bucket_list, media_type, slug, ext, url, square=False):
     img_folder = 'static/img'
     orig_filename = f'{media_type}_{slug}.{ext}'
@@ -409,35 +460,76 @@ def save_images(bucket, bucket_list, media_type, slug, ext, url, square=False):
     orig_path = f'{img_folder}/{orig_filename}'
     webp_path = f'{img_folder}/{webp_filename}'
 
-    for filename, path in {orig_filename: orig_path, webp_filename: webp_path}.items():
-        if filename in bucket_list and not exists(path):
-            print(f'Downloading {filename}...')
-            with open(path, 'wb+') as f:
-                try:
-                    f.write(bucket.download(filename))
-                except StorageException:
-                    pass
+    try:
+        for filename, path in {orig_filename: orig_path, webp_filename: webp_path}.items():
+            if bucket_has_file(bucket_list, filename) and not exists(path):
+                print(f'Downloading {filename}...')
+                with open(path, 'wb+') as f:
+                    try:
+                        f.write(bucket.download(filename))
+                    except StorageException:
+                        pass
 
-    if not exists(orig_path):
-        print(f'Saving {orig_filename} locally...')
-        download_file(url, orig_path)
-        if square:
-            with open(orig_path, 'r+b') as f:
-                with Image.open(f) as image:
-                    square_image(image, 320).save(orig_path, image.format)
+        if not exists(orig_path):
+            print(f'Saving {orig_filename} locally...')
+            download_file(url, orig_path)
+            if square:
+                with open(orig_path, 'r+b') as f:
+                    with Image.open(f) as image:
+                        square_image(image, 320).save(orig_path, image.format)
 
-    if not exists(webp_path):
-        print(f'Saving {webp_filename} locally...')
-        os.system(f'cd {img_folder} && cwebp -quiet {orig_filename} -o {webp_filename}')
+        if not exists(webp_path):
+            print(f'Saving {webp_filename} locally...')
+            subprocess.run(
+                ['cwebp', '-quiet', orig_filename, '-o', webp_filename],
+                cwd=img_folder,
+                check=True
+            )
 
-    for filename, path in {orig_filename: orig_path, webp_filename: webp_path}.items():
-        if exists(path) and filename not in bucket_list:
-            print(f'Uploading {filename}...')
-            with open(path, 'rb+'):
-                try:
-                    bucket.upload(filename, os.path.abspath(path))
-                except StorageException:
-                    pass
+        for filename, path in {orig_filename: orig_path, webp_filename: webp_path}.items():
+            if exists(path) and not bucket_has_file(bucket_list, filename):
+                print(f'Uploading {filename}...')
+                upload_file(bucket, filename, path, bucket_list=bucket_list)
+    except Exception as exc:
+        log_warning(f'Image processing failed for {orig_filename}: {exc}')
+
+
+def get_content_type(path):
+    ext = os.path.splitext(path)[1].lower()
+    return {
+        '.jpg': 'image/jpeg',
+        '.jpeg': 'image/jpeg',
+        '.png': 'image/png',
+        '.webp': 'image/webp',
+    }.get(ext, 'application/octet-stream')
+
+
+def is_duplicate_storage_error(exc):
+    message = str(exc)
+    return 'Duplicate' in message or '409' in message
+
+
+def bucket_has_file(bucket_list, filename):
+    with BUCKET_FILES_LOCK:
+        return filename in bucket_list
+
+
+def remember_bucket_file(bucket_list, filename):
+    if bucket_list is None:
+        return
+    with BUCKET_FILES_LOCK:
+        bucket_list.add(filename)
+
+
+def bucket_file_exists(bucket, filename):
+    try:
+        return bucket.exists(filename)
+    except Exception:
+        return False
+
+
+def log_warning(message):
+    print(f'Warning: {message}')
 
 
 def slugify(text):
@@ -469,5 +561,7 @@ def square_image(image: Image, length: int) -> Image:
 
 if __name__ == '__main__':
     load_dotenv()
-
-    main()
+    try:
+        main()
+    except Exception:
+        log_warning(f'Unexpected top-level failure:\n{traceback.format_exc()}')
