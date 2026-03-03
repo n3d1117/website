@@ -16,7 +16,7 @@ import base64
 from dotenv import load_dotenv
 import feedparser
 from PIL import Image
-from datetime import datetime
+from datetime import UTC, datetime
 
 from storage3.utils import StorageException
 from supabase import create_client, Client, ClientOptions
@@ -367,7 +367,7 @@ def scrape_videogames(data, bucket, bucket_list):
         if len(response) > 0:
             response = response[0]
             cover_url = response['cover']['url'].replace('t_thumb', 't_cover_big').replace('//', 'https://')
-            year = int(datetime.utcfromtimestamp(int(response['first_release_date'])).strftime('%Y'))
+            year = int(datetime.fromtimestamp(int(response['first_release_date']), UTC).strftime('%Y'))
             slug = slugify(response['name'])
             save_images(bucket, bucket_list, 'game', slug, 'jpg', cover_url)
             data['videogames'].append({
@@ -462,7 +462,10 @@ def save_images(bucket, bucket_list, media_type, slug, ext, url, square=False):
 
     try:
         for filename, path in {orig_filename: orig_path, webp_filename: webp_path}.items():
-            if bucket_has_file(bucket_list, filename) and not exists(path):
+            if exists(path) and is_zero_byte_file(path):
+                print(f'Removing empty {filename}...')
+                os.remove(path)
+            if bucket_has_file(bucket_list, filename) and not valid_local_file(path):
                 print(f'Downloading {filename}...')
                 with open(path, 'wb+') as f:
                     try:
@@ -470,7 +473,7 @@ def save_images(bucket, bucket_list, media_type, slug, ext, url, square=False):
                     except StorageException:
                         pass
 
-        if not exists(orig_path):
+        if not valid_local_file(orig_path):
             print(f'Saving {orig_filename} locally...')
             download_file(url, orig_path)
             if square:
@@ -478,7 +481,7 @@ def save_images(bucket, bucket_list, media_type, slug, ext, url, square=False):
                     with Image.open(f) as image:
                         square_image(image, 320).save(orig_path, image.format)
 
-        if not exists(webp_path):
+        if not valid_local_file(webp_path):
             print(f'Saving {webp_filename} locally...')
             subprocess.run(
                 ['cwebp', '-quiet', orig_filename, '-o', webp_filename],
@@ -487,7 +490,7 @@ def save_images(bucket, bucket_list, media_type, slug, ext, url, square=False):
             )
 
         for filename, path in {orig_filename: orig_path, webp_filename: webp_path}.items():
-            if exists(path) and not bucket_has_file(bucket_list, filename):
+            if valid_local_file(path) and not bucket_has_file(bucket_list, filename):
                 print(f'Uploading {filename}...')
                 upload_file(bucket, filename, path, bucket_list=bucket_list)
     except Exception as exc:
@@ -526,6 +529,14 @@ def bucket_file_exists(bucket, filename):
         return bucket.exists(filename)
     except Exception:
         return False
+
+
+def valid_local_file(path):
+    return exists(path) and not is_zero_byte_file(path)
+
+
+def is_zero_byte_file(path):
+    return exists(path) and os.path.getsize(path) == 0
 
 
 def log_warning(message):
