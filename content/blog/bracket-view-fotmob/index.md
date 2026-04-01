@@ -40,6 +40,32 @@ For those not familiar with FotMob's bracket view, here's how it looks vs my fin
 
 I wanted something that actually behaved well while scrolling, paging, resizing, and updating.
 
+### Alternatives
+
+{{< columns >}}
+
+{{< column p="left" >}}
+{{< video src="sofascore.mp4" width="320" controls="true" preload="metadata" caption="SofaScore's horizontal bracket UI" class="center" >}}
+{{< /column >}}
+
+{{< column p="right" >}}
+{{< video src="apple-sports.mp4" width="320" controls="true" preload="metadata" caption="Apple Sports bracket UI" class="center" >}}
+{{< /column >}}
+
+{{< /columns >}}
+
+The first one is [SofaScore](https://www.sofascore.com)'s horizontal bracket implementation.
+I am not a fan of it.
+To me it does not make good use of the available space, and it only really readjusts the UI when paging snaps.
+There is no meaningful interpolation during the swipe, so the whole thing feels more static than it should.
+
+The other one is [Apple Sports](https://apps.apple.com/us/app/apple-sports/id6446788829).
+I think it is an interesting implementation.
+It lets the user resize the visible window through a fixed top UI control element, and it also does try to keep a focal window while you move through the bracket, though not in one linear motion. The bigger problem is that this component does not feel smooth or performant at all. There are hitches, micro-lags, animations that feel out of sync, and visible layout jumps - some of these you can see in this exact video. My guess, based on how it behaves, is that it is highly likely implemented in SwiftUI.
+If that guess is right, it is a pretty good example of the sad state of SwiftUI in 2026 for building performant UIs (and why I chose UIKit for my own implementation).
+
+All in all, I think FotMob's implementation is far superior to both of them.
+
 ## Reverse-engineering FotMob
 
 Before I started implementing anything, I wanted to understand whether FotMob was doing something special under the hood or whether this was mostly just a nice-looking paged scroll view. So, I did what _every_ engineer does in 2026, and asked Codex to inspect the decrypted FotMob app binary directly, to see whether they were doing anything custom for the bracket.
