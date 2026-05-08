@@ -122,10 +122,10 @@ swift run uniqcount --path /tmp/hamlet.txt
   Each unique token gets a `UInt32` ID, and all trials run on IDs rather than strings.
 
 - **Bit-mask sampling in the hot loop**
-  Sampling uses `(rng.next() & mask) == 0` for probabilities of the form \(1/2^k\).
+  Sampling uses `(rng.next() & mask) == 0` for probabilities of the form $1/2^k$.
 
 - **Cached scale factor**
-  Estimate uses \(|X| \cdot 2^k\) with a cached multiplier instead of repeated `pow` calls.
+  Estimate uses $|X| \cdot 2^k$ with a cached multiplier instead of repeated `pow` calls.
 
 - **Deterministic downsampling order**
   Before thinning, the set is sorted so fixed-seed runs stay reproducible across launches.
