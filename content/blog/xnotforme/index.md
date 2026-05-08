@@ -13,6 +13,10 @@ comments: true
 This is a short write-up of [XNotForMe](https://github.com/n3d1117/XNotForMe), a quick tweak I built to hide the `For You` tab in X/Twitter.
 {{< /note >}}
 
+{{< note variant="info" >}}
+**Update (May 2026)**: I rewrote the tweak for X `v11.88`. The original sections below still cover the `v10.3.2` version and the high-level idea; the new screenshot and pointers to the updated hooks are in [Update: May 2026](#update-may-2026-x-v1188).
+{{< /note >}}
+
 ## Introduction
 
 After [Twitter effectively banned third-party clients through API policy changes](https://www.theverge.com/2023/1/19/23562947/twitter-third-party-client-tweetbot-twitterific-ban-rules), I tried to keep using the official app.  
@@ -142,6 +146,19 @@ X, Twitter, and related names/logos are trademarks of their respective owners. T
 I am not responsible for misuse, account restrictions, data loss, device issues, or any other damage that may result from using this tweak.
 {{< /note >}}
 
+## Update: May 2026 (X v11.88)
+
+Two years on, X is still pushing `For You` and the original tweak no longer works on the current build. I rewrote it against `v11.88` and used the rewrite to fix two things that bothered me on the old version:
+
+- the empty strip under the X logo where the tab labels used to live
+- the timeline snapping back to the top on every cold start
+
+{{< img src="xnotforme-v2.png" caption="X timeline on `v11.88`: `Following` only, no top tab strip, scroll position preserved across launches" w="300" >}}
+
+The full source is in the same [n3d1117/XNotForMe repository](https://github.com/n3d1117/XNotForMe). Internals shifted enough that the hooks themselves changed, so I won't walk through them line by line - the [updated `Tweak.xm`](https://github.com/n3d1117/XNotForMe/blob/main/Tweak.xm) on `main` has the current set.
+
+I also pushed an [`extras` branch](https://github.com/n3d1117/XNotForMe/tree/extras) with a few optional features layered on top: hiding promoted tweets and the "Who to follow" module, dropping the "new posts" pill, trimming the bottom tab bar down to Home and Search, killing Premium upsells, plus smaller toggles for sensitive-content warnings, GIF autoplay, Articles, search history, and reel-style video paging. Each lives in its own `%group` so it can be enabled independently.
+
 ## Conclusion
 
 Modern social feeds are sadly engineered to be addictive and compulsive. If you do nothing, they pick what you see and how long you stay.
@@ -153,3 +170,4 @@ XNotForMe is my way of taking that control back: show me people I chose to follo
 - [Twitter officially bans third-party clients with new developer rules (The Verge)](https://www.theverge.com/2023/1/19/23562947/twitter-third-party-client-tweetbot-twitterific-ban-rules)
 - [XNotForMe repository](https://github.com/n3d1117/XNotForMe)
 - [BHTwitter](https://github.com/BandarHL/BHTwitter)
+- [InstaSane](/blog/2026/05/instasane/) - the same idea, applied to Instagram
