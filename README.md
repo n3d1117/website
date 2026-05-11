@@ -7,6 +7,5 @@
 ## Build
 ```bash
 npm install
-pip install -r requirements.txt
 sh build.sh
 ```

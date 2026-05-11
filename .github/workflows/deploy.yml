@@ -1,16 +1,32 @@
-name: Daily deploy to Cloudflare Pages
+name: Refresh generated data
 
-'on':
-  schedule:
-   - cron: "0 4 */1 * *" # every day at 4AM
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+concurrency:
+  group: refresh-generated-data
+  cancel-in-progress: false
 
 jobs:
-  deploy:
+  refresh:
     runs-on: ubuntu-latest
     steps:
-      - name: Deploy to Cloudflare Pages
-        uses: fjogeleit/http-request-action@master
+      - name: Join tailnet
+        uses: tailscale/github-action@v3
         with:
-          url: ${{ secrets.DEPLOY_HOOK }}
-          method: 'POST'
-          
+          oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+          oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
+          tags: tag:github-actions
+
+      - name: Refresh generated-data on Pi
+        env:
+          PI_SSH_PRIVATE_KEY: ${{ secrets.PI_SSH_PRIVATE_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "$PI_SSH_PRIVATE_KEY" > ~/.ssh/pi-cph
+          chmod 600 ~/.ssh/pi-cph
+          ssh-keyscan -H pi-cph >> ~/.ssh/known_hosts
+          ssh -i ~/.ssh/pi-cph ned@pi-cph /home/ned/website-refresh.sh

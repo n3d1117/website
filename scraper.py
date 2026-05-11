@@ -6,8 +6,7 @@ from concurrent.futures import ThreadPoolExecutor
 import requests
 import os
 import re
-import subprocess
-import threading
+import sys
 import time
 import traceback
 from os.path import exists
@@ -18,78 +17,83 @@ import feedparser
 from PIL import Image
 from datetime import UTC, datetime
 
-from storage3.utils import StorageException
-from supabase import create_client, Client, ClientOptions
 from unidecode import unidecode
 
 HTTP_TIMEOUT = 30
-STORAGE_TIMEOUT = 120
-UPLOAD_RETRIES = 3
-UPLOAD_CONCURRENCY = 3
-UPLOAD_SEMAPHORE = threading.BoundedSemaphore(UPLOAD_CONCURRENCY)
-BUCKET_FILES_LOCK = threading.Lock()
+IMAGE_WEBP_QUALITY = 82
+
+SESSION = requests.Session()
 
 
 def main():
     data = {'movies': [], 'shows': [], 'books': [], 'spotify': [], 'github': [], 'videogames': []}
+    previous_data = load_existing_data()
     content_limit = 50
     img_width = 350
+    fatal_error = None
     try:
-        bucket = get_supabase_bucket()
-        bucket_list = {f['name'] for f in bucket.list(options={'limit': 999999})}
         create_img_folder()
 
         print('Scraping sources...')
 
         with ThreadPoolExecutor(max_workers=6) as executor:
-            futures = [
-                executor.submit(scrape_all_movies, data, 999, img_width, bucket, bucket_list),
-                executor.submit(scrape_all_tv_shows, data, 999, img_width, bucket, bucket_list),
-                executor.submit(scrape_books, data, content_limit, bucket, bucket_list),
-                executor.submit(scrape_spotify, data, content_limit, bucket, bucket_list),
-                executor.submit(scrape_github, data, content_limit),
-                executor.submit(scrape_videogames, data, bucket, bucket_list)
-            ]
+            futures = {
+                executor.submit(scrape_all_movies, data, 999, img_width): 'movies',
+                executor.submit(scrape_all_tv_shows, data, 999, img_width): 'shows',
+                executor.submit(scrape_books, data, content_limit): 'books',
+                executor.submit(scrape_spotify, data, content_limit): 'spotify',
+                executor.submit(scrape_github, data, content_limit): 'github',
+                executor.submit(scrape_videogames, data): 'videogames'
+            }
             for future in concurrent.futures.as_completed(futures):
+                section = futures[future]
                 try:
                     future.result()
                 except Exception as exc:
-                    log_warning(f'Source task failed: {exc}')
+                    if previous_data.get(section):
+                        data[section] = previous_data[section]
+                        log_warning(f'{section} failed, reused previous data: {exc}')
+                    else:
+                        raise RuntimeError(f'{section} failed and no previous data exists') from exc
     except Exception as exc:
+        fatal_error = exc
         log_warning(f'Scraper setup failed: {exc}')
 
+    repair_cached_images(data)
     write_data(data)
+    if fatal_error:
+        raise fatal_error
 
 
-def scrape_all_movies(data, content_limit, img_width, bucket, bucket_list):
-    scrape_movies(data, content_limit, img_width, bucket, bucket_list)
-    scrape_cinema_movies(data, bucket, bucket_list)
-    scrape_fav_movies(data, bucket, bucket_list)
+def scrape_all_movies(data, content_limit, img_width):
+    scrape_movies(data, content_limit, img_width)
+    scrape_cinema_movies(data)
+    scrape_fav_movies(data)
 
 
-def scrape_all_tv_shows(data, content_limit, img_width, bucket, bucket_list):
-    scrape_tv_shows(data, content_limit, img_width, bucket, bucket_list)
-    scrape_fav_tv_shows(data, bucket, bucket_list)
+def scrape_all_tv_shows(data, content_limit, img_width):
+    scrape_tv_shows(data, content_limit, img_width)
+    scrape_fav_tv_shows(data)
 
 
-def scrape_movies(data, content_limit, img_width, bucket, bucket_list):
+def scrape_movies(data, content_limit, img_width):
     plex_url: str = os.environ.get("PLEX_URL")
     plex_metadata_url: str = os.environ.get("PLEX_METADATA_URL")
     plex_user: str = os.environ.get("PLEX_USER")
     plex_proxy_img: str = os.environ.get("PLEX_PROXY_IMG")
 
-    plex_json = requests.get(url=plex_url).json()
+    plex_json = get_json(plex_url)
     rows = plex_json['response']['data']['rows']
 
     movies = [row for row in rows if row['media_type'] == 'movie' and row['user'] == plex_user]
     for movie in movies[:content_limit]:
-        j = requests.get(plex_metadata_url + str(movie['rating_key'])).json()
+        j = get_json(plex_metadata_url + str(movie['rating_key']))
         if 'guids' in j['response']['data']:
             guid = j['response']['data']['guids'][1].split('//')[1]
             if not any(m['guid'] == guid for m in data['movies']):
                 slug = slugify(movie['title'])
                 img_url = plex_proxy_img + movie['thumb'] + '&width=' + str(img_width)
-                save_images(bucket, bucket_list, 'movie', slug, 'png', img_url)
+                save_images('movie', slug, 'png', img_url)
                 data['movies'].append({
                     'title': movie['title'],
                     'guid': guid,
@@ -105,7 +109,7 @@ def scrape_movies(data, content_limit, img_width, bucket, bucket_list):
             log_warning(f'Error fetching metadata: {j}')
 
 
-def scrape_cinema_movies(data, bucket, bucket_list):
+def scrape_cinema_movies(data):
     d = feedparser.parse('https://letterboxd.com/n3d1117/rss/')
     for lbx_list in ['🍿 Cinema', '🍿 Cinema 2', '🍿 Cinema 3']:  # due to rss limit. waiting for letterboxd apis to be available...
         lbxd_cinema_lists = [item for item in d['entries'] if item['title'] == lbx_list]
@@ -125,7 +129,7 @@ def scrape_cinema_movies(data, bucket, bucket_list):
                     if not any(m['guid'] == movie['link'] for m in data['movies']):
                         slug = slugify(item['letterboxd_filmtitle'])
                         img_url = item['summary'].split('src="')[1].split('"')[0].replace('0-500-0-750', '0-230-0-345')
-                        save_images(bucket, bucket_list, 'movie', slug, 'jpg', img_url)
+                        save_images('movie', slug, 'jpg', img_url)
                         data['movies'].append({
                             'title': item['letterboxd_filmtitle'],
                             'guid': movie['link'],
@@ -140,14 +144,13 @@ def scrape_cinema_movies(data, bucket, bucket_list):
                         })
 
 
-def scrape_fav_movies(data, bucket, bucket_list):
+def scrape_fav_movies(data):
     tmdb_api_key: str = os.environ.get("TMDB_API_KEY")
-    top_movies = requests.get(url="https://api.themoviedb.org/3/list/7112446?api_key=" + tmdb_api_key)
-    top_movies_json = top_movies.json()
+    top_movies_json = get_json("https://api.themoviedb.org/3/list/7112446?api_key=" + tmdb_api_key)
     for movie in top_movies_json['items']:
         slug = slugify(movie['title'])
         img_url = 'https://image.tmdb.org/t/p/w300' + movie['poster_path']
-        save_images(bucket, bucket_list, 'movie', slug, 'jpg', img_url)
+        save_images('movie', slug, 'jpg', img_url)
         data['movies'].append({
             'title': movie['title'],
             'guid': str(movie['id']),
@@ -160,13 +163,13 @@ def scrape_fav_movies(data, bucket, bucket_list):
         })
 
 
-def scrape_tv_shows(data, content_limit, img_width, bucket, bucket_list):
+def scrape_tv_shows(data, content_limit, img_width):
     plex_url: str = os.environ.get("PLEX_URL")
     plex_metadata_url: str = os.environ.get("PLEX_METADATA_URL")
     plex_user: str = os.environ.get("PLEX_USER")
     plex_proxy_img: str = os.environ.get("PLEX_PROXY_IMG")
 
-    plex_json = requests.get(url=plex_url).json()
+    plex_json = get_json(plex_url)
     rows = plex_json['response']['data']['rows']
 
     tv_shows = [row for row in rows if row['media_type'] == 'episode' and row['user'] == plex_user]
@@ -192,11 +195,11 @@ def scrape_tv_shows(data, content_limit, img_width, bucket, bucket_list):
                 'watched_on': show['last_watch']
             })
     for show in unique_shows[:content_limit]:
-        j = requests.get(plex_metadata_url + str(show['rating_key'])).json()
+        j = get_json(plex_metadata_url + str(show['rating_key']))
         if 'grandparent_guids' in j['response']['data']:
             slug = slugify(show['grandparent_title'])
             img_url = plex_proxy_img + show['thumb'] + '&width=' + str(img_width)
-            save_images(bucket, bucket_list, 'show', slug, 'png', img_url)
+            save_images('show', slug, 'png', img_url)
             guid = j['response']['data']['grandparent_guids'][1].split('//')[1]
             eps = episodes[str(show['grandparent_rating_key'])]
             for ep in eps:
@@ -213,14 +216,13 @@ def scrape_tv_shows(data, content_limit, img_width, bucket, bucket_list):
             })
 
 
-def scrape_fav_tv_shows(data, bucket, bucket_list):
+def scrape_fav_tv_shows(data):
     tmdb_api_key: str = os.environ.get("TMDB_API_KEY")
-    top_shows = requests.get(url="https://api.themoviedb.org/3/list/7112447?api_key=" + tmdb_api_key)
-    top_shows_json = top_shows.json()
+    top_shows_json = get_json("https://api.themoviedb.org/3/list/7112447?api_key=" + tmdb_api_key)
     for show in top_shows_json['items']:
         slug = slugify(show['name'])
         img_url = 'https://image.tmdb.org/t/p/w300' + show['poster_path']
-        save_images(bucket, bucket_list, 'show', slug, 'jpg', img_url)
+        save_images('show', slug, 'jpg', img_url)
         data['shows'].append({
             'title': show['name'],
             'guid': str(show['id']),
@@ -233,19 +235,19 @@ def scrape_fav_tv_shows(data, bucket, bucket_list):
         })
 
 
-def scrape_books(data, content_limit, bucket, bucket_list):
+def scrape_books(data, content_limit):
     oku_url = 'https://oku.club/api/collections/'
     reading = 'yjUNL'
     read = 'xSQso'
     # to_read='I0Ai5'
     favorites = 'IPgqn'
-    f = requests.get(oku_url + favorites).json()
-    d = requests.get(oku_url + read).json()
-    d2 = requests.get(oku_url + reading).json()
+    f = get_json(oku_url + favorites)
+    d = get_json(oku_url + read)
+    d2 = get_json(oku_url + reading)
     # d3 = requests.get(oku_url + to_read).json()
     for fav_book in f['books']:
         slug = fav_book['slug']
-        save_images(bucket, bucket_list, 'book', slug, 'jpg', fav_book['thumbnail'])
+        save_images('book', slug, 'jpg', fav_book['thumbnail'])
         data['books'].append({
             'title': fav_book['title'],
             'author': fav_book['authors'][0]['name'],
@@ -258,7 +260,7 @@ def scrape_books(data, content_limit, bucket, bucket_list):
         })
     for book in (d['books'])[:content_limit]:
         slug = book['slug']
-        save_images(bucket, bucket_list, 'book', slug, 'jpg', book['thumbnail'])
+        save_images('book', slug, 'jpg', book['thumbnail'])
         data['books'].append({
             'title': book['title'],
             'author': book['authors'][0]['name'],
@@ -271,7 +273,7 @@ def scrape_books(data, content_limit, bucket, bucket_list):
         })
     for book in (d2['books'])[:content_limit]:
         slug = book['slug']
-        save_images(bucket, bucket_list, 'book', slug, 'jpg', book['thumbnail'])
+        save_images('book', slug, 'jpg', book['thumbnail'])
         data['books'].append({
             'title': book['title'],
             'author': book['authors'][0]['name'],
@@ -284,7 +286,7 @@ def scrape_books(data, content_limit, bucket, bucket_list):
         })
 
 
-def scrape_spotify(data, content_limit, bucket, bucket_list):
+def scrape_spotify(data, content_limit):
     spotify_client_id: str = os.environ.get("SPOTIFY_CLIENT_ID")
     spotify_client_secret: str = os.environ.get("SPOTIFY_CLIENT_SECRET")
     spotify_refresh_token: str = os.environ.get("SPOTIFY_REFRESH_TOKEN")
@@ -293,20 +295,19 @@ def scrape_spotify(data, content_limit, bucket, bucket_list):
     auth_header = base64.urlsafe_b64encode((spotify_client_id + ':' + spotify_client_secret).encode('ascii'))
     headers = {'Content-Type': 'application/x-www-form-urlencoded',
                'Authorization': 'Basic {}'.format(auth_header.decode('ascii'))}
-    res = requests.post(url=spotify_token_url,
-                        data={'grant_type': 'refresh_token', 'refresh_token': spotify_refresh_token},
-                        headers=headers).json()
+    res = post_json(spotify_token_url,
+                    data={'grant_type': 'refresh_token', 'refresh_token': spotify_refresh_token},
+                    headers=headers)
     if 'access_token' not in res:
         log_warning(f'Error refreshing Spotify token: {res}')
         return
     access_token = res['access_token']
     url = spotify_base_url + '?{}'.format(parse.urlencode({'time_range': 'short_term', 'limit': content_limit}))
-    spotify_req = requests.get(url=url, headers={'Authorization': 'Bearer {}'.format(access_token)})
-    j = spotify_req.json()
+    j = get_json(url, headers={'Authorization': 'Bearer {}'.format(access_token)})
     for item in j['items']:
         slug = slugify(item['name'])
         image_url = item['images'][1]['url'] if len(item['images']) > 1 else 'https://upload.wikimedia.org/wikipedia/commons/5/50/Black_Wallpaper.jpg'
-        save_images(bucket, bucket_list, 'artist', slug, 'jpeg', image_url, square=True)
+        save_images('artist', slug, 'jpeg', image_url, square=True)
         data['spotify'].append({
             'name': item['name'],
             'url': item['external_urls']['spotify'],
@@ -318,21 +319,18 @@ def scrape_spotify(data, content_limit, bucket, bucket_list):
 
 def scrape_github(data, content_limit):
     github_url = 'https://api.github.com/users/{}/repos?per_page=500'.format('n3d1117')
-    include = ['chatgpt-telegram-bot', 'appdb', 'stats-ios', 'cook']
-    exclude = ['CrackBot']
-    j = requests.get(github_url).json()
+    github_token = os.environ.get("GITHUB_TOKEN")
+    headers = {'Authorization': f'Bearer {github_token}'} if github_token else None
+    include = ['chatgpt-telegram-bot', 'appdb', 'stats-ios', 'InstaSane', 'BracketView', 'hackernews-ios']
+    j = get_json(github_url, headers=headers)
+    if not isinstance(j, list):
+        raise RuntimeError(f'Unexpected GitHub response: {j}')
     for i in include:
-        project = [p for p in j if p['name'] == i][0]
-        data['github'].append({
-            'name': project['name'],
-            'html_url': project['html_url'],
-            'description': project['description'],
-            'language': project['language'],
-            'stargazers_count': project['stargazers_count'],
-            'forks_count': project['forks_count'],
-        })
-    d = sorted(j, key=lambda item: item['stargazers_count'], reverse=True)
-    for project in [p for p in d if p['name'] not in exclude and p['name'] not in include][:content_limit]:
+        matches = [p for p in j if p['name'] == i]
+        if not matches:
+            log_warning(f'Included GitHub project not found: {i}')
+            continue
+        project = matches[0]
         data['github'].append({
             'name': project['name'],
             'html_url': project['html_url'],
@@ -343,7 +341,7 @@ def scrape_github(data, content_limit):
         })
 
 
-def scrape_videogames(data, bucket, bucket_list):
+def scrape_videogames(data):
     igdb_client_id: str = os.environ.get("IGDB_CLIENT_ID")
     igdb_client_secret: str = os.environ.get("IGDB_CLIENT_SECRET")
     params = (
@@ -351,8 +349,7 @@ def scrape_videogames(data, bucket, bucket_list):
         ('client_secret', igdb_client_secret),
         ('grant_type', 'client_credentials'),
     )
-    response = requests.post('https://id.twitch.tv/oauth2/token', params=params)
-    access_token = response.json()['access_token']
+    access_token = post_json('https://id.twitch.tv/oauth2/token', params=params)['access_token']
     headers = {
         'Client-ID': igdb_client_id,
         'Authorization': 'Bearer ' + access_token,
@@ -363,13 +360,13 @@ def scrape_videogames(data, bucket, bucket_list):
            '4647', '4649', '4648', '10662', '96', '3136', '19560', '6036', '157446', '112875', '205780']
     for id in ids:
         d = 'fields first_release_date, cover.url, name, url; where id = ' + id + ';'
-        response = requests.post('https://api.igdb.com/v4/games', headers=headers, data=d).json()
+        response = post_json('https://api.igdb.com/v4/games', headers=headers, data=d)
         if len(response) > 0:
             response = response[0]
             cover_url = response['cover']['url'].replace('t_thumb', 't_cover_big').replace('//', 'https://')
             year = int(datetime.fromtimestamp(int(response['first_release_date']), UTC).strftime('%Y'))
             slug = slugify(response['name'])
-            save_images(bucket, bucket_list, 'game', slug, 'jpg', cover_url)
+            save_images('game', slug, 'jpg', cover_url)
             data['videogames'].append({
                 'name': response['name'],
                 'url': response['url'],
@@ -379,18 +376,20 @@ def scrape_videogames(data, bucket, bucket_list):
             })
 
 
-def get_supabase_bucket():
-    url: str = os.environ.get("SUPABASE_URL")
-    key: str = os.environ.get("SUPABASE_KEY")
-    bucket_name: str = os.environ.get("SUPABASE_BUCKET_NAME")
-    supabase: Client = create_client(url, key, options=ClientOptions(storage_client_timeout=STORAGE_TIMEOUT))
-    bucket = supabase.storage.from_(bucket_name)
-    return bucket
-
-
 def create_img_folder():
     if not exists('static/img'):
         os.makedirs('static/img')
+
+
+def load_existing_data():
+    for path in ('data/scraper.json', 'static/data.json'):
+        if exists(path):
+            try:
+                with open(path) as f:
+                    return json.load(f)
+            except Exception as exc:
+                log_warning(f'Failed to load previous scraper data from {path}: {exc}')
+    return {}
 
 
 def write_data(data):
@@ -403,132 +402,67 @@ def write_data(data):
         log_warning(f'Failed to write scraper output: {exc}')
 
 
+def get_json(url, headers=None):
+    try:
+        response = SESSION.get(url=url, headers=headers, timeout=HTTP_TIMEOUT)
+        response.raise_for_status()
+        return response.json()
+    except requests.exceptions.RequestException as exc:
+        raise RuntimeError(f'GET {safe_url(url)} failed: {exc.__class__.__name__}') from exc
+
+
+def post_json(url, data=None, headers=None, params=None):
+    try:
+        response = SESSION.post(url=url, data=data, headers=headers, params=params, timeout=HTTP_TIMEOUT)
+        response.raise_for_status()
+        return response.json()
+    except requests.exceptions.RequestException as exc:
+        raise RuntimeError(f'POST {safe_url(url)} failed: {exc.__class__.__name__}') from exc
+
+
 def download_file(url, path, retries=3, timeout=HTTP_TIMEOUT):
     tmp_path = f'{path}.part'
 
     for attempt in range(1, retries + 1):
         try:
-            response = requests.get(url, timeout=timeout)
+            response = SESSION.get(url, timeout=timeout)
             response.raise_for_status()
             with open(tmp_path, 'wb') as f:
                 f.write(response.content)
+            validate_downloaded_image(tmp_path)
             os.replace(tmp_path, path)
             return
-        except requests.exceptions.RequestException as exc:
+        except (requests.exceptions.RequestException, Image.UnidentifiedImageError) as exc:
             if exists(tmp_path):
                 os.remove(tmp_path)
             if attempt == retries:
-                raise RuntimeError(f'Failed to download {url} after {retries} attempts') from exc
-            print(f'Download failed for {url} (attempt {attempt}/{retries}): {exc}. Retrying...')
+                raise RuntimeError(f'Failed to download {safe_url(url)} after {retries} attempts') from exc
+            print(f'Download failed for {safe_url(url)} (attempt {attempt}/{retries}): {exc}. Retrying...')
             time.sleep(attempt)
 
 
-def upload_file(bucket, filename, path, bucket_list, retries=UPLOAD_RETRIES):
-    file_options = {'content-type': get_content_type(path), 'upsert': 'false'}
-
-    for attempt in range(1, retries + 1):
-        try:
-            with UPLOAD_SEMAPHORE:
-                bucket.upload(filename, os.path.abspath(path), file_options=file_options)
-            remember_bucket_file(bucket_list, filename)
-            return
-        except StorageException as exc:
-            if is_duplicate_storage_error(exc):
-                remember_bucket_file(bucket_list, filename)
-                return
-            if bucket_file_exists(bucket, filename):
-                remember_bucket_file(bucket_list, filename)
-                return
-            if attempt == retries:
-                raise RuntimeError(f'Failed to upload {filename} after {retries} attempts') from exc
-            print(f'Upload failed for {filename} (attempt {attempt}/{retries}): {exc}. Retrying...')
-            time.sleep(attempt)
-        except Exception as exc:
-            if bucket_file_exists(bucket, filename):
-                remember_bucket_file(bucket_list, filename)
-                return
-            if attempt == retries:
-                raise RuntimeError(f'Failed to upload {filename} after {retries} attempts') from exc
-            print(f'Upload failed for {filename} (attempt {attempt}/{retries}): {exc}. Retrying...')
-            time.sleep(attempt)
-
-
-def save_images(bucket, bucket_list, media_type, slug, ext, url, square=False):
+def save_images(media_type, slug, ext, url, square=False):
     img_folder = 'static/img'
     orig_filename = f'{media_type}_{slug}.{ext}'
     webp_filename = f'{media_type}_{slug}.webp'
     orig_path = f'{img_folder}/{orig_filename}'
     webp_path = f'{img_folder}/{webp_filename}'
 
-    try:
-        for filename, path in {orig_filename: orig_path, webp_filename: webp_path}.items():
-            if exists(path) and is_zero_byte_file(path):
-                print(f'Removing empty {filename}...')
-                os.remove(path)
-            if bucket_has_file(bucket_list, filename) and not valid_local_file(path):
-                print(f'Downloading {filename}...')
-                with open(path, 'wb+') as f:
-                    try:
-                        f.write(bucket.download(filename))
-                    except StorageException:
-                        pass
+    for filename, path in {orig_filename: orig_path, webp_filename: webp_path}.items():
+        if is_zero_byte_file(path):
+            print(f'Removing empty {filename}...')
+            os.remove(path)
 
-        if not valid_local_file(orig_path):
-            print(f'Saving {orig_filename} locally...')
-            download_file(url, orig_path)
-            if square:
-                with open(orig_path, 'r+b') as f:
-                    with Image.open(f) as image:
-                        square_image(image, 320).save(orig_path, image.format)
+    if not valid_local_file(orig_path):
+        print(f'Saving {orig_filename} locally...')
+        download_file(url, orig_path)
+        if square:
+            with Image.open(orig_path) as image:
+                square_image(image, 320).save(orig_path, image.format)
 
-        if not valid_local_file(webp_path):
-            print(f'Saving {webp_filename} locally...')
-            subprocess.run(
-                ['cwebp', '-quiet', orig_filename, '-o', webp_filename],
-                cwd=img_folder,
-                check=True
-            )
-
-        for filename, path in {orig_filename: orig_path, webp_filename: webp_path}.items():
-            if valid_local_file(path) and not bucket_has_file(bucket_list, filename):
-                print(f'Uploading {filename}...')
-                upload_file(bucket, filename, path, bucket_list=bucket_list)
-    except Exception as exc:
-        log_warning(f'Image processing failed for {orig_filename}: {exc}')
-
-
-def get_content_type(path):
-    ext = os.path.splitext(path)[1].lower()
-    return {
-        '.jpg': 'image/jpeg',
-        '.jpeg': 'image/jpeg',
-        '.png': 'image/png',
-        '.webp': 'image/webp',
-    }.get(ext, 'application/octet-stream')
-
-
-def is_duplicate_storage_error(exc):
-    message = str(exc)
-    return 'Duplicate' in message or '409' in message
-
-
-def bucket_has_file(bucket_list, filename):
-    with BUCKET_FILES_LOCK:
-        return filename in bucket_list
-
-
-def remember_bucket_file(bucket_list, filename):
-    if bucket_list is None:
-        return
-    with BUCKET_FILES_LOCK:
-        bucket_list.add(filename)
-
-
-def bucket_file_exists(bucket, filename):
-    try:
-        return bucket.exists(filename)
-    except Exception:
-        return False
+    if not valid_local_file(webp_path):
+        print(f'Saving {webp_filename} locally...')
+        convert_to_webp(orig_path, webp_path)
 
 
 def valid_local_file(path):
@@ -537,6 +471,43 @@ def valid_local_file(path):
 
 def is_zero_byte_file(path):
     return exists(path) and os.path.getsize(path) == 0
+
+
+def convert_to_webp(input_path, output_path):
+    tmp_path = f'{output_path}.part'
+    if exists(tmp_path):
+        os.remove(tmp_path)
+    with Image.open(input_path) as image:
+        if image.mode not in ('RGB', 'RGBA'):
+            image = image.convert('RGB')
+        image.save(tmp_path, 'WEBP', quality=IMAGE_WEBP_QUALITY, method=6)
+    os.replace(tmp_path, output_path)
+
+
+def validate_downloaded_image(path):
+    with Image.open(path) as image:
+        image.verify()
+
+
+def repair_cached_images(data):
+    for items in data.values():
+        for item in items:
+            original = item.get('img')
+            webp = item.get('img_webp')
+            if not original or not webp or not webp.endswith('.webp'):
+                continue
+            original_path = f'static/img/{original}'
+            webp_path = f'static/img/{webp}'
+            if valid_local_file(original_path) and not valid_local_file(webp_path):
+                if is_zero_byte_file(webp_path):
+                    os.remove(webp_path)
+                print(f'Repairing {webp} from {original}...')
+                convert_to_webp(original_path, webp_path)
+
+
+def safe_url(url):
+    parsed = parse.urlsplit(url)
+    return parse.urlunsplit((parsed.scheme, parsed.netloc, parsed.path, '', ''))
 
 
 def log_warning(message):
@@ -576,3 +547,4 @@ if __name__ == '__main__':
         main()
     except Exception:
         log_warning(f'Unexpected top-level failure:\n{traceback.format_exc()}')
+        sys.exit(1)
