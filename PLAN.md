@@ -165,6 +165,7 @@ No scraping. No image downloading. No WebP binary download.
 - The Pi refresh path reaches the Pi and completes scraping/validation.
 - `scripts/refresh-generated-data.sh` configures its own Git author so cron/SSH runs can commit without machine-global Git setup.
 - Cloudflare did not auto-build from the branch push, so the workflow calls the existing `DEPLOY_HOOK` whenever `generated-data` is pushed.
+- The hook is accepted by Cloudflare, but live `data.json` is still old. Check that the Cloudflare deploy hook/build is targeting `generated-data`, not `master`.
 
 ## Expected Result
 
