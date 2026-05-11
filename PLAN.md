@@ -165,7 +165,10 @@ No scraping. No image downloading. No WebP binary download.
 - The Pi refresh path reaches the Pi and completes scraping/validation.
 - `scripts/refresh-generated-data.sh` configures its own Git author so cron/SSH runs can commit without machine-global Git setup.
 - Cloudflare did not auto-build from the branch push, so the workflow calls the existing `DEPLOY_HOOK` whenever `generated-data` is pushed.
-- The hook is accepted by Cloudflare, but live `data.json` is still old. Check that the Cloudflare deploy hook/build is targeting `generated-data`, not `master`.
+- The hook is accepted by Cloudflare, but live `data.json` is still old.
+- The workflow now fails if `https://edoardo.fyi/data.json` does not match `generated-data` within 10 minutes.
+- Current evidence: `generated-data` has 6 GitHub projects, live `edoardo.fyi` has 0, and `edoardo.pages.dev` only serves `a`.
+- Check that the domain, Pages project, production branch, and deploy hook all point to the same `generated-data` project.
 
 ## Expected Result
 
