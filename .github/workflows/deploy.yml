@@ -34,9 +34,43 @@ jobs:
           ssh-keyscan -H pi-cph >> ~/.ssh/known_hosts
           ssh -i ~/.ssh/pi-cph ned@pi-cph /home/ned/website-refresh.sh
 
+      - name: Check out generated-data
+        if: github.ref_name == 'generated-data'
+        uses: actions/checkout@v4
+
       - name: Trigger Cloudflare deploy
         if: github.ref_name == 'generated-data'
         env:
           DEPLOY_HOOK: ${{ secrets.DEPLOY_HOOK }}
         run: |
           curl --fail --silent --show-error --request POST "$DEPLOY_HOOK"
+
+      - name: Verify live data
+        if: github.ref_name == 'generated-data'
+        run: |
+          expected_sha="$(sha256sum static/data.json | awk '{print $1}')"
+          deadline=$((SECONDS + 600))
+
+          while [ "$SECONDS" -lt "$deadline" ]; do
+            if curl --fail --silent --show-error "https://edoardo.fyi/data.json?deploy=${GITHUB_SHA}&t=$(date +%s)" -o /tmp/live-data.json; then
+              actual_sha="$(sha256sum /tmp/live-data.json | awk '{print $1}')"
+              if [ "$actual_sha" = "$expected_sha" ]; then
+                echo "Live data matches generated-data."
+                exit 0
+              fi
+
+              python - <<'PY'
+import json
+
+with open('/tmp/live-data.json', encoding='utf8') as f:
+    data = json.load(f)
+
+print('Live GitHub items:', len(data.get('github', [])))
+PY
+            fi
+
+            sleep 20
+          done
+
+          echo "Live data did not match generated-data within 10 minutes."
+          exit 1
