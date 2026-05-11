@@ -59,14 +59,7 @@ jobs:
                 exit 0
               fi
 
-              python - <<'PY'
-import json
-
-with open('/tmp/live-data.json', encoding='utf8') as f:
-    data = json.load(f)
-
-print('Live GitHub items:', len(data.get('github', [])))
-PY
+              python -c "import json; d=json.load(open('/tmp/live-data.json', encoding='utf8')); print('Live GitHub items:', len(d.get('github', [])))"
             fi
 
             sleep 20
