@@ -158,7 +158,9 @@ No scraping. No image downloading. No WebP binary download.
 
 ## Current Follow-Up
 
-The Tautulli image proxy on `ashketchum.iceberg.usbx.me` returns login HTML for some poster URLs. The scraper now rejects and deletes those invalid image downloads, then falls back to previous data. If this persists on the Pi, fix the proxy URL/auth rather than relaxing validation.
+- Source changes are committed on `master`.
+- The Pi refresh path reaches the Pi and completes scraping/validation.
+- `scripts/refresh-generated-data.sh` configures its own Git author so cron/SSH runs can commit without machine-global Git setup.
 
 ## Expected Result
 

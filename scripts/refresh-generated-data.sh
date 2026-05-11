@@ -17,6 +17,11 @@ cd "$REPO_DIR"
 
 echo "Refreshing $BRANCH from $SOURCE_BRANCH..."
 
+# The Pi runs this from cron and from GitHub Actions, so do not rely on a
+# global Git identity being configured on the machine.
+git config user.name "website data bot"
+git config user.email "website-data-bot@users.noreply.github.com"
+
 git fetch "$REMOTE" "$SOURCE_BRANCH" "$BRANCH" || git fetch "$REMOTE" "$SOURCE_BRANCH"
 
 if git show-ref --verify --quiet "refs/remotes/$REMOTE/$BRANCH"; then
