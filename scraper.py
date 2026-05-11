@@ -22,7 +22,7 @@ from unidecode import unidecode
 
 HTTP_TIMEOUT = 30
 IMAGE_WEBP_QUALITY = 82
-PLEX_METADATA_WORKERS = int(os.environ.get("PLEX_METADATA_WORKERS", "16"))
+PLEX_METADATA_WORKERS = int(os.environ.get("PLEX_METADATA_WORKERS", "8"))
 
 SESSION = requests.Session()
 SESSION.mount('https://', HTTPAdapter(pool_connections=32, pool_maxsize=32))
