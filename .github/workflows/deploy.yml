@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - generated-data
   workflow_dispatch:
 
 concurrency:
@@ -15,6 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Join tailnet
+        if: github.ref_name == 'master' || github.event_name == 'workflow_dispatch'
         uses: tailscale/github-action@v3
         with:
           oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
@@ -22,6 +24,7 @@ jobs:
           tags: tag:github-actions
 
       - name: Refresh generated-data on Pi
+        if: github.ref_name == 'master' || github.event_name == 'workflow_dispatch'
         env:
           PI_SSH_PRIVATE_KEY: ${{ secrets.PI_SSH_PRIVATE_KEY }}
         run: |
@@ -30,3 +33,10 @@ jobs:
           chmod 600 ~/.ssh/pi-cph
           ssh-keyscan -H pi-cph >> ~/.ssh/known_hosts
           ssh -i ~/.ssh/pi-cph ned@pi-cph /home/ned/website-refresh.sh
+
+      - name: Trigger Cloudflare deploy
+        if: github.ref_name == 'generated-data' || github.event_name == 'workflow_dispatch'
+        env:
+          DEPLOY_HOOK: ${{ secrets.DEPLOY_HOOK }}
+        run: |
+          curl --fail --silent --show-error --request POST "$DEPLOY_HOOK"

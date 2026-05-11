@@ -61,7 +61,8 @@ Current Pi gaps to handle before enabling:
 9. It validates JSON and referenced images.
 10. It commits generated files.
 11. It force-pushes `generated-data`.
-12. Cloudflare sees `generated-data` changed and deploys it.
+12. A lightweight GitHub Action run on `generated-data` calls the Cloudflare deploy hook.
+13. Cloudflare builds `generated-data`.
 
 Keep website logic in its own script, for example:
 
@@ -91,7 +92,8 @@ Use a small GitHub Action plus Tailscale:
 4. The action uses normal SSH over the tailnet to the Pi (`pi-cph`).
 5. `pihole` runs the same generated-data refresh script.
 6. `pihole` force-pushes `generated-data`.
-7. Cloudflare sees `generated-data` changed and deploys it.
+7. A lightweight GitHub Action run on `generated-data` calls the Cloudflare deploy hook.
+8. Cloudflare builds `generated-data`.
 
 This gives push deploys without polling, without a self-hosted runner, and without exposing the Pi to the internet.
 
@@ -103,6 +105,7 @@ GitHub repo secrets needed:
 - `TS_OAUTH_CLIENT_ID`
 - `TS_OAUTH_SECRET`
 - `PI_SSH_PRIVATE_KEY`
+- `DEPLOY_HOOK`
 
 Tailnet setup needed:
 
@@ -161,6 +164,7 @@ No scraping. No image downloading. No WebP binary download.
 - Source changes are committed on `master`.
 - The Pi refresh path reaches the Pi and completes scraping/validation.
 - `scripts/refresh-generated-data.sh` configures its own Git author so cron/SSH runs can commit without machine-global Git setup.
+- Cloudflare did not auto-build from the branch push, so the workflow calls the existing `DEPLOY_HOOK` whenever `generated-data` is pushed.
 
 ## Expected Result
 
