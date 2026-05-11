@@ -4,6 +4,7 @@ import json
 from concurrent.futures import ThreadPoolExecutor
 
 import requests
+from requests.adapters import HTTPAdapter
 import os
 import re
 import sys
@@ -21,8 +22,10 @@ from unidecode import unidecode
 
 HTTP_TIMEOUT = 30
 IMAGE_WEBP_QUALITY = 82
+PLEX_METADATA_WORKERS = int(os.environ.get("PLEX_METADATA_WORKERS", "16"))
 
 SESSION = requests.Session()
+SESSION.mount('https://', HTTPAdapter(pool_connections=32, pool_maxsize=32))
 
 
 def main():
@@ -38,12 +41,12 @@ def main():
 
         with ThreadPoolExecutor(max_workers=6) as executor:
             futures = {
-                executor.submit(scrape_all_movies, data, 999, img_width): 'movies',
-                executor.submit(scrape_all_tv_shows, data, 999, img_width): 'shows',
-                executor.submit(scrape_books, data, content_limit): 'books',
-                executor.submit(scrape_spotify, data, content_limit): 'spotify',
-                executor.submit(scrape_github, data, content_limit): 'github',
-                executor.submit(scrape_videogames, data): 'videogames'
+                executor.submit(timed_section, 'movies', scrape_all_movies, data, 999, img_width): 'movies',
+                executor.submit(timed_section, 'shows', scrape_all_tv_shows, data, 999, img_width): 'shows',
+                executor.submit(timed_section, 'books', scrape_books, data, content_limit): 'books',
+                executor.submit(timed_section, 'spotify', scrape_spotify, data, content_limit): 'spotify',
+                executor.submit(timed_section, 'github', scrape_github, data, content_limit): 'github',
+                executor.submit(timed_section, 'videogames', scrape_videogames, data): 'videogames'
             }
             for future in concurrent.futures.as_completed(futures):
                 section = futures[future]
@@ -86,27 +89,37 @@ def scrape_movies(data, content_limit, img_width):
     rows = plex_json['response']['data']['rows']
 
     movies = [row for row in rows if row['media_type'] == 'movie' and row['user'] == plex_user]
-    for movie in movies[:content_limit]:
-        j = get_json(plex_metadata_url + str(movie['rating_key']))
-        if 'guids' in j['response']['data']:
-            guid = j['response']['data']['guids'][1].split('//')[1]
-            if not any(m['guid'] == guid for m in data['movies']):
-                slug = slugify(movie['title'])
-                img_url = plex_proxy_img + movie['thumb'] + '&width=' + str(img_width)
-                save_images('movie', slug, 'png', img_url)
-                data['movies'].append({
-                    'title': movie['title'],
-                    'guid': guid,
-                    'year': movie['year'],
-                    'img': f'movie_{slug}.png',
-                    'img_webp': f'movie_{slug}.webp' if exists(
-                        f'static/img/movie_{slug}.webp') else f'movie_{slug}.png',
-                    'last_watch': movie['last_watch'],
-                    'cinema': False,
-                    'is_favorite': False
-                })
-        else:
-            log_warning(f'Error fetching metadata: {j}')
+    seen_guids = set()
+    with ThreadPoolExecutor(max_workers=PLEX_METADATA_WORKERS) as executor:
+        results = executor.map(
+            lambda movie: build_movie(movie, plex_metadata_url, plex_proxy_img, img_width),
+            movies[:content_limit]
+        )
+    for movie_data in results:
+        if movie_data and movie_data['guid'] not in seen_guids:
+            seen_guids.add(movie_data['guid'])
+            data['movies'].append(movie_data)
+
+
+def build_movie(movie, plex_metadata_url, plex_proxy_img, img_width):
+    j = get_json(plex_metadata_url + str(movie['rating_key']))
+    if 'guids' not in j['response']['data']:
+        log_warning(f'Error fetching metadata: {j}')
+        return None
+    guid = j['response']['data']['guids'][1].split('//')[1]
+    slug = slugify(movie['title'])
+    img_url = plex_proxy_img + movie['thumb'] + '&width=' + str(img_width)
+    save_images('movie', slug, 'png', img_url)
+    return {
+        'title': movie['title'],
+        'guid': guid,
+        'year': movie['year'],
+        'img': f'movie_{slug}.png',
+        'img_webp': f'movie_{slug}.webp' if exists(f'static/img/movie_{slug}.webp') else f'movie_{slug}.png',
+        'last_watch': movie['last_watch'],
+        'cinema': False,
+        'is_favorite': False
+    }
 
 
 def scrape_cinema_movies(data):
@@ -194,26 +207,35 @@ def scrape_tv_shows(data, content_limit, img_width):
                 'name': show['grandchild_title'],
                 'watched_on': show['last_watch']
             })
-    for show in unique_shows[:content_limit]:
-        j = get_json(plex_metadata_url + str(show['rating_key']))
-        if 'grandparent_guids' in j['response']['data']:
-            slug = slugify(show['grandparent_title'])
-            img_url = plex_proxy_img + show['thumb'] + '&width=' + str(img_width)
-            save_images('show', slug, 'png', img_url)
-            guid = j['response']['data']['grandparent_guids'][1].split('//')[1]
-            eps = episodes[str(show['grandparent_rating_key'])]
-            for ep in eps:
-                ep['parent_show_id'] = guid
-            data['shows'].append({
-                'title': show['grandparent_title'],
-                'guid': guid,
-                'ep': 'S' + str(show['parent_media_index']) + 'E' + str(show['media_index']),
-                'last_watch': show['last_watch'],
-                'img': f'show_{slug}.png',
-                'img_webp': f'show_{slug}.webp' if exists(f'static/img/show_{slug}.webp') else f'show_{slug}.png',
-                'episodes': eps,
-                'is_favorite': False
-            })
+    with ThreadPoolExecutor(max_workers=PLEX_METADATA_WORKERS) as executor:
+        results = executor.map(
+            lambda show: build_show(show, episodes, plex_metadata_url, plex_proxy_img, img_width),
+            unique_shows[:content_limit]
+        )
+    data['shows'].extend(show_data for show_data in results if show_data)
+
+
+def build_show(show, episodes, plex_metadata_url, plex_proxy_img, img_width):
+    j = get_json(plex_metadata_url + str(show['rating_key']))
+    if 'grandparent_guids' not in j['response']['data']:
+        return None
+    slug = slugify(show['grandparent_title'])
+    img_url = plex_proxy_img + show['thumb'] + '&width=' + str(img_width)
+    save_images('show', slug, 'png', img_url)
+    guid = j['response']['data']['grandparent_guids'][1].split('//')[1]
+    eps = episodes[str(show['grandparent_rating_key'])]
+    for ep in eps:
+        ep['parent_show_id'] = guid
+    return {
+        'title': show['grandparent_title'],
+        'guid': guid,
+        'ep': 'S' + str(show['parent_media_index']) + 'E' + str(show['media_index']),
+        'last_watch': show['last_watch'],
+        'img': f'show_{slug}.png',
+        'img_webp': f'show_{slug}.webp' if exists(f'static/img/show_{slug}.webp') else f'show_{slug}.png',
+        'episodes': eps,
+        'is_favorite': False
+    }
 
 
 def scrape_fav_tv_shows(data):
@@ -358,11 +380,14 @@ def scrape_videogames(data):
     # if same year, most recent first
     ids = ['154986', '43335', '732', '27081', '96209', '114287', '134101', '114285', '1020', '7331', '8837',
            '4647', '4649', '4648', '10662', '96', '3136', '19560', '6036', '157446', '112875', '205780']
+    d = 'fields id, first_release_date, cover.url, name, url; where id = ({}); limit {};'.format(
+        ','.join(ids), len(ids)
+    )
+    responses = post_json('https://api.igdb.com/v4/games', headers=headers, data=d)
+    games_by_id = {str(game['id']): game for game in responses}
     for id in ids:
-        d = 'fields first_release_date, cover.url, name, url; where id = ' + id + ';'
-        response = post_json('https://api.igdb.com/v4/games', headers=headers, data=d)
-        if len(response) > 0:
-            response = response[0]
+        response = games_by_id.get(id)
+        if response:
             cover_url = response['cover']['url'].replace('t_thumb', 't_cover_big').replace('//', 'https://')
             year = int(datetime.fromtimestamp(int(response['first_release_date']), UTC).strftime('%Y'))
             slug = slugify(response['name'])
@@ -379,6 +404,12 @@ def scrape_videogames(data):
 def create_img_folder():
     if not exists('static/img'):
         os.makedirs('static/img')
+
+
+def timed_section(name, func, *args):
+    start = time.perf_counter()
+    func(*args)
+    print(f'{name}: {time.perf_counter() - start:.1f}s')
 
 
 def load_existing_data():
