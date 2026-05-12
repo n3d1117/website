@@ -48,6 +48,33 @@ h1, h2, h3, h4, h5, h6 {
 .main-content {
   max-width: 970px; }
 
+.col-4 {
+  width: 33.33333332%; }
+
+@media (min-width: 544px) {
+  .col-sm-3 {
+    width: 25%; }
+  .col-sm-6 {
+    width: 50%; } }
+
+@media (min-width: 768px) {
+  .col-md-3 {
+    width: 25%; }
+  .col-md-6 {
+    width: 50%; } }
+
+@media (min-width: 1012px) {
+  .col-lg-2 {
+    width: 16.66666666%; }
+  .col-lg-6 {
+    width: 50%; } }
+
+@media (min-width: 1280px) {
+  .col-xl-2 {
+    width: 16.66666666%; }
+  .col-xl-4 {
+    width: 33.33333332%; } }
+
 .cursor-pointer {
   cursor: pointer; }
 
@@ -287,6 +314,17 @@ figure {
     height: 12px;
     border: 1px solid var(--color-primer-border-contrast);
     border-radius: 50%; }
+  .gh-repo .Link--muted {
+    color: var(--color-fg-muted); }
+    .gh-repo .Link--muted:hover {
+      color: var(--color-accent-fg);
+      text-decoration: none; }
+  .gh-repo .octicon {
+    width: 16px;
+    height: 16px;
+    color: currentColor;
+    fill: currentColor;
+    vertical-align: text-bottom; }
 
 .media:hover p:first-of-type {
   text-decoration: underline;
@@ -422,6 +460,9 @@ figure {
 .height-48 {
   height: 48px; }
 
+.height-full {
+  height: 100%; }
+
 .mh-120 {
   min-height: 120px; }
 
@@ -464,6 +505,12 @@ video {
   @media (max-width: 544px) {
     .lh-sm-condensed {
       line-height: 1.5 !important; } }
+.f6 {
+  font-size: 12px !important; }
+
+.align-items-center {
+  align-items: center !important; }
+
 .mt3 {
   margin-top: 3px; }
 
