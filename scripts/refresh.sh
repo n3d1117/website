@@ -11,6 +11,10 @@ CLOUDFLARE_ENV_FILE="${CLOUDFLARE_ENV_FILE:-$HOME/.config/website/cloudflare.env
 
 export PATH="$HOME/.local/bin:$HOME/.local/node/bin:$PATH"
 
+mkdir -p "$HOME/.cache/website"
+exec 9>"$HOME/.cache/website/refresh.lock"
+flock 9
+
 run_quiet() {
   local label="$1"
   shift
