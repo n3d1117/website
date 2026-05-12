@@ -7,9 +7,82 @@ SOURCE_BRANCH="${WEBSITE_SOURCE_BRANCH:-master}"
 PROJECT_NAME="${CLOUDFLARE_PAGES_PROJECT:-website}"
 DEPLOY_BRANCH="${CLOUDFLARE_PAGES_BRANCH:-generated-data}"
 CACHE_DIR="${WEBSITE_IMAGE_CACHE_DIR:-$HOME/.cache/website/static-img}"
+SCRAPER_ENV_FILE="${WEBSITE_SCRAPER_ENV_FILE:-$REPO_DIR/.env}"
 CLOUDFLARE_ENV_FILE="${CLOUDFLARE_ENV_FILE:-$HOME/.config/website/cloudflare.env}"
+NOTIFY_LOG_FILE="${WEBSITE_NOTIFY_LOG_FILE:-/var/log/update-service.log}"
+NOTIFY_LOG_LINES="${WEBSITE_NOTIFY_LOG_LINES:-80}"
+live_data_file=""
 
 export PATH="$HOME/.local/bin:$HOME/.local/node/bin:$PATH"
+
+source_env_file() {
+  local env_file="$1"
+
+  if [ ! -f "$env_file" ]; then
+    return 0
+  fi
+
+  set -a
+  # shellcheck source=/dev/null
+  . "$env_file"
+  set +a
+}
+
+source_env_file "$SCRAPER_ENV_FILE"
+source_env_file "$CLOUDFLARE_ENV_FILE"
+
+notify_failure() {
+  local exit_code="$1"
+
+  if [ "${WEBSITE_NOTIFY_ON_FAILURE:-1}" = "0" ]; then
+    return 0
+  fi
+
+  if [ -z "${TELEGRAM_BOT_TOKEN:-}" ] || [ -z "${TELEGRAM_CHAT_ID:-}" ]; then
+    return 0
+  fi
+
+  local host branch commit tail_log message
+  host="$(hostname 2>/dev/null || echo unknown)"
+  branch="$(git -C "$REPO_DIR" rev-parse --abbrev-ref HEAD 2>/dev/null || echo "$SOURCE_BRANCH")"
+  commit="$(git -C "$REPO_DIR" rev-parse --short HEAD 2>/dev/null || echo unknown)"
+
+  if [ -f "$NOTIFY_LOG_FILE" ]; then
+    tail_log="$(tail -n "$NOTIFY_LOG_LINES" "$NOTIFY_LOG_FILE" 2>/dev/null | tail -c 3000 || true)"
+  else
+    tail_log="No log file found at $NOTIFY_LOG_FILE."
+  fi
+
+  message="$(cat <<EOF
+Website refresh failed on $host
+Repo: website
+Branch: $branch
+Commit: $commit
+Exit: $exit_code
+
+$tail_log
+EOF
+)"
+
+  curl --fail --silent --show-error --max-time 10 \
+    -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+    -d chat_id="$TELEGRAM_CHAT_ID" \
+    --data-urlencode text="$message" >/dev/null || true
+}
+
+on_exit() {
+  local exit_code="$?"
+
+  if [ -n "$live_data_file" ]; then
+    rm -f "$live_data_file"
+  fi
+
+  if [ "$exit_code" -ne 0 ]; then
+    notify_failure "$exit_code"
+  fi
+}
+
+trap on_exit EXIT
 
 mkdir -p "$HOME/.cache/website"
 exec 9>"$HOME/.cache/website/refresh.lock"
@@ -28,16 +101,9 @@ run_quiet() {
     echo "failed"
     cat "$log_file"
     rm -f "$log_file"
-    exit 1
+    return 1
   fi
 }
-
-if [ -f "$CLOUDFLARE_ENV_FILE" ]; then
-  set -a
-  # shellcheck source=/dev/null
-  . "$CLOUDFLARE_ENV_FILE"
-  set +a
-fi
 
 cd "$REPO_DIR"
 
@@ -83,7 +149,6 @@ run_quiet "Deploying to Cloudflare Pages" wrangler pages deploy public \
 # Verify live data.
 deadline=$((SECONDS + 600))
 live_data_file="$(mktemp)"
-trap 'rm -f "$live_data_file"' EXIT
 
 while [ "$SECONDS" -lt "$deadline" ]; do
   if curl --fail --silent --show-error "https://edoardo.fyi/data.json?deploy=$commit_hash&t=$(date +%s)" -o "$live_data_file"; then
