@@ -13,7 +13,7 @@ REMOTE="${WEBSITE_REMOTE:-origin}"
 SOURCE_BRANCH="${WEBSITE_SOURCE_BRANCH:-master}"
 
 # Cron shells are minimal and may not include uv's install directory.
-export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.local/bin:$HOME/.local/node/bin:$PATH"
 
 cd "$REPO_DIR"
 
