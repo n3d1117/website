@@ -11,9 +11,11 @@ SCRAPER_ENV_FILE="${WEBSITE_SCRAPER_ENV_FILE:-$REPO_DIR/.env}"
 CLOUDFLARE_ENV_FILE="${CLOUDFLARE_ENV_FILE:-$HOME/.config/website/cloudflare.env}"
 NOTIFY_LOG_FILE="${WEBSITE_NOTIFY_LOG_FILE:-/var/log/update-service.log}"
 NOTIFY_LOG_LINES="${WEBSITE_NOTIFY_LOG_LINES:-80}"
+RUN_LOG_FILE="$(mktemp "${TMPDIR:-/tmp}/website-refresh.XXXXXX.log")"
 live_data_file=""
 
 export PATH="$HOME/.local/bin:$HOME/.local/node/bin:$PATH"
+exec > >(tee "$RUN_LOG_FILE") 2>&1
 
 source_env_file() {
   local env_file="$1"
@@ -43,15 +45,16 @@ notify_failure() {
     return 0
   fi
 
-  local host branch commit tail_log message
+  local host branch commit log_file tail_log message
   host="$(hostname 2>/dev/null || echo unknown)"
   branch="$(git -C "$REPO_DIR" rev-parse --abbrev-ref HEAD 2>/dev/null || echo "$SOURCE_BRANCH")"
   commit="$(git -C "$REPO_DIR" rev-parse --short HEAD 2>/dev/null || echo unknown)"
+  log_file="${RUN_LOG_FILE:-$NOTIFY_LOG_FILE}"
 
-  if [ -f "$NOTIFY_LOG_FILE" ]; then
-    tail_log="$(tail -n "$NOTIFY_LOG_LINES" "$NOTIFY_LOG_FILE" 2>/dev/null | tail -c 3000 || true)"
+  if [ -f "$log_file" ]; then
+    tail_log="$(tail -n "$NOTIFY_LOG_LINES" "$log_file" 2>/dev/null | tail -c 3000 || true)"
   else
-    tail_log="No log file found at $NOTIFY_LOG_FILE."
+    tail_log="No log file found at $log_file."
   fi
 
   message="$(cat <<EOF
@@ -81,6 +84,8 @@ on_exit() {
   if [ "$exit_code" -ne 0 ]; then
     notify_failure "$exit_code"
   fi
+
+  rm -f "$RUN_LOG_FILE"
 }
 
 trap on_exit EXIT
