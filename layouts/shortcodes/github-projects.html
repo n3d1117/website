@@ -1,6 +1,7 @@
 <div class="d-sm-flex flex-wrap gutter-condensed mb-4">
+    {{ $data := hugo.Data }}
     {{ $projects := slice }}
-    {{ with site.Data.scraper.github }}{{ $projects = . }}{{ end }}
+    {{ with $data.scraper.github }}{{ $projects = . }}{{ end }}
     {{ $count := .Get "count" }}
 
     {{ range $projects | first $count }}

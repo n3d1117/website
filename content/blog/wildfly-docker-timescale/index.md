@@ -159,11 +159,11 @@ To start the services, simply run `docker-compose up` from any terminal instance
 
 First, create a class named `CustomPostgreSQLDialect` that extends `PostgreSQL95Dialect` and registers the `OTHER` sql type as a `String`:
 
-```java
+```java {hl_lines=["4-8"]}
 import org.hibernate.dialect.PostgreSQL95Dialect;
 import java.sql.Types;
 
-public class CustomPostgreSQLDialect extends PostgreSQL95Dialect { // [tl! focus:5]
+public class CustomPostgreSQLDialect extends PostgreSQL95Dialect {
     public CustomPostgreSQLDialect() {
         super();
         registerHibernateType(Types.OTHER, String.class.getName());
@@ -173,18 +173,17 @@ public class CustomPostgreSQLDialect extends PostgreSQL95Dialect { // [tl! focus
 
 This is required since Timescale's [create_hypertable](https://docs.timescale.com/api/latest/hypertable/create_hypertable/) return value is not natively supported by Hibernate. If you skip this step, you'll most likely end up with an error such as:
 
-```no-highlight
-// torchlight! {"lineNumbers": false}
+```text {linenos=false}
 javax.persistence.PersistenceException: org.hibernate.MappingException: No Dialect mapping for JDBC type: 1111
 ```
 
 Then, specify `CustomPostgreSQLDialect` as the Hibernate dialect in your project's `persistence.xml` file:
 
-```xml
+```xml {hl_lines=[4]}
 <persistence-unit name="...">
     <properties>
         ...
-        <property name="hibernate.dialect" value="CustomPostgreSQLDialect"/> <!-- [tl! highlight] -->
+        <property name="hibernate.dialect" value="CustomPostgreSQLDialect"/>
         ...
     </properties>
 </persistence-unit>
@@ -206,8 +205,7 @@ LOGGER.info(String.format("Result: %s", result));
 
 If all went well, you should see something like this in the logs:
 
-```no-highlight
-// torchlight! {"lineNumbers": false}
+```text {linenos=false}
 Result: (1,public,YOUR_TABLE_HERE,t)
 ```
 

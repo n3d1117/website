@@ -9,8 +9,8 @@
   --color-bg-subtle: var(--color-canvas-subtle) !important;
   --tag-bg-hover-color: rgb(185, 218, 248);
   --post-container-color: var(--color-canvas-default);
-  --code-container-color:  #24292e !important;
-  --code-container-border-color: transparent !important;
+  --code-container-color: var(--color-canvas-default) !important;
+  --code-container-border-color: var(--color-border-muted) !important;
   --color-primer-border-active: var(--color-accent-fg) !important;
   --color-accent-subtle: var(--color-filter-item-hover) !important;
   --color-attention-subtle: #fff8c5 !important;
@@ -227,15 +227,6 @@ article {
     border: 1px solid var(--code-container-border-color);
     margin-bottom: 1em !important;
     padding: 0;
-  }
-
-  .markdown-body .highlight .chroma .line * {
-    display: inline !important;
-  }
-
-  .markdown-body .highlight .chroma .line .line-number {
-    display: inline-block !important;
-    user-select: none;
   }
 
   .markdown-body .highlight pre, .markdown-body pre {

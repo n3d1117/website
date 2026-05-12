@@ -38,7 +38,7 @@ fi
 cd "$REPO_DIR"
 
 # Check tools.
-for command in uv hugo npm npx wrangler rsync curl sha256sum; do
+for command in uv hugo npm wrangler rsync curl sha256sum; do
   if ! command -v "$command" >/dev/null 2>&1; then
     echo "$command is required before refreshing."
     exit 1
@@ -64,7 +64,6 @@ run_quiet "Saving image cache" rsync -a --delete static/img/ "$CACHE_DIR"/
 # Build site.
 run_quiet "Installing npm dependencies" npm ci --no-audit --fund=false --prefer-offline
 run_quiet "Building Hugo site" hugo -b https://edoardo.fyi/ --minify --gc
-run_quiet "Highlighting code" npx torchlight
 
 # Deploy to Cloudflare Pages.
 expected_sha="$(sha256sum static/data.json | awk '{print $1}')"

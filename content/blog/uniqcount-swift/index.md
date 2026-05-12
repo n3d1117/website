@@ -112,7 +112,7 @@ CLI modes:
 
 Default run:
 
-```bash
+```bash {linenos=false}
 swift run uniqcount --path /tmp/hamlet.txt
 ```
 
@@ -189,17 +189,17 @@ I reproduced the same trend (higher memory gives tighter estimates), but not ide
 
 ### Reproducing
 
-```bash
+```bash {linenos=false}
 curl -L 'https://www.gutenberg.org/cache/epub/1524/pg1524.txt' -o /tmp/hamlet.txt
 git clone https://github.com/n3d1117/uniqcount.git
 cd uniqcount
 ```
 
-```bash
+```bash {linenos=false}
 swift run uniqcount --path /tmp/hamlet.txt --memory 1000 --trials 30 --seed 42 --report
 ```
 
-```bash
+```bash {linenos=false}
 swift run uniqcount --path /tmp/hamlet.txt --epsilon 0.1 --delta 0.05 --trials 30 --seed 42 --report
 ```
 
@@ -207,11 +207,11 @@ swift run uniqcount --path /tmp/hamlet.txt --epsilon 0.1 --delta 0.05 --trials 3
 
 This is a real run with `--memory 1000`, `--trials 10`, `--seed 42`.
 
-```bash
+```bash {linenos=false}
 swift run --quiet uniqcount --path /tmp/hamlet.txt --memory 1000 --trials 10 --seed 42 --report
 ```
 
-```text
+```text {linenos=false}
 Run:
 +----------------+-----------------+
 | Field          |           Value |

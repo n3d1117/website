@@ -33,7 +33,7 @@ The investigation took several sessions across a few evenings, with a lot of wro
 
 The first session was mostly broad string searches against the decrypted binary, looking for anything that sounded feed-related:
 
-```bash
+```bash {linenos=false}
 strings -a path/to/Instagram.app/Instagram \
   | rg -i "feed|following|for you|picker|pagination|chronological"
 ```
@@ -51,7 +51,7 @@ That surfaced, among many other things:
 
 Then to map out the Objective-C surface of those classes (selectors, ivar layouts, type encodings), Codex pulled the runtime metadata directly:
 
-```bash
+```bash {linenos=false}
 otool -oV path/to/Instagram.app/Instagram \
   | rg -A 20 "IGHomeFeedPickerMenuController|IGMainFeedViewModel"
 ```
@@ -64,7 +64,7 @@ I started from the picker menu. Tap the home title, get a menu, choose `Followin
 
 Codex found it pretty quickly:
 
-```bash
+```bash {linenos=false}
 otool -oV path/to/Instagram.app/Instagram \
   | rg "IGHomeFeedPickerMenuController" -A 30
 ```
@@ -82,7 +82,7 @@ So the first version of the tweak was: hook the picker, force `Following` to be 
 
 To verify it actually fired, I had Codex add a distinctive emoji marker to all log lines and watched the device log live:
 
-```bash
+```bash {linenos=false}
 idevicesyslog | rg --line-buffered "🧭"
 ```
 

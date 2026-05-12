@@ -1,5 +1,8 @@
-{{- $lang := .Type -}}
-{{- $code := .Inner -}}
+{{- $lang := default "text" .Type -}}
+{{- $code := strings.TrimSuffix "\n" .Inner -}}
+{{- $lineCount := len (split $code "\n") -}}
+{{- $lineNumberDigits := len (printf "%d" $lineCount) -}}
+{{- $result := transform.HighlightCodeBlock . -}}
 <div class="highlight">
     <button class="copy-code-button" onclick="
         const code = this.parentElement.querySelector('code');
@@ -8,8 +11,7 @@
         if (lines.length > 0) {
             lines.forEach(line => {
                 const lineClone = line.cloneNode(true);
-                const lineNum = lineClone.querySelector('.line-number');
-                if (lineNum) lineNum.remove();
+                lineClone.querySelectorAll('.ln, .lnt, .line-number').forEach(lineNum => lineNum.remove());
                 text += lineClone.textContent + '\n';
             });
             text = text.slice(0, -1);
@@ -26,5 +28,5 @@
         </svg>
         Copy
     </button>
-    <pre tabindex="0" class="chroma"><code class="language-{{ $lang }}" data-lang="{{ $lang }}">{{- $code | safeHTML -}}</code></pre>
+    <pre tabindex="0" class="chroma" style="--line-number-digits: {{ $lineNumberDigits }};"><code class="language-{{ $lang }}" data-lang="{{ $lang }}">{{- $result.Inner -}}</code></pre>
 </div>

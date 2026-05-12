@@ -76,7 +76,7 @@ Honestly, this part impressed me quite a bit. The agent got to useful answers qu
 
 It started with broad string searches:
 
-```bash
+```bash {linenos=false}
 strings -a path/to/FotMob.app/FotMob \
   | rg -i "bracket|playoff|knockout|round|paging|swipe|drag|snap"
 ```
@@ -96,7 +96,7 @@ So even before looking at any disassembly, it was pretty clear that FotMob had a
 
 Then it tried symbol lookup:
 
-```bash
+```bash {linenos=false}
 nm -nm path/to/FotMob.app/FotMob 2>/dev/null \
   | xcrun swift-demangle \
   | rg "FotMob\\.(Bracket|Playoff|.*ScrollDelegate)"
@@ -106,7 +106,7 @@ That came back empty because the symbol table was mostly stripped.
 
 Next it pulled Objective-C metadata out of the binary:
 
-```bash
+```bash {linenos=false}
 otool -ov path/to/FotMob.app/FotMob 2>/dev/null \
   | rg "BracketScrollDelegate|scrollViewWillEndDragging|scrollViewDidEndDragging|setAllowedSwipeDistance"
 ```
@@ -121,7 +121,7 @@ At that point, it was already obvious that this was not just a stock `isPagingEn
 
 The next nice find was the class state itself:
 
-```bash
+```bash {linenos=false}
 strings -a -t x path/to/FotMob.app/FotMob \
   | rg "pageWidth|maxPageIndex|changeIndexThreshold|filterIndexThreshold|heightIndexThreshold|adjustScrollViewHeightThreshold"
 ```
@@ -142,7 +142,7 @@ Just from those names, you can already tell they probably split "which page shou
 
 Then Codex used `lldb` in batch mode to disassemble the scroll delegate methods directly:
 
-```bash
+```bash {linenos=false}
 lldb -b \
   -o 'target create path/to/FotMob.app/FotMob' \
   -o 'disassemble -s 0x10020940c -c 120' \
@@ -152,7 +152,7 @@ lldb -b \
 First, the metadata had already shown that `scrollViewWillEndDragging:withVelocity:targetContentOffset:` was implemented on `BracketScrollDelegate`.
 Then the disassembly showed that this method delegates the actual snap decision to a helper:
 
-```text
+```text {linenos=false}
 FotMob[0x100209514] <+64>:  mov    x1, x19
 FotMob[0x100209518] <+68>:  mov    x20, x2
 FotMob[0x10020951c] <+72>:  bl     0x10020934c   ; snap helper
@@ -160,7 +160,7 @@ FotMob[0x10020951c] <+72>:  bl     0x10020934c   ; snap helper
 
 And later in that helper you can see it converting the current page progress to an integer and conditionally stepping to the next page:
 
-```text
+```text {linenos=false}
 FotMob[0x100209778] <+568>:  fmov   d0, #1.00000000
 FotMob[0x10020977c] <+572>:  fcmp   d9, d0
 FotMob[0x100209780] <+576>:  cset   w8, ge

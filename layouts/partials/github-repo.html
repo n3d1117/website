@@ -1,4 +1,5 @@
 <div class="d-flex flex-column flex-justify-between height-full width-full text-left border rounded-3 p-3 gh-repo">
+  {{ $data := hugo.Data }}
   <div>
     <div class="d-flex flex-items-center mb-1">
       {{ partial "icons/repo" }}
@@ -15,7 +16,7 @@
   <p class="mb-0 f6 color-fg-muted">
     {{ if .language }}
     <span class="d-inline-block mr-3">
-      <span class="mr-1 repo-language-color{{ with index site.Data.colors .language }} color-{{ .color }}{{ end }}"></span>
+      <span class="mr-1 repo-language-color{{ with index $data.colors .language }} color-{{ .color }}{{ end }}"></span>
       <span itemprop="programmingLanguage">{{ .language }}</span>
     </span>
     {{ end }}

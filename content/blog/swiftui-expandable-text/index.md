@@ -122,11 +122,11 @@ We use a regular expression to replace any double newlines with a single newline
 ### Adding the expand button...
 At the end of the text, we add a `more` button that expands the text when tapped. We use the `overlay` modifier to add the button on top of the text, and position it at the trailing edge of the last text baseline.
 
-```swift
+```swift {hl_lines=["4-11"]}
 public var body: some View {
     Text(/* ... */)
         /* ... */
-        .overlay(alignment: .trailingLastTextBaseline) { // [tl! focus:8]
+        .overlay(alignment: .trailingLastTextBaseline) {
             if !isExpanded, isTruncated {
                 Button {
                     withAnimation { isExpanded.toggle() }
@@ -141,13 +141,13 @@ public var body: some View {
 ### ...and a fade effect
 To make the text fade out when it's truncated, we use a `LinearGradient` mask. We use a `VStack` to mask the top of the text, and a `HStack` to mask the trailing edge of the text. The `LinearGradient` is used to fade out the text from the trailing edge. The size of the `LinearGradient` is determined by the size of the `more` button, which is calculated in the background.
 
-```swift
+```swift {hl_lines=["6-10"]}
 @State private var moreTextSize: CGSize = .zero
 
 public var body: some View {
     Text(/* ... */)
         /* ... */
-        .applyingTruncationMask(size: moreTextSize, enabled: !isExpanded && isTruncated) // [tl! focus:5]
+        .applyingTruncationMask(size: moreTextSize, enabled: !isExpanded && isTruncated)
         .background(
             Text(moreButtonText)
                 .hidden()

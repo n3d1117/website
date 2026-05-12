@@ -4,13 +4,9 @@ enableRobotsTXT = true
 paginate = 15
 paginatePath = ''
 copyright = "© Edoardo — All rights reserved"
-languageCode = "en-us"
+locale = "en-us"
 disableHugoGeneratorInject = true
 timeout = "180s"
-
-[author]
-  name = "Edoardo"
-  email = "contact@edoardo.fyi"
 
 [params]
   dateFormat = "Jan 2, 2006"
@@ -21,6 +17,10 @@ timeout = "180s"
   loc = "Copenhagen, Denmark"
   image = "/me.jpeg"
   images = ["me.jpeg"]
+
+  [params.author]
+    name = "Edoardo"
+    email = "contact@edoardo.fyi"
 
   [[params.work]]
     from = "January 2024"
@@ -176,7 +176,16 @@ timeout = "180s"
 
 [markup]
   [markup.highlight]
+      anchorLineNos = false
+      codeFences = true
+      guessSyntax = false
+      lineAnchors = ""
+      lineNoStart = 1
+      lineNos = true
+      lineNumbersInTable = false
       noClasses = false
+      style = "github-dark"
+      wrapperClass = "highlight"
 
 [outputs]
     page = ["HTML"]

@@ -58,31 +58,31 @@ POST_INTERVAL_SECONDS=3600 # 1h
 ## Code
 We start by reading the environment variables from the `.env` file created before, using the `load_dotenv()` function from the `python-dotenv` library. This makes it easy to set configuration values in a separate file without hardcoding them in the script.
 
-```python
+```python {hl_lines=[3]}
 from dotenv import load_dotenv
 
-load_dotenv() # [tl! focus]
+load_dotenv()
 ```
 
 First, we import the Mastodon library, and setup the Mastodon instance with the access token:
 
-```python
+```python {hl_lines=["4-8"]}
 import os
 from mastodon import Mastodon
 
-# Setup Mastodon [tl! focus:start] 
+# Setup Mastodon
 mastodon = Mastodon(
     access_token=os.environ['MASTODON_BOT_TOKEN'],
     api_base_url=os.environ['MASTODON_INSTANCE']
-)# [tl! focus:end] 
+)
 ```
 
 Then we import the OpenAI library, and setup the OpenAI instance with the API key. We provide an initial prompt for our ChatGPT model and instruct it to reply with a random interesting fact:
 
-```python
+```python {hl_lines=["3-12"]}
 import openai
 
-# Setup OpenAI [tl! focus:start] 
+# Setup OpenAI
 openai.api_key = os.environ['OPENAI_API_KEY']
 prompt = "Tell me a random fact, be it fun, lesser-known or just interesting. Before answering, always " \
             "check your previous answers to make sure you haven't answered with the same fact before, " \
@@ -91,15 +91,15 @@ history = [{
     "role": "system",
     "content": "You are a helpful assistant. When asked about a random fun, lesser-known or interesting fact, "
                 "you only reply with the fact and nothing else."
-}]# [tl! focus:end] 
+}]
 ```
 
 Finally, we create a loop that will run forever, and post a new fact every hour:
 
-```python
+```python {hl_lines=["3-25"]}
 import time
 
-while True:# [tl! focus:start] 
+while True:
     try:
         history.append({"role": "user", "content": prompt})
 
@@ -121,7 +121,7 @@ while True:# [tl! focus:start]
         logging.error(e)
 
     # Wait for the specified interval before posting again
-    time.sleep(float(os.environ.get('POST_INTERVAL_SECONDS', 3600)))# [tl! focus:end] 
+    time.sleep(float(os.environ.get('POST_INTERVAL_SECONDS', 3600)))
 ```
 
 The while loop runs indefinitely, posting a new status to Mastodon every `POST_INTERVAL_SECONDS` seconds. This value defaults to 3600 seconds (1 hour) if it is not set.

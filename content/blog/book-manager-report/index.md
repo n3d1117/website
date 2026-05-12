@@ -232,15 +232,13 @@ CMD ["--replSet", "rs"]
 
 This custom `mongo` image can be built with the following command, from the project folder:
 
-```bash
-// torchlight! {"lineNumbers": false}
+```bash {linenos=false}
 docker build -t book-manager-db .
 ```
 
 And can then be run on port `27107` with:
 
-```bash
-// torchlight! {"lineNumbers": false}
+```bash {linenos=false}
 docker run -p 27017:27017 --rm book-manager-db
 ```
 
@@ -276,8 +274,7 @@ MongoCollection<Author> authorCollection = client.getDatabase(DB_NAME)
 
 This makes it a lot easier to insert objects into a collection:
 
-```java
-// torchlight! {"lineNumbers": false}
+```java {linenos=false}
 authorCollection.insertOne(new Author("1", "George Orwell"));
 ```
 
@@ -368,8 +365,7 @@ By using TDD, code coverage requirements of 100% (using [JaCoCo](https://www.ecl
 
 100% code coverage checks are disabled by default when testing the project, and can be enabled by adding the `jacoco-check` profile to the Maven `verify` command:
 
-```bash
-// torchlight! {"lineNumbers": false}
+```bash {linenos=false}
 mvn clean verify -P jacoco-check
 ```
 
@@ -385,8 +381,7 @@ However, those _hybrid_ tests that were considered integration tests (for the re
 
 Mutation testing is disabled by default, and can be enabled by adding the `mutation-testing` profile to the Maven `verify` command:
 
-```bash
-// torchlight! {"lineNumbers": false}
+```bash {linenos=false}
 mvn clean verify -P mutation-testing
 ```
 
@@ -401,8 +396,7 @@ This setup was accomplished by placing a slightly different `log4j.xml` configur
 
 To enable [Coveralls](https://coveralls.io) integration, the user must first enable the `jacoco-report` profile to generate the JaCoCo report, and then add the `coveralls:report` goal:
 
-```bash
-// torchlight! {"lineNumbers": false}
+```bash {linenos=false}
 mvn clean verify -P jacoco-report coveralls:report -D repoToken=YOUR_COVERALLS_TOKEN
 ```
 
@@ -591,8 +585,7 @@ To run the app, the user can either manually build the fat Jar file using Maven 
 
 After setting up the database instance (as seen in [Setting up a MongoDB Single Node Replica Set](#setting-up-a-mongodb-single-node-replica-set)), the app can be started with the following command:
 
-```bash
-// torchlight! {"lineNumbers": false}
+```bash {linenos=false}
 java -jar target/book-manager-1.0-SNAPSHOT-jar-with-dependencies.jar [options]
 ```
 

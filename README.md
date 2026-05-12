@@ -8,5 +8,4 @@
 ```bash
 npm install
 hugo -b https://edoardo.fyi/ --minify --gc
-npx torchlight
 ```

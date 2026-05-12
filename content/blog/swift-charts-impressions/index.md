@@ -31,8 +31,7 @@ Note that we are conforming our `Entry` struct to the `Identifiable` protocol by
 
 Next, we will create an array of `Entry` objects that will be used to populate our chart. We will use the following sample data:
 
-```swift
-// torchlight! {"lineNumbers": false}
+```swift {linenos=false}
 let data: [Entry] = [
     .init(period: "Today", amount: 5),
     .init(period: "This Week", amount: 50),
@@ -78,10 +77,10 @@ It's not very pretty yet, but we can easily customize it to make it look better.
 ### Customization
 Let's start by adding a trailing annotation to each bar. We will use the `annotation` modifier on the `BarkMark` to do this:
 
-```swift
+```swift {hl_lines=["3-6"]}
 Chart(data) { item in
     BarMark(/* ... */)
-    .annotation(position: .trailing) { // [tl! focus:4]
+    .annotation(position: .trailing) {
         Text(item.amount.formatted())
             .foregroundColor(.secondary)
             .font(.caption)
@@ -91,25 +90,25 @@ Chart(data) { item in
 
 The annotation will display the amount of downloads for each period. Then we'll add a y-axis label displaying the period. We will use the `chartYAxis` modifier to do this:
 
-```swift
+```swift {hl_lines=["5-9",8]}
 Chart(data) { item in
     /* ... */
 }
 .fixedSize(horizontal: false, vertical: true)
-.chartYAxis {  // [tl! focus:5]
+.chartYAxis {
     AxisMarks(preset: .extended, position: .leading) { _ in
         AxisValueLabel(horizontalSpacing: 15)
-            .font(.footnote) // [tl! focus] 
+            .font(.footnote)
     }
 }
 ```
 
 Finally, we can adjust the thickness of the bars by providing a `width` value to the `BarMark` initializer:
 
-```swift
+```swift {hl_lines=[3]}
 BarMark(
     /* ... */
-    width: .fixed(8) // [tl! highlight]
+    width: .fixed(8)
 )
 ```
 

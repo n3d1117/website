@@ -1,6 +1,7 @@
 <div class="d-flex flex-wrap gutter-condensed">
+    {{ $data := hugo.Data }}
     {{ $books := slice }}
-    {{ with site.Data.scraper.books }}{{ $books = . }}{{ end }}
+    {{ with $data.scraper.books }}{{ $books = . }}{{ end }}
 
     {{ if eq (.Get "favorite") "true" }}
         {{ range where $books "is_favorite" true }}

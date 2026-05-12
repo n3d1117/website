@@ -107,13 +107,13 @@ Since the `state` is marked as `@Published`, the view will automatically be upda
 ### Animations
 We can also add animations to the view by using the `.animation` modifier. For example, if we want to animate the transition between the different states, we can do so by adding the `.animation` modifier to the ZStack:
 
-```swift
+```swift {hl_lines=[6]}
 ZStack {
     switch viewModel.state {
         /* ... */
     }
 }
-.animation(.default, value: viewModel.state) // [tl! focus]
+.animation(.default, value: viewModel.state)
 ```
 
 ### Previews
