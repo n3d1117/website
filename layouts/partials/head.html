@@ -63,8 +63,8 @@
 <meta name="twitter:description" content="{{ with .Description }}{{ . }}{{ else }}{{ with .Site.Params.description }}{{ . }}{{ end }}{{ end -}}"/>
 
 <!-- CSS -->
-{{ with slice (resources.Get "/css/primer.css") (resources.Get "/scss/style.scss" | toCSS) | resources.Concat "css/main.css" | postCSS | minify }}
-<style type="text/css" nonce="DuNA/uqEdJUe/qofrw6Hy2EO6gvFnH4/4bKaeIiQg2A=">{{ .Content | safeCSS }}</style>
+{{ with slice (resources.Get "/css/primer-pruned.css") (resources.Get "/css/style.css") | resources.Concat "css/main.css" | minify | fingerprint "sha512" }}
+<link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}">
 {{ end }}
 
 <!-- Katex -->

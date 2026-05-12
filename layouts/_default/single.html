@@ -1,7 +1,9 @@
 {{ define "main" }}
 
-{{ with resources.Get "/css/syntax.css" | postCSS | minify }}
-<style type="text/css" nonce="DuNA/uqEdJUe/qofrw6Hy2EO6gvFnH4/4bKaeIiQg2A=">{{ .Content | safeCSS }}</style>
+{{ if in .RawContent "```" }}
+  {{ with resources.Get "/css/syntax.css" | minify | fingerprint "sha512" }}
+  <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}">
+  {{ end }}
 {{ end }}
 
 <div class="mx-auto px-3 px-md-4 px-lg-6 py-4 py-md-5 py-lg-7 main-content">
@@ -20,7 +22,7 @@
       {{ end }}
 
       <div class="d-flex flex-items-center">
-        <img src="{{ .Site.Params.image }}" class="circle anim-hover-grow mr-2" height="18" width="18" alt="{{ .Site.Params.name }}">
+        <img src="{{ .Site.Params.image }}" class="circle anim-hover-grow mr-2" height="18" width="18" alt="{{ .Site.Params.name }}" decoding="async">
         <span class="pl-2 color-fg-muted text-uppercase text-small text-semibold d-flex flex-items-center">
           <span>{{ partial "icons/calendar" }}</span><span>{{ .Date.Format "Jan 2, 2006" }}</span>
           <span class="pl-3">{{ partial "icons/stopwatch" }}</span><span>{{.ReadingTime}} min read</span>

@@ -38,7 +38,7 @@ fi
 cd "$REPO_DIR"
 
 # Check tools.
-for command in uv hugo npm wrangler rsync curl sha256sum; do
+for command in uv hugo wrangler rsync curl sha256sum; do
   if ! command -v "$command" >/dev/null 2>&1; then
     echo "$command is required before refreshing."
     exit 1
@@ -62,7 +62,6 @@ uv run python scripts/scraper.py
 run_quiet "Saving image cache" rsync -a --delete static/img/ "$CACHE_DIR"/
 
 # Build site.
-run_quiet "Installing npm dependencies" npm ci --no-audit --fund=false --prefer-offline
 run_quiet "Building Hugo site" hugo -b https://edoardo.fyi/ --minify --gc
 
 # Deploy to Cloudflare Pages.
