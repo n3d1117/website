@@ -8,6 +8,7 @@ from requests.adapters import HTTPAdapter
 import os
 import re
 import sys
+import tempfile
 import time
 import traceback
 from os.path import exists
@@ -510,9 +511,8 @@ def post_json(url, data=None, headers=None, params=None):
 
 
 def download_file(url, path, retries=3, timeout=HTTP_TIMEOUT):
-    tmp_path = f'{path}.part'
-
     for attempt in range(1, retries + 1):
+        tmp_path = temp_path_for(path)
         try:
             response = SESSION.get(url, timeout=timeout)
             response.raise_for_status()
@@ -563,14 +563,24 @@ def is_zero_byte_file(path):
 
 
 def convert_to_webp(input_path, output_path):
-    tmp_path = f'{output_path}.part'
-    if exists(tmp_path):
-        os.remove(tmp_path)
+    tmp_path = temp_path_for(output_path)
     with Image.open(input_path) as image:
-        if image.mode not in ('RGB', 'RGBA'):
-            image = image.convert('RGB')
-        image.save(tmp_path, 'WEBP', quality=IMAGE_WEBP_QUALITY, method=6)
-    os.replace(tmp_path, output_path)
+        try:
+            if image.mode not in ('RGB', 'RGBA'):
+                image = image.convert('RGB')
+            image.save(tmp_path, 'WEBP', quality=IMAGE_WEBP_QUALITY, method=6)
+            os.replace(tmp_path, output_path)
+        finally:
+            if exists(tmp_path):
+                os.remove(tmp_path)
+
+
+def temp_path_for(path):
+    folder = os.path.dirname(path) or '.'
+    filename = os.path.basename(path)
+    fd, tmp_path = tempfile.mkstemp(prefix=f'.{filename}.', suffix='.part', dir=folder)
+    os.close(fd)
+    return tmp_path
 
 
 def validate_downloaded_image(path):
