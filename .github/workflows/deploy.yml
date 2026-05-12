@@ -29,4 +29,4 @@ jobs:
           printf '%s\n' "$PI_SSH_PRIVATE_KEY" > ~/.ssh/pi-cph
           chmod 600 ~/.ssh/pi-cph
           ssh-keyscan -H pi-cph >> ~/.ssh/known_hosts
-          ssh -i ~/.ssh/pi-cph ned@pi-cph /home/ned/website-refresh.sh
+          ssh -i ~/.ssh/pi-cph ned@pi-cph /home/ned/website/scripts/refresh.sh

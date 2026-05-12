@@ -2,17 +2,12 @@
 set -euo pipefail
 
 # Pi entrypoint for website refreshes.
-#
-# GitHub Actions calls this over Tailscale SSH after pushes to master.
-# /home/ned/update.sh also calls this during the daily 04:00 cron.
-#
-# This first updates master so the repo-owned deploy script is always current.
+# Called by GitHub Actions over Tailscale SSH and by /home/ned/update.sh.
 
 REPO_DIR="${WEBSITE_REPO_DIR:-/home/ned/website}"
 REMOTE="${WEBSITE_REMOTE:-origin}"
 SOURCE_BRANCH="${WEBSITE_SOURCE_BRANCH:-master}"
 
-# Cron shells are minimal and may not include uv's install directory.
 export PATH="$HOME/.local/bin:$HOME/.local/node/bin:$PATH"
 
 cd "$REPO_DIR"
