@@ -345,15 +345,9 @@ figure {
     font-weight: normal;
     background-color: var(--color-attention-subtle);
     border-color: var(--color-attention-muted); }
-  .inline-note.danger {
-    background-color: var(--color-danger-subtle);
-    border-color: var(--color-danger-muted); }
   .inline-note.success {
     background-color: var(--color-success-subtle);
     border-color: var(--color-success-muted); }
-  .inline-note.done {
-    background-color: var(--color-done-subtle);
-    border-color: var(--color-done-muted); }
 
 .columns:not(:first-of-type) {
   margin-top: 15px; }
@@ -378,19 +372,6 @@ figure {
       margin-left: 0; }
     .columns .column .left {
       margin-right: 0; } }
-
-.bold-default-color li {
-  color: var(--color-fg-muted); }
-  .bold-default-color li strong {
-    font-weight: 450;
-    color: var(--color-fg-default); }
-
-.bold-default-color a {
-  color: var(--color-fg-muted);
-  text-decoration: underline;
-  text-underline-offset: .1rem; }
-  .bold-default-color a:hover {
-    color: var(--color-accent-fg); }
 
 .hmsubhead a svg path, .hmsubhead a svg circle {
   transition: .3s; }
