@@ -30,7 +30,7 @@ fi
 scripts/scrape.sh
 rsync -a --delete static/img/ "$CACHE_DIR"/
 
-npm ci
+npm ci --no-audit --fund=false --prefer-offline
 sh build.sh
 
 expected_sha="$(sha256sum static/data.json | awk '{print $1}')"
