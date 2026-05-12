@@ -1,30 +1,27 @@
-name: Refresh generated data
+name: Deploy website
 
 on:
   push:
     branches:
       - master
-      - generated-data
   workflow_dispatch:
 
 concurrency:
-  group: refresh-generated-data
+  group: deploy-website
   cancel-in-progress: false
 
 jobs:
-  refresh:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Join tailnet
-        if: github.ref_name == 'master'
         uses: tailscale/github-action@v3
         with:
           oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
           oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
           tags: tag:github-actions
 
-      - name: Refresh generated-data on Pi
-        if: github.ref_name == 'master'
+      - name: Deploy from Pi
         env:
           PI_SSH_PRIVATE_KEY: ${{ secrets.PI_SSH_PRIVATE_KEY }}
         run: |
@@ -33,37 +30,3 @@ jobs:
           chmod 600 ~/.ssh/pi-cph
           ssh-keyscan -H pi-cph >> ~/.ssh/known_hosts
           ssh -i ~/.ssh/pi-cph ned@pi-cph /home/ned/website-refresh.sh
-
-      - name: Check out generated-data
-        if: github.ref_name == 'generated-data'
-        uses: actions/checkout@v4
-
-      - name: Trigger Cloudflare deploy
-        if: github.ref_name == 'generated-data'
-        env:
-          DEPLOY_HOOK: ${{ secrets.DEPLOY_HOOK }}
-        run: |
-          curl --fail --silent --show-error --request POST "$DEPLOY_HOOK"
-
-      - name: Verify live data
-        if: github.ref_name == 'generated-data'
-        run: |
-          expected_sha="$(sha256sum static/data.json | awk '{print $1}')"
-          deadline=$((SECONDS + 600))
-
-          while [ "$SECONDS" -lt "$deadline" ]; do
-            if curl --fail --silent --show-error "https://edoardo.fyi/data.json?deploy=${GITHUB_SHA}&t=$(date +%s)" -o /tmp/live-data.json; then
-              actual_sha="$(sha256sum /tmp/live-data.json | awk '{print $1}')"
-              if [ "$actual_sha" = "$expected_sha" ]; then
-                echo "Live data matches generated-data."
-                exit 0
-              fi
-
-              python -c "import json; d=json.load(open('/tmp/live-data.json', encoding='utf8')); print('Live GitHub items:', len(d.get('github', [])))"
-            fi
-
-            sleep 20
-          done
-
-          echo "Live data did not match generated-data within 10 minutes."
-          exit 1

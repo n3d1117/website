@@ -6,7 +6,7 @@ set -euo pipefail
 # GitHub Actions calls this over Tailscale SSH after pushes to master.
 # /home/ned/update.sh also calls this during the daily 04:00 cron.
 #
-# This first updates master so the repo-owned refresh script is always current.
+# This first updates master so the repo-owned deploy script is always current.
 
 REPO_DIR="${WEBSITE_REPO_DIR:-/home/ned/website}"
 REMOTE="${WEBSITE_REMOTE:-origin}"
@@ -27,4 +27,4 @@ git fetch "$REMOTE" "$SOURCE_BRANCH"
 git switch "$SOURCE_BRANCH"
 git reset --hard "$REMOTE/$SOURCE_BRANCH"
 
-scripts/refresh-generated-data.sh
+scripts/deploy-direct.sh
