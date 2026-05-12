@@ -22,7 +22,7 @@
     {{ end }}
     {{ if .stargazers_count }}
     <a href="{{ .html_url }}/stargazers" class="Link--muted mr-3" target="_blank" rel="noopener nofollow">
-      {{ partial "icons/star" }} {{ .stargazers_count | lang.NumFmt 0 }} 
+      {{ partial "icons/star" }} {{ .stargazers_count | lang.FormatNumber 0 }} 
     </a>
     {{ end }}
     {{ if .forks_count }}
