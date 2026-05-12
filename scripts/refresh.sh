@@ -30,6 +30,7 @@ source_env_file() {
 
 source_env_file "$SCRAPER_ENV_FILE"
 source_env_file "$CLOUDFLARE_ENV_FILE"
+export PLEX_METADATA_CACHE_FILE="${PLEX_METADATA_CACHE_FILE:-$HOME/.cache/website/plex-metadata.json}"
 
 notify_failure() {
   local exit_code="$1"

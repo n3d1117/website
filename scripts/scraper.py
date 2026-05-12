@@ -9,6 +9,7 @@ import os
 import re
 import sys
 import tempfile
+import threading
 import time
 import traceback
 from os.path import exists
@@ -24,6 +25,7 @@ from unidecode import unidecode
 HTTP_TIMEOUT = 30
 IMAGE_WEBP_QUALITY = 82
 PLEX_METADATA_WORKERS = int(os.environ.get("PLEX_METADATA_WORKERS", "8"))
+PLEX_METADATA_CACHE_TTL_SECONDS = 90 * 24 * 60 * 60
 DATA_PATH = "data/scraper.json"
 STATIC_DATA_PATH = "static/data.json"
 IMG_DIR = "static/img"
@@ -31,6 +33,9 @@ SECTIONS = ("movies", "shows", "books", "spotify", "github", "videogames")
 
 SESSION = requests.Session()
 SESSION.mount('https://', HTTPAdapter(pool_connections=32, pool_maxsize=32))
+PLEX_METADATA_CACHE = {'version': 1, 'items': {}}
+PLEX_METADATA_CACHE_DIRTY = False
+PLEX_METADATA_CACHE_LOCK = threading.Lock()
 
 
 def main():
@@ -41,6 +46,7 @@ def main():
     fatal_error = None
     try:
         create_img_folder()
+        load_plex_metadata_cache()
 
         print('Scraping sources...')
 
@@ -69,6 +75,7 @@ def main():
 
     repair_cached_images(data)
     write_data(data)
+    save_plex_metadata_cache()
     if fatal_error:
         raise fatal_error
 
@@ -107,11 +114,15 @@ def scrape_movies(data, content_limit, img_width):
 
 
 def build_movie(movie, plex_metadata_url, plex_proxy_img, img_width):
-    j = get_json(plex_metadata_url + str(movie['rating_key']))
-    if 'guids' not in j['response']['data']:
-        log_warning(f'Error fetching metadata: {j}')
+    guid = get_plex_metadata_guid(
+        cache_key=f"movie:{movie['rating_key']}",
+        title=movie['title'],
+        thumb=movie['thumb'],
+        url=plex_metadata_url + str(movie['rating_key']),
+        guid_field='guids'
+    )
+    if not guid:
         return None
-    guid = j['response']['data']['guids'][1].split('//')[1]
     slug = slugify(movie['title'])
     img_url = plex_proxy_img + movie['thumb'] + '&width=' + str(img_width)
     save_images('movie', slug, 'png', img_url)
@@ -221,13 +232,18 @@ def scrape_tv_shows(data, content_limit, img_width):
 
 
 def build_show(show, episodes, plex_metadata_url, plex_proxy_img, img_width):
-    j = get_json(plex_metadata_url + str(show['rating_key']))
-    if 'grandparent_guids' not in j['response']['data']:
+    guid = get_plex_metadata_guid(
+        cache_key=f"show:{show['grandparent_rating_key']}",
+        title=show['grandparent_title'],
+        thumb=show['thumb'],
+        url=plex_metadata_url + str(show['grandparent_rating_key']),
+        guid_field='guids'
+    )
+    if not guid:
         return None
     slug = slugify(show['grandparent_title'])
     img_url = plex_proxy_img + show['thumb'] + '&width=' + str(img_width)
     save_images('show', slug, 'png', img_url)
-    guid = j['response']['data']['grandparent_guids'][1].split('//')[1]
     eps = episodes[str(show['grandparent_rating_key'])]
     for ep in eps:
         ep['parent_show_id'] = guid
@@ -426,6 +442,120 @@ def load_existing_data():
             except Exception as exc:
                 log_warning(f'Failed to load previous scraper data from {path}: {exc}')
     return {}
+
+
+def plex_metadata_cache_path():
+    return os.environ.get(
+        "PLEX_METADATA_CACHE_FILE",
+        os.path.expanduser("~/.cache/website/plex-metadata.json")
+    )
+
+
+def plex_metadata_cache_ttl_seconds():
+    return int(os.environ.get(
+        "PLEX_METADATA_CACHE_TTL_SECONDS",
+        str(PLEX_METADATA_CACHE_TTL_SECONDS)
+    ))
+
+
+def load_plex_metadata_cache():
+    global PLEX_METADATA_CACHE
+
+    path = plex_metadata_cache_path()
+    if not exists(path):
+        return
+
+    try:
+        with open(path, encoding='utf-8') as f:
+            cache = json.load(f)
+        if cache.get('version') == 1 and isinstance(cache.get('items'), dict):
+            with PLEX_METADATA_CACHE_LOCK:
+                PLEX_METADATA_CACHE = cache
+    except Exception as exc:
+        log_warning(f'Failed to load Plex metadata cache: {exc}')
+
+
+def save_plex_metadata_cache():
+    global PLEX_METADATA_CACHE_DIRTY
+
+    with PLEX_METADATA_CACHE_LOCK:
+        if not PLEX_METADATA_CACHE_DIRTY:
+            return
+        cache = dict(PLEX_METADATA_CACHE)
+
+    path = plex_metadata_cache_path()
+    try:
+        folder = os.path.dirname(path)
+        if folder:
+            os.makedirs(folder, exist_ok=True)
+        tmp_path = temp_path_for(path)
+        with open(tmp_path, 'w', encoding='utf-8') as f:
+            json.dump(cache, f)
+        os.replace(tmp_path, path)
+        with PLEX_METADATA_CACHE_LOCK:
+            PLEX_METADATA_CACHE_DIRTY = False
+    except Exception as exc:
+        log_warning(f'Failed to save Plex metadata cache: {exc}')
+
+
+def get_plex_metadata_guid(cache_key, title, thumb, url, guid_field):
+    now = int(time.time())
+    cached = get_cached_plex_metadata(cache_key, title, thumb)
+
+    if cached and now - int(cached.get('updated_at', 0)) <= plex_metadata_cache_ttl_seconds():
+        return cached['guid']
+
+    try:
+        metadata = get_json(url)['response']['data']
+        guid = extract_plex_guid(metadata, guid_field)
+        if not guid:
+            log_warning(f'No Plex GUID found for {title}')
+            return cached['guid'] if cached else None
+        update_plex_metadata_cache(cache_key, title, thumb, guid, now)
+        return guid
+    except Exception as exc:
+        if cached:
+            log_warning(f'Plex metadata fetch failed for {title}, reused cached GUID: {exc}')
+            return cached['guid']
+        raise
+
+
+def get_cached_plex_metadata(cache_key, title, thumb):
+    with PLEX_METADATA_CACHE_LOCK:
+        item = PLEX_METADATA_CACHE.get('items', {}).get(cache_key)
+
+    if not item:
+        return None
+    if item.get('title') != title or item.get('thumb') != thumb or not item.get('guid'):
+        return None
+    return item
+
+
+def update_plex_metadata_cache(cache_key, title, thumb, guid, updated_at):
+    global PLEX_METADATA_CACHE_DIRTY
+
+    with PLEX_METADATA_CACHE_LOCK:
+        PLEX_METADATA_CACHE.setdefault('items', {})[cache_key] = {
+            'title': title,
+            'thumb': thumb,
+            'guid': guid,
+            'updated_at': updated_at,
+        }
+        PLEX_METADATA_CACHE_DIRTY = True
+
+
+def extract_plex_guid(metadata, guid_field):
+    guids = metadata.get(guid_field) or []
+    if not guids:
+        return None
+
+    for guid in guids:
+        if guid.startswith('tmdb://'):
+            return guid.split('//', 1)[1]
+
+    if len(guids) > 1:
+        return guids[1].split('//', 1)[1]
+    return guids[0].split('//', 1)[1]
 
 
 def write_data(data):
