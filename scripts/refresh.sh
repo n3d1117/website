@@ -11,6 +11,23 @@ CLOUDFLARE_ENV_FILE="${CLOUDFLARE_ENV_FILE:-$HOME/.config/website/cloudflare.env
 
 export PATH="$HOME/.local/bin:$HOME/.local/node/bin:$PATH"
 
+run_quiet() {
+  local label="$1"
+  shift
+  local log_file
+  log_file="$(mktemp)"
+  printf '%s... ' "$label"
+  if "$@" >"$log_file" 2>&1; then
+    echo "ok"
+    rm -f "$log_file"
+  else
+    echo "failed"
+    cat "$log_file"
+    rm -f "$log_file"
+    exit 1
+  fi
+}
+
 if [ -f "$CLOUDFLARE_ENV_FILE" ]; then
   set -a
   # shellcheck source=/dev/null
@@ -29,30 +46,32 @@ for command in uv hugo npm npx wrangler rsync curl sha256sum; do
 done
 
 # Sync source.
-git fetch "$REMOTE" "$SOURCE_BRANCH"
-git switch "$SOURCE_BRANCH"
-git reset --hard "$REMOTE/$SOURCE_BRANCH"
+run_quiet "Syncing source" bash -c '
+  git fetch "$1" "$2"
+  git switch "$2"
+  git reset --hard "$1/$2"
+' _ "$REMOTE" "$SOURCE_BRANCH"
 
 # Restore generated image cache.
 rm -rf public
 mkdir -p "$CACHE_DIR" static/img
-rsync -a "$CACHE_DIR"/ static/img/
+run_quiet "Restoring image cache" rsync -a "$CACHE_DIR"/ static/img/
 
 # Scrape and validate data.
 uv run python scripts/scraper.py
-rsync -a --delete static/img/ "$CACHE_DIR"/
+run_quiet "Saving image cache" rsync -a --delete static/img/ "$CACHE_DIR"/
 
 # Build site.
-npm ci --no-audit --fund=false --prefer-offline
-hugo -b https://edoardo.fyi/ --minify --gc
-npx torchlight
+run_quiet "Installing npm dependencies" npm ci --no-audit --fund=false --prefer-offline
+run_quiet "Building Hugo site" hugo -b https://edoardo.fyi/ --minify --gc
+run_quiet "Highlighting code" npx torchlight
 
 # Deploy to Cloudflare Pages.
 expected_sha="$(sha256sum static/data.json | awk '{print $1}')"
 commit_hash="$(git rev-parse HEAD)"
 commit_message="$(git log -1 --pretty=%s)"
 
-wrangler pages deploy public \
+run_quiet "Deploying to Cloudflare Pages" wrangler pages deploy public \
   --project-name "$PROJECT_NAME" \
   --branch "$DEPLOY_BRANCH" \
   --commit-hash "$commit_hash" \
