@@ -7,8 +7,16 @@ SOURCE_BRANCH="${WEBSITE_SOURCE_BRANCH:-master}"
 PROJECT_NAME="${CLOUDFLARE_PAGES_PROJECT:-website}"
 DEPLOY_BRANCH="${CLOUDFLARE_PAGES_BRANCH:-generated-data}"
 CACHE_DIR="${WEBSITE_IMAGE_CACHE_DIR:-$HOME/.cache/website/static-img}"
+CLOUDFLARE_ENV_FILE="${CLOUDFLARE_ENV_FILE:-$HOME/.config/website/cloudflare.env}"
 
 export PATH="$HOME/.local/bin:$HOME/.local/node/bin:$PATH"
+
+if [ -f "$CLOUDFLARE_ENV_FILE" ]; then
+  set -a
+  # shellcheck source=/dev/null
+  . "$CLOUDFLARE_ENV_FILE"
+  set +a
+fi
 
 cd "$REPO_DIR"
 
