@@ -4,7 +4,7 @@ set -euo pipefail
 # Install the user-local tools needed for direct Cloudflare Pages deploys.
 
 NODE_VERSION="${NODE_VERSION:-22.21.1}"
-HUGO_VERSION="${HUGO_VERSION:-0.161.1}"
+HUGO_VERSION="${HUGO_VERSION:-0.118.2}"
 LOCAL_DIR="${HOME}/.local"
 NODE_DIR="${LOCAL_DIR}/node"
 BIN_DIR="${LOCAL_DIR}/bin"
