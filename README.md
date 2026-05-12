@@ -7,5 +7,6 @@
 ## Build
 ```bash
 npm install
-sh build.sh
+hugo -b https://edoardo.fyi/ --minify --gc
+npx torchlight
 ```
