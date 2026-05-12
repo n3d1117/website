@@ -6,6 +6,7 @@ paginatePath = ''
 copyright = "© Edoardo — All rights reserved"
 languageCode = "en-us"
 disableHugoGeneratorInject = true
+timeout = "180s"
 
 [author]
   name = "Edoardo"
