@@ -78,13 +78,14 @@ run_quiet "Deploying to Cloudflare Pages" wrangler pages deploy public \
 
 # Verify live data.
 deadline=$((SECONDS + 600))
+live_data_file="$(mktemp)"
+trap 'rm -f "$live_data_file"' EXIT
 
 while [ "$SECONDS" -lt "$deadline" ]; do
-  if curl --fail --silent --show-error "https://edoardo.fyi/data.json?deploy=$commit_hash&t=$(date +%s)" -o /tmp/website-live-data.json; then
-    actual_sha="$(sha256sum /tmp/website-live-data.json | awk '{print $1}')"
+  if curl --fail --silent --show-error "https://edoardo.fyi/data.json?deploy=$commit_hash&t=$(date +%s)" -o "$live_data_file"; then
+    actual_sha="$(sha256sum "$live_data_file" | awk '{print $1}')"
     if [ "$actual_sha" = "$expected_sha" ]; then
       echo "Live data matches deployed data."
-      rm -f /tmp/website-live-data.json
       rm -rf public data/scraper.json static/data.json static/scraper.json static/img .hugo_build.lock
       exit 0
     fi
