@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+start_time="$SECONDS"
 REPO_DIR="${WEBSITE_REPO_DIR:-/home/ned/website}"
 REMOTE="${WEBSITE_REMOTE:-origin}"
 SOURCE_BRANCH="${WEBSITE_SOURCE_BRANCH:-master}"
@@ -76,10 +77,13 @@ EOF
 
 on_exit() {
   local exit_code="$?"
+  local elapsed="$((SECONDS - start_time))"
 
   if [ -n "$live_data_file" ]; then
     rm -f "$live_data_file"
   fi
+
+  echo "Total refresh time: ${elapsed}s"
 
   if [ "$exit_code" -ne 0 ]; then
     notify_failure "$exit_code"
