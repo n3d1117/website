@@ -12,6 +12,8 @@ SCRAPER_ENV_FILE="${WEBSITE_SCRAPER_ENV_FILE:-$REPO_DIR/.env}"
 CLOUDFLARE_ENV_FILE="${CLOUDFLARE_ENV_FILE:-$HOME/.config/website/cloudflare.env}"
 NOTIFY_LOG_FILE="${WEBSITE_NOTIFY_LOG_FILE:-/var/log/update-service.log}"
 NOTIFY_LOG_LINES="${WEBSITE_NOTIFY_LOG_LINES:-80}"
+DEPLOY_ATTEMPTS="${WEBSITE_DEPLOY_ATTEMPTS:-2}"
+DEPLOY_RETRY_DELAY_SECONDS="${WEBSITE_DEPLOY_RETRY_DELAY_SECONDS:-5}"
 RUN_LOG_FILE="$(mktemp "${TMPDIR:-/tmp}/website-refresh.XXXXXX.log")"
 live_data_file=""
 
@@ -115,6 +117,35 @@ run_quiet() {
   fi
 }
 
+run_quiet_retry() {
+  local label="$1"
+  local attempts="$2"
+  local delay_seconds="$3"
+  shift 3
+
+  local attempt log_file
+  for ((attempt = 1; attempt <= attempts; attempt++)); do
+    log_file="$(mktemp)"
+    printf '%s (attempt %s/%s)... ' "$label" "$attempt" "$attempts"
+    if "$@" >"$log_file" 2>&1; then
+      echo "ok"
+      rm -f "$log_file"
+      return 0
+    fi
+
+    echo "failed"
+    cat "$log_file"
+    rm -f "$log_file"
+
+    if [ "$attempt" -lt "$attempts" ]; then
+      echo "Retrying $label in ${delay_seconds}s..."
+      sleep "$delay_seconds"
+    fi
+  done
+
+  return 1
+}
+
 cd "$REPO_DIR"
 
 # Check tools.
@@ -149,7 +180,7 @@ expected_sha="$(sha256sum static/data.json | awk '{print $1}')"
 commit_hash="$(git rev-parse HEAD)"
 commit_message="$(git log -1 --pretty=%s)"
 
-run_quiet "Deploying to Cloudflare Pages" wrangler pages deploy public \
+run_quiet_retry "Deploying to Cloudflare Pages" "$DEPLOY_ATTEMPTS" "$DEPLOY_RETRY_DELAY_SECONDS" wrangler pages deploy public \
   --project-name "$PROJECT_NAME" \
   --branch "$DEPLOY_BRANCH" \
   --commit-hash "$commit_hash" \

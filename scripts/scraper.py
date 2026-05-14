@@ -500,7 +500,7 @@ def save_plex_metadata_cache():
 
 def get_plex_metadata_guid(cache_key, title, thumb, url, guid_field):
     now = int(time.time())
-    cached = get_cached_plex_metadata(cache_key, title, thumb)
+    cached = get_cached_plex_metadata(cache_key)
 
     if cached and now - int(cached.get('updated_at', 0)) <= plex_metadata_cache_ttl_seconds():
         return cached['guid']
@@ -509,7 +509,6 @@ def get_plex_metadata_guid(cache_key, title, thumb, url, guid_field):
         metadata = get_json(url)['response']['data']
         guid = extract_plex_guid(metadata, guid_field)
         if not guid:
-            log_warning(f'No Plex GUID found for {title}')
             return cached['guid'] if cached else None
         update_plex_metadata_cache(cache_key, title, thumb, guid, now)
         return guid
@@ -520,13 +519,11 @@ def get_plex_metadata_guid(cache_key, title, thumb, url, guid_field):
         raise
 
 
-def get_cached_plex_metadata(cache_key, title, thumb):
+def get_cached_plex_metadata(cache_key):
     with PLEX_METADATA_CACHE_LOCK:
         item = PLEX_METADATA_CACHE.get('items', {}).get(cache_key)
 
-    if not item:
-        return None
-    if item.get('title') != title or item.get('thumb') != thumb or not item.get('guid'):
+    if not item or not item.get('guid'):
         return None
     return item
 
