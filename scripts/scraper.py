@@ -14,7 +14,6 @@ import time
 import traceback
 from os.path import exists
 from urllib import parse
-import base64
 from dotenv import load_dotenv
 import feedparser
 from PIL import Image
@@ -39,7 +38,14 @@ PLEX_METADATA_CACHE_LOCK = threading.Lock()
 
 
 def main():
-    data = {'movies': [], 'shows': [], 'books': [], 'spotify': [], 'github': [], 'videogames': []}
+    data = {
+        'movies': [],
+        'shows': [],
+        'books': [],
+        'spotify': load_json('data/spotify.json'),
+        'github': [],
+        'videogames': []
+    }
     previous_data = load_existing_data()
     content_limit = 50
     img_width = 350
@@ -50,12 +56,11 @@ def main():
 
         print('Scraping sources...')
 
-        with ThreadPoolExecutor(max_workers=6) as executor:
+        with ThreadPoolExecutor(max_workers=5) as executor:
             futures = {
                 executor.submit(timed_section, 'movies', scrape_all_movies, data, 999, img_width): 'movies',
                 executor.submit(timed_section, 'shows', scrape_all_tv_shows, data, 999, img_width): 'shows',
                 executor.submit(timed_section, 'books', scrape_books, data, content_limit): 'books',
-                executor.submit(timed_section, 'spotify', scrape_spotify, data, content_limit): 'spotify',
                 executor.submit(timed_section, 'github', scrape_github, data, content_limit): 'github',
                 executor.submit(timed_section, 'videogames', scrape_videogames, data): 'videogames'
             }
@@ -329,37 +334,6 @@ def scrape_books(data, content_limit):
         })
 
 
-def scrape_spotify(data, content_limit):
-    spotify_client_id: str = os.environ.get("SPOTIFY_CLIENT_ID")
-    spotify_client_secret: str = os.environ.get("SPOTIFY_CLIENT_SECRET")
-    spotify_refresh_token: str = os.environ.get("SPOTIFY_REFRESH_TOKEN")
-    spotify_token_url = 'https://accounts.spotify.com/api/token'
-    spotify_base_url = 'https://api.spotify.com/v1/me/top/artists'
-    auth_header = base64.urlsafe_b64encode((spotify_client_id + ':' + spotify_client_secret).encode('ascii'))
-    headers = {'Content-Type': 'application/x-www-form-urlencoded',
-               'Authorization': 'Basic {}'.format(auth_header.decode('ascii'))}
-    res = post_json(spotify_token_url,
-                    data={'grant_type': 'refresh_token', 'refresh_token': spotify_refresh_token},
-                    headers=headers)
-    if 'access_token' not in res:
-        log_warning(f'Error refreshing Spotify token: {res}')
-        return
-    access_token = res['access_token']
-    url = spotify_base_url + '?{}'.format(parse.urlencode({'time_range': 'short_term', 'limit': content_limit}))
-    j = get_json(url, headers={'Authorization': 'Bearer {}'.format(access_token)})
-    for item in j['items']:
-        slug = slugify(item['name'])
-        image_url = item['images'][1]['url'] if len(item['images']) > 1 else 'https://upload.wikimedia.org/wikipedia/commons/5/50/Black_Wallpaper.jpg'
-        save_images('artist', slug, 'jpeg', image_url, square=True)
-        data['spotify'].append({
-            'name': item['name'],
-            'url': item['external_urls']['spotify'],
-            'followers': str(item['followers']['total']),
-            'img': f'artist_{slug}.jpeg',
-            'img_webp': f'artist_{slug}.webp' if exists(f'static/img/artist_{slug}.webp') else f'artist_{slug}.jpeg',
-        })
-
-
 def scrape_github(data, content_limit):
     github_url = 'https://api.github.com/users/{}/repos?per_page=500'.format('n3d1117')
     github_token = os.environ.get("GITHUB_TOKEN")
@@ -509,7 +483,10 @@ def get_plex_metadata_guid(cache_key, title, thumb, url, guid_field):
         metadata = get_json(url)['response']['data']
         guid = extract_plex_guid(metadata, guid_field)
         if not guid:
-            return cached['guid'] if cached else None
+            if cached:
+                return cached['guid']
+            log_warning(f'Skipping {title}: Plex metadata has no usable GUID ({cache_key})')
+            return None
         update_plex_metadata_cache(cache_key, title, thumb, guid, now)
         return guid
     except Exception as exc:
