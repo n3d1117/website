@@ -6,6 +6,7 @@ window.addEventListener('message', function (event) {
     document.querySelectorAll('iframe[data-animated-images-demo]').forEach(function (frame) {
         if (frame.contentWindow === event.source) {
             frame.style.height = Math.ceil(data.height) + 'px';
+            frame.style.opacity = '1';
         }
     });
 });

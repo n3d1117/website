@@ -21,7 +21,7 @@ We already had a shared image loader that took a URL, downloaded the image, and 
 
 When we started using animated WebP files, though, `UIImage(data:)` gave us the first frame and the image stayed still. The same file plays in the browser, as you can see here:
 
-{{< figure src="sample.webp" alt="An animated WebP showing a five-second timer and a progress bar" caption="An animated WebP with 100 frames, each lasting 50 ms." >}}
+{{< figure src="sample.webp" width="240" height="96" loading="lazy" alt="An animated WebP showing a five-second timer and a progress bar" caption="An animated WebP with 100 frames, each lasting 50 ms." >}}
 
 To add playback, I extended the loader to detect animated files and attach their original data to the image it returned, which the image view could then use to start a player. That player decodes frames in the background with ImageIO and displays them using `CADisplayLink`, keeping the next frame ready while the current one is on screen.
 
@@ -57,7 +57,7 @@ In my case, the 114-frame banner played steadily over repeated loops on iOS 26 o
 
 The loader creates the poster image, and the image view creates the player when it receives that image:
 
-{{< figure src="pipeline.svg" alt="Encoded image data becomes a poster UIImage with its original bytes attached. The cache stores that image, and the image view creates a player which decodes frames on a background queue." caption="From downloaded image to playback." >}}
+{{< figure src="pipeline.svg" width="300" height="122" loading="lazy" alt="Encoded image data becomes a poster UIImage with its original bytes attached. The cache stores that image, and the image view creates a player which decodes frames on a background queue." caption="From downloaded image to playback." >}}
 
 ### Detecting animation while loading
 

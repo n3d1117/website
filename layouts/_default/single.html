@@ -1,11 +1,5 @@
 {{ define "main" }}
 
-{{ if in .RawContent "```" }}
-  {{ with resources.Get "/css/syntax.css" | minify | fingerprint "sha512" }}
-  <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}">
-  {{ end }}
-{{ end }}
-
 <div class="mx-auto px-3 px-md-4 px-lg-6 py-4 py-md-5 py-lg-7 main-content">
   <article class="mb-3">
 

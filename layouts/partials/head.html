@@ -71,6 +71,9 @@
 {{ if .Params.math }}{{ partial "math" . }}{{ end }}
 
 {{ if strings.Contains .Content "class=\"copy-code-button\"" }}
+{{ with resources.Get "css/syntax.css" | minify | fingerprint "sha512" }}
+<link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}">
+{{ end }}
 {{ with resources.Get "js/copy-code.js" | minify | fingerprint "sha512" }}
 <script defer src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}"></script>
 {{ end }}
