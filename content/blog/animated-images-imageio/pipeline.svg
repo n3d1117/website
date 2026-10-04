@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 310" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <title>How an animated image flows from encoded data to the player</title>
+  <style>
+    svg { color-scheme: light dark; }
+    .ink   { fill: #1f2328; }
+    .muted { fill: #57606a; }
+    .box   { fill: #f6f8fa; stroke: #d0d7de; stroke-width: 1.5; }
+    .edge  { stroke: #57606a; stroke-width: 1.5; fill: none; }
+    .ah    { fill: #57606a; }
+    .chip  { fill: rgba(9,105,218,.12); stroke: #0969da; stroke-width: 1.5; }
+    .chipt { fill: #0969da; }
+    @media (prefers-color-scheme: dark) {
+      .ink   { fill: #c9d1d9; }
+      .muted { fill: #8b949e; }
+      .box   { fill: #21262d; stroke: #30363d; }
+      .edge  { stroke: #8b949e; }
+      .ah    { fill: #8b949e; }
+      .chip  { fill: rgba(68,147,248,.15); stroke: #4493f8; }
+      .chipt { fill: #4493f8; }
+    }
+    .t  { font-size: 13px; font-weight: 600; }
+    .s  { font-size: 11px; }
+    .m  { font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 11px; }
+  </style>
+
+  <!-- row 1: loading -->
+  <rect class="box" x="20" y="36" width="110" height="56" rx="6"/>
+  <text class="ink t" x="75" y="60" text-anchor="middle">Data</text>
+  <text class="muted s" x="75" y="78" text-anchor="middle">encoded bytes</text>
+
+  <rect class="box" x="170" y="36" width="150" height="56" rx="6"/>
+  <text class="ink t" x="245" y="60" text-anchor="middle">CGImageSource</text>
+  <text class="muted s" x="245" y="78" text-anchor="middle">container + frame count</text>
+
+  <rect class="box" x="372" y="36" width="160" height="56" rx="6"/>
+  <text class="ink t" x="452" y="60" text-anchor="middle">UIImage (frame 0)</text>
+  <text class="muted s" x="452" y="78" text-anchor="middle">force-decoded poster</text>
+
+  <rect class="box" x="592" y="36" width="148" height="56" rx="6"/>
+  <text class="ink t" x="666" y="60" text-anchor="middle">cache + ImageView</text>
+  <text class="muted s" x="666" y="78" text-anchor="middle">a normal image</text>
+
+  <!-- arrows row 1 -->
+  <line class="edge" x1="130" y1="64" x2="162" y2="64"/>
+  <path class="ah" d="M170 64 l-8 -4 v8 z"/>
+  <line class="edge" x1="320" y1="64" x2="364" y2="64"/>
+  <path class="ah" d="M372 64 l-8 -4 v8 z"/>
+  <text class="muted s" x="346" y="54" text-anchor="middle">&gt;1 frame</text>
+  <line class="edge" x1="532" y1="64" x2="584" y2="64"/>
+  <path class="ah" d="M592 64 l-8 -4 v8 z"/>
+
+  <!-- static branch -->
+  <line class="edge" x1="245" y1="92" x2="245" y2="146"/>
+  <path class="ah" d="M245 154 l-4 -8 h8 z"/>
+  <text class="muted s" x="237" y="124" text-anchor="end">1 frame</text>
+  <rect class="box" x="170" y="154" width="150" height="48" rx="6"/>
+  <text class="ink t" x="245" y="174" text-anchor="middle">plain UIImage</text>
+  <text class="muted s" x="245" y="192" text-anchor="middle">static path, unchanged</text>
+
+  <!-- attached data chip -->
+  <rect class="chip" x="387" y="102" width="130" height="22" rx="6"/>
+  <text class="chipt m" x="452" y="117" text-anchor="middle">animatedImageData</text>
+
+  <!-- player -->
+  <rect class="box" x="372" y="216" width="368" height="70" rx="6"/>
+  <text class="ink t" x="556" y="240" text-anchor="middle">the player</text>
+  <text class="muted s" x="556" y="258" text-anchor="middle">CADisplayLink decides when to advance,</text>
+  <text class="muted s" x="556" y="273" text-anchor="middle">a background queue decodes one frame ahead</text>
+
+  <!-- chip -> player -->
+  <line class="edge" x1="452" y1="124" x2="452" y2="208"/>
+  <path class="ah" d="M452 216 l-4 -8 h8 z"/>
+  <text class="muted s" x="445" y="196" text-anchor="end">re-opened by the player</text>
+
+  <!-- view -> player (play) -->
+  <line class="edge" x1="732" y1="92" x2="732" y2="208"/>
+  <path class="ah" d="M732 216 l-4 -8 h8 z"/>
+  <text class="muted s" x="724" y="140" text-anchor="end">play() when visible</text>
+
+  <!-- player -> view (frames) -->
+  <line class="edge" x1="602" y1="216" x2="602" y2="100"/>
+  <path class="ah" d="M602 92 l-4 8 h8 z"/>
+  <text class="muted s" x="610" y="172" text-anchor="start">frames</text>
+</svg>

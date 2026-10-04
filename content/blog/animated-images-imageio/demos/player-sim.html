@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Animated image playback simulation</title>
+<link rel="stylesheet" href="demo.css">
+<script src="embed.js" defer></script>
+<script src="player.js" defer></script>
+</head>
+<body>
+<section class="demo" aria-label="Animated image playback simulation">
+  <div class="top">
+    <div class="sample" id="sample" role="img" aria-label="Timer animation, frame 0"></div>
+    <div class="readout">
+      <strong id="frame-number">Frame 0 / 99</strong>
+      <span id="status"></span>
+      <span class="value" id="passes"></span>
+    </div>
+  </div>
+  <div class="controls">
+    <button id="playpause" type="button">Pause</button>
+    <button id="step" type="button" disabled>Step one tick</button>
+    <button id="restart" type="button">Restart</button>
+    <label><input id="hidden" type="checkbox"> Move offscreen</label>
+  </div>
+  <div class="fields">
+    <label><span class="field-title"><span>Decode time</span><output id="decode-label" for="decode">30 ms</output></span>
+      <input id="decode" type="range" min="0" max="150" step="5" value="30">
+    </label>
+    <label>Demo speed
+      <select id="speed"><option value="0.1">0.1× (slow motion)</option><option value="0.5">0.5×</option><option value="1">1×</option></select>
+    </label>
+    <label>Display link
+      <select id="refresh"><option value="60">60 Hz</option><option value="120">120 Hz</option></select>
+    </label>
+    <label>Loop count
+      <select id="loop-count"><option value="0">0 — forever</option><option value="1">1 — one pass</option><option value="2">2 — two passes</option></select>
+    </label>
+  </div>
+  <label for="scrub" class="muted">Scrub to a frame</label>
+  <input id="scrub" type="range" min="0" max="99" step="1" value="0">
+  <div id="strip" aria-hidden="true"></div>
+  <div class="legend"><span class="current">On screen</span><span class="next">Next frame (faded while decoding)</span><span>Not buffered</span></div>
+  <div class="barrow">
+    <span>Frame timer</span><div class="bar"><div class="fill" id="accfill"></div></div><span class="value" id="acctext"></span>
+  </div>
+  <div class="barrow">
+    <span>Decode queue</span><div class="bar"><div class="fill" id="decfill"></div></div><span class="value" id="dectext"></span>
+  </div>
+  <p id="decision"></p>
+  <p class="hint">100 frames, 50 ms each. Try 100 ms decodes, or pause and step through the ticks. Move offscreen to freeze the playback clock; an in-flight decode can still finish. Changing loop count restarts the demo.</p>
+  <p class="hint">Adjust decode time to see how the player handles slow frames.</p>
+</section>
+</body>
+</html>

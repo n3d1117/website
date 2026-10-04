@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Animated image bitmap memory calculator</title>
+<link rel="stylesheet" href="demo.css">
+<script src="embed.js" defer></script>
+</head>
+<body>
+<section class="demo" aria-label="Bitmap memory calculator">
+  <p>How much memory would decoding every frame take?</p>
+  <div class="fields">
+    <label>Width (pixels)<input id="width" type="number" min="1" max="8192" step="1" value="756"></label>
+    <label>Height (pixels)<input id="height" type="number" min="1" max="8192" step="1" value="304"></label>
+    <label>Frames<input id="frames" type="number" min="2" max="10000" step="1" value="114"></label>
+    <label>Image views<input id="views" type="number" min="1" max="100" step="1" value="1"></label>
+  </div>
+  <div aria-live="polite" aria-atomic="true">
+    <div class="memory-row"><div class="field-title"><span>All frames decoded</span><strong id="all-value"></strong></div><div class="bar"><div id="all-bar" class="fill all-frames" style="width:100%"></div></div></div>
+    <div class="memory-row"><div class="field-title"><span>Current + next frame</span><strong id="buffer-value"></strong></div><div class="bar"><div id="buffer-bar" class="fill"></div></div></div>
+    <p class="value" id="formula"></p>
+  </div>
+  <p class="hint">Counts frame bitmaps at 4 bytes per pixel, with a separate buffer for each view.</p>
+</section>
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const ids = ['width', 'height', 'frames', 'views'];
+  function render() {
+    if (ids.some(id => !$(id).validity.valid || $(id).value === '')) {
+      $('formula').textContent = 'Enter whole numbers within the allowed ranges.';
+      $('all-value').textContent = $('buffer-value').textContent = '—';
+      $('all-bar').style.width = $('buffer-bar').style.width = '0%';
+      return;
+    }
+    const [width, height, frames, views] = ids.map(id => Number($(id).value));
+    const bitmap = width * height * 4;
+    const mib = bytes => (bytes / (1024 * 1024)).toFixed(2) + ' MiB';
+    $('all-value').textContent = mib(bitmap * frames * views);
+    $('buffer-value').textContent = mib(bitmap * 2 * views);
+    $('all-bar').style.width = '100%';
+    $('buffer-bar').style.width = (2 / frames * 100) + '%';
+    $('formula').textContent = width + ' × ' + height + ' × 4 = ' + mib(bitmap) + ' per bitmap';
+  }
+  ids.forEach(id => $(id).addEventListener('input', render));
+  render();
+})();
+</script>
+</body>
+</html>
