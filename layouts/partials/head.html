@@ -70,6 +70,18 @@
 <!-- Katex -->
 {{ if .Params.math }}{{ partial "math" . }}{{ end }}
 
+{{ if strings.Contains .Content "class=\"copy-code-button\"" }}
+{{ with resources.Get "js/copy-code.js" | minify | fingerprint "sha512" }}
+<script defer src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}"></script>
+{{ end }}
+{{ end }}
+
+{{ if .HasShortcode "animated-images-imageio-demo" }}
+{{ with resources.Get "js/demo-frames.js" | minify | fingerprint "sha512" }}
+<script defer src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}"></script>
+{{ end }}
+{{ end }}
+
 <!-- Social -->
 <link rel="alternate" type="application/rss+xml" href="https://edoardo.fyi/blog/index.xml" title="Blog">
 <link rel="me" href="https://mastodon.social/@nedo">
