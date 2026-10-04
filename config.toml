@@ -128,11 +128,6 @@ timeout = "180s"
     weight = 1
     pre = "github"
   [[menu.social]]
-    name = "Mastodon"
-    url = "https://mastodon.social/@nedo/"
-    weight = 2
-    pre = "mastodon"
-  [[menu.social]]
     name = "Email"
     url = "mailto:contact@edoardo.fyi"
     weight = 3
